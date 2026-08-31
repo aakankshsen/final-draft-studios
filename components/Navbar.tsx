@@ -29,13 +29,13 @@ export default function Navbar() {
           scrolled ? "top-1.5 left-2 right-2" : "top-0 left-0 right-0"
         }`}
       >
-       <nav
-        className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-[5%] transition-all duration-300 ${
-          scrolled
-            ? "py-3 rounded-b-2xl bg-white/[0.06] backdrop-blur-xl backdrop-saturate-150 border-b border-x border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
-            : "py-6 bg-transparent border-transparent rounded-none"
-        }`}
-      >
+        <nav
+          className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-[5%] transition-all duration-300 ${
+            scrolled
+              ? "py-3 rounded-b-2xl bg-white/[0.06] backdrop-blur-xl backdrop-saturate-150 border-b border-x border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
+              : "py-6 bg-transparent border-transparent rounded-none"
+          }`}
+        >
           <Link href="/" className="flex items-center gap-3">
             <Image src="/logo/icon-white.png" alt="Final Draft Studios" width={30} height={30} priority />
             <span className="flex flex-col leading-none">
@@ -46,7 +46,11 @@ export default function Navbar() {
 
           <div className="hidden md:flex gap-8 text-xs tracking-widest uppercase text-dim">
             {links.map((link) => (
-              <Link key={link.href} href={link.href} className="hover:text-paper transition-colors">
+              <Link
+                key={link.href}
+                href={link.href}
+                className="hover:text-amber transition-colors"
+              >
                 {link.label}
               </Link>
             ))}
@@ -84,7 +88,7 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className="font-display uppercase text-4xl text-paper"
+                className="font-display uppercase text-4xl text-paper hover:text-amber transition-colors"
               >
                 {link.label}
               </Link>
