@@ -1,4 +1,10 @@
+"use client";
+import { useEffect, useRef } from "react";
 import Image from "next/image";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const services = [
   "Brand Films",
@@ -12,10 +18,56 @@ const services = [
 ];
 
 export default function Contact() {
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const tagsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (headingRef.current) {
+      gsap.fromTo(
+        headingRef.current,
+        { opacity: 0.15, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          ease: "none",
+          scrollTrigger: {
+            trigger: headingRef.current,
+            start: "top 90%",
+            end: "top 50%",
+            scrub: 0.5,
+          },
+        }
+      );
+    }
+
+    if (tagsRef.current) {
+      const tags = tagsRef.current.children;
+      gsap.fromTo(
+        tags,
+        { opacity: 0.15, scale: 0.9 },
+        {
+          opacity: 1,
+          scale: 1,
+          stagger: 0.05,
+          ease: "none",
+          scrollTrigger: {
+            trigger: tagsRef.current,
+            start: "top 90%",
+            end: "top 65%",
+            scrub: 0.5,
+          },
+        }
+      );
+    }
+  }, []);
+
   return (
     <section id="contact" className="px-[5%] py-40">
       <div className="flex justify-between gap-10 flex-wrap mb-16">
-        <h2 className="font-display uppercase text-[clamp(34px,6vw,72px)] leading-[0.95] max-w-2xl">
+        <h2
+          ref={headingRef}
+          className="font-display uppercase text-[clamp(34px,6vw,72px)] leading-[0.95] max-w-2xl"
+        >
           Let&apos;s make
           <br />
           something worth
@@ -32,7 +84,7 @@ export default function Contact() {
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-2.5 mb-16">
+      <div ref={tagsRef} className="flex flex-wrap gap-2.5 mb-16">
         {services.map((s) => (
           <span
             key={s}

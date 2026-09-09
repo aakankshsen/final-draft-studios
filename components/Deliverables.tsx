@@ -1,8 +1,12 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Reveal from "@/components/Reveal";
 import NeedsContent from "@/components/NeedsContent";
 import { ArrowUpRight } from "lucide-react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const services = [
   "Brand & Ad Films",
@@ -17,6 +21,28 @@ const services = [
 
 export default function Deliverables() {
   const [hovered, setHovered] = useState<string | null>(null);
+  const rowRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    rowRefs.current.forEach((row) => {
+      if (!row) return;
+      gsap.fromTo(
+        row,
+        { x: -24, opacity: 0.25 },
+        {
+          x: 0,
+          opacity: 1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: row,
+            start: "top 92%",
+            end: "top 65%",
+            scrub: 0.5,
+          },
+        }
+      );
+    });
+  }, []);
 
   return (
     <section id="deliverables" className="px-[5%] py-40 border-b border-white/10">
@@ -29,10 +55,13 @@ export default function Deliverables() {
       </Reveal>
 
       <div className="flex flex-col md:flex-row gap-14">
-        <Reveal className="flex-1 min-w-[280px]">
+        <div className="flex-1 min-w-[280px]">
           {services.map((service, i) => (
             <div
               key={service}
+              ref={(el) => {
+                rowRefs.current[i] = el;
+              }}
               onMouseEnter={() => setHovered(service)}
               onMouseLeave={() => setHovered(null)}
               className="group border-t border-white/10 last:border-b py-5 flex justify-between items-center cursor-pointer transition-all hover:pl-3"
@@ -49,7 +78,7 @@ export default function Deliverables() {
               </span>
             </div>
           ))}
-        </Reveal>
+        </div>
 
         <Reveal className="flex-1 min-w-[280px]">
           <NeedsContent

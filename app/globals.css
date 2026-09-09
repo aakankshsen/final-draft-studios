@@ -9,3 +9,8 @@
 .animate-bob {
   animation: bob 1.6s infinite;
 }
+@media (min-width: 768px) {
+  * {
+    cursor: none !important;
+  }
+}

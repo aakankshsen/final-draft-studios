@@ -1,6 +1,12 @@
+"use client";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Reveal from "@/components/Reveal";
 import NeedsContent from "@/components/NeedsContent";
 import { ArrowUpRight } from "lucide-react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const projects = [
   {
@@ -16,6 +22,29 @@ const projects = [
 ];
 
 export default function FeaturedWork() {
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    cardRefs.current.forEach((card) => {
+      if (!card) return;
+      gsap.fromTo(
+        card,
+        { scale: 0.82, opacity: 0.5 },
+        {
+          scale: 1,
+          opacity: 1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: card,
+            start: "top 95%",
+            end: "top 55%",
+            scrub: 0.6,
+          },
+        }
+      );
+    });
+  }, []);
+
   return (
     <section id="work" className="px-[5%] py-40 border-b border-white/10">
       <Reveal className="flex justify-between items-end flex-wrap gap-5 mb-12">
@@ -27,8 +56,14 @@ export default function FeaturedWork() {
       </Reveal>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {projects.map((project) => (
-          <Reveal key={project.name} className="group cursor-pointer">
+        {projects.map((project, i) => (
+          <div
+            key={project.name}
+            ref={(el) => {
+              cardRefs.current[i] = el;
+            }}
+            className="group cursor-pointer"
+          >
             <div className="relative aspect-[4/5] overflow-hidden">
               <NeedsContent label={project.assetLabel} className="absolute inset-0" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-[1]" />
@@ -39,7 +74,7 @@ export default function FeaturedWork() {
                 <div className="text-xl font-semibold text-paper">{project.name}</div>
               </div>
             </div>
-          </Reveal>
+          </div>
         ))}
       </div>
 

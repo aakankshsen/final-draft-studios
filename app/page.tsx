@@ -6,10 +6,12 @@ import Vision from "@/components/Vision";
 import Principles from "@/components/Principles";
 import Studio from "@/components/Studio";
 import Contact from "@/components/Contact";
+import CustomCursor from "@/components/CustomCursor";
 
 export default function Home() {
   return (
     <main>
+      <CustomCursor />
       <Navbar />
       <Hero />
       <FeaturedWork />

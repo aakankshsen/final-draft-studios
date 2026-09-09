@@ -1,4 +1,10 @@
+"use client";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Reveal from "@/components/Reveal";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const principles = [
   {
@@ -24,6 +30,29 @@ const principles = [
 ];
 
 export default function Principles() {
+  const rowRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    rowRefs.current.forEach((row) => {
+      if (!row) return;
+      gsap.fromTo(
+        row,
+        { opacity: 0.2, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          ease: "none",
+          scrollTrigger: {
+            trigger: row,
+            start: "top 90%",
+            end: "top 60%",
+            scrub: 0.5,
+          },
+        }
+      );
+    });
+  }, []);
+
   return (
     <section className="px-[5%] py-40 border-b border-white/10">
       <Reveal className="mb-12">
@@ -35,15 +64,18 @@ export default function Principles() {
       </Reveal>
 
       <div>
-        {principles.map((p) => (
-          <Reveal
+        {principles.map((p, i) => (
+          <div
             key={p.num}
+            ref={(el) => {
+              rowRefs.current[i] = el;
+            }}
             className="flex flex-wrap gap-10 py-11 border-t last:border-b border-white/10 items-start"
           >
             <div className="font-display text-sm text-amber min-w-[50px]">{p.num}</div>
             <h3 className="text-2xl font-bold text-paper min-w-[260px]">{p.title}</h3>
             <p className="text-dim text-[15px] leading-relaxed max-w-[520px]">{p.body}</p>
-          </Reveal>
+          </div>
         ))}
       </div>
 
