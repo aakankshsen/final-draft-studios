@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import FeaturedWork from "@/components/FeaturedWork";
+import ArrowTransition from "@/components/ArrowTransition";
 import Deliverables from "@/components/Deliverables";
 import Vision from "@/components/Vision";
 import Principles from "@/components/Principles";
@@ -15,6 +16,7 @@ export default function Home() {
       <Navbar />
       <Hero />
       <FeaturedWork />
+      <ArrowTransition />
       <Deliverables />
       <Vision />
       <Principles />
