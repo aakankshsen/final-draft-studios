@@ -8,7 +8,7 @@ const slides = [
     tags: ["Direction", "Cinematography", "Colour", "Sound Design"],
     title: ["Brand", "Films"],
     assetLabel: "CLIENT ASSET — Brand film reel / hero video",
-    videoSrc: "/videos/FinalDraftLV_1.mp4",
+    videoSrc: "https://pub-06d5ca6a451e4bf9b57df03334b372cc.r2.dev/FinalDraftLV_1.mp4",
     counter: 1,
     align: "left" as const,
   },
