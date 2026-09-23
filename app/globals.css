@@ -14,3 +14,27 @@
     cursor: none !important;
   }
 }
+.film-sprockets {
+  height: 16px;
+  background-color: #0a0a0a;
+  background-image: radial-gradient(
+    circle,
+    rgba(237, 234, 224, 0.35) 3px,
+    transparent 3px
+  );
+  background-size: 24px 16px;
+  background-position: center;
+}
+
+.film-track {
+  animation: filmscroll 28s linear infinite;
+}
+
+.film-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes filmscroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}

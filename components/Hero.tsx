@@ -12,21 +12,13 @@ const slides = [
     counter: 1,
     align: "left" as const,
   },
-  {
-    tags: ["Documentary Style", "Cinematic Edit", "Same-Day Highlights"],
-    title: ["Wedding", "Films"],
-    assetLabel: "CLIENT ASSET — Wedding film reel",
-    videoSrc: null,
-    counter: 2,
-    align: "right" as const,
-  },
-  {
+    {
     tags: ["Post-Production", "Motion Titles", "Grade & Mix"],
     title: ["Short Films", "& Editing"],
     assetLabel: "CLIENT ASSET — Short film / edit reel",
     videoSrc: null,
-    counter: 3,
-    align: "left" as const,
+    counter: 2,
+    align: "right" as const,
   },
 ];
 
