@@ -68,32 +68,7 @@ export default function Hero() {
             </>
           )}
 
-          {/* viewfinder corner brackets */}
-          <div className="pointer-events-none absolute inset-6 md:inset-10 z-20">
-            <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-amber/70" />
-            <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-amber/70" />
-            <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-amber/70" />
-            <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-amber/70" />
-          </div>
-
-          {/* REC + timecode — top right */}
-          {slide.videoSrc && (
-            <div className="absolute top-8 right-8 z-20 flex items-center gap-2 font-mono text-[11px] text-dim">
-              <span className="w-2 h-2 rounded-full bg-tally animate-pulse" />
-              <span className="text-tally">REC</span>
-              <Timecode videoRef={videoRef} />
-            </div>
-          )}
-
-          {/* slide counter — top left */}
-          <div className="absolute top-8 left-8 z-20 flex items-center gap-2 font-mono text-sm text-dim">
-            {slides.map((s) => (
-              <span key={s.counter} className={s.counter === slide.counter ? "text-amber" : ""}>
-                {s.counter}
-                {s.counter !== slides.length ? " /" : ""}
-              </span>
-            ))}
-          </div>
+        
 
           {/* GROUPED TEXT BLOCK — tags + heading together, alternating side */}
           <div
@@ -167,12 +142,7 @@ export default function Hero() {
             </div>
           </div>
 
-          {i === 0 && (
-            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 md:left-8 md:translate-x-0 z-20 flex items-center gap-2.5 font-mono text-[11px] tracking-widest text-dim">
-              SCROLL
-              <ArrowUpRight size={14} className="text-amber animate-bob" />
-            </div>
-          )}
+          
         </div>
       ))}
     </div>

@@ -1,0 +1,4 @@
+1. Create the About us section page 
+2. About us section page copy will be received by the client
+3. Add option of the About us page to the navbar 
+
