@@ -94,12 +94,8 @@ export default function ClientReel() {
           </div>
         </div>
 
-        {/* bottom perforation row */}
+         {/* bottom perforation row */}
         <div className="film-sprockets" />
-      </div>
-
-      <div className="mt-4 px-[5%] flex justify-end">
-        <div className="font-mono text-[11px] tracking-widest text-dim">SCROLL TO EXPLORE →</div>
       </div>
     </div>
   );
