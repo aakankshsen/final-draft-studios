@@ -51,7 +51,7 @@ export default function ClientReel() {
     <div ref={sectionRef} className="relative bg-black py-10 border-b border-white/10">
             <div className="mb-8 px-[5%] pt-16">
         <Reveal>
-          <h2 className="font-display uppercase text-[clamp(24px,3.5vw,40px)] leading-none text-paper">
+          <h2 className="group cursor-default font-display uppercase text-[clamp(24px,3.5vw,40px)] leading-none text-paper hover:text-amber transition-colors duration-500">
             Brands we&apos;ve worked with
           </h2>
         </Reveal>
@@ -94,12 +94,8 @@ export default function ClientReel() {
           </div>
         </div>
 
-        {/* bottom perforation row */}
+         {/* bottom perforation row */}
         <div className="film-sprockets" />
-      </div>
-
-      <div className="mt-4 px-[5%] flex justify-end">
-        <div className="font-mono text-[11px] tracking-widest text-dim">SCROLL TO EXPLORE →</div>
       </div>
     </div>
   );

@@ -47,7 +47,7 @@ export default function Deliverables() {
   return (
     <section id="deliverables" className="px-[5%] py-40 border-b border-white/10">
       <Reveal className="mb-12">
-        <h2 className="font-display uppercase text-[clamp(30px,4.5vw,52px)] leading-none">
+       <h2 className="group cursor-default font-display uppercase text-[clamp(30px,4.5vw,52px)] leading-none hover:text-amber transition-colors duration-500">
           What we
           <br />
           deliver
