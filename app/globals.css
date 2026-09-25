@@ -9,7 +9,7 @@
 .animate-bob {
   animation: bob 1.6s infinite;
 }
-@media (min-width: 768px) {
+@media (hover: hover) and (pointer: fine) {
   * {
     cursor: none !important;
   }
