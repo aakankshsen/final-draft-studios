@@ -41,7 +41,7 @@ export default function Vision() {
       <div className="text-xs tracking-[3px] uppercase text-amber mb-6">Our Approach</div>
       <p
         ref={containerRef}
-        className="font-display uppercase text-[clamp(24px,4vw,44px)] leading-[1.15] max-w-4xl"
+        className="font-display uppercase text-[clamp(24px,4vw,44px)] leading-[1.15] max-w-4xl [-webkit-text-stroke:1px_rgba(245,166,35,0.6)]"
       >
         {text.split(" ").map((word, i) => (
           <span key={i} className="word inline-block mr-[0.25em]">
