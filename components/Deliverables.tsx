@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Reveal from "@/components/Reveal";
@@ -20,7 +20,6 @@ const services = [
 ];
 
 export default function Deliverables() {
-  const [hovered, setHovered] = useState<string | null>(null);
   const rowRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
@@ -47,7 +46,7 @@ export default function Deliverables() {
   return (
     <section id="deliverables" className="px-[5%] py-40 border-b border-white/10">
       <Reveal className="mb-12">
-       <h2 className="group cursor-default font-display uppercase text-[clamp(30px,4.5vw,52px)] leading-none hover:text-amber transition-colors duration-500">
+       <h2 className="font-display uppercase text-[clamp(30px,4.5vw,52px)] leading-none">
           What we
           <br />
           deliver
@@ -62,31 +61,19 @@ export default function Deliverables() {
               ref={(el) => {
                 rowRefs.current[i] = el;
               }}
-              onMouseEnter={() => setHovered(service)}
-              onMouseLeave={() => setHovered(null)}
-              className="group border-t border-white/10 last:border-b py-5 flex justify-between items-center cursor-pointer transition-all hover:pl-3"
+              className="border-t border-white/10 last:border-b py-5"
             >
-              <h3 className="flex items-center gap-3 font-semibold text-lg text-paper group-hover:text-amber transition-colors">
-                <ArrowUpRight
-                  size={16}
-                  className="text-amber opacity-0 group-hover:opacity-100 transition-opacity"
-                />
+              <h3 className="flex items-center gap-3 font-semibold text-lg text-paper">
+                <ArrowUpRight size={16} className="text-amber shrink-0" />
                 {service}
               </h3>
-              <span className="font-mono text-xs text-dim">
-                {String(i + 1).padStart(2, "0")}
-              </span>
             </div>
           ))}
         </div>
 
         <Reveal className="flex-1 min-w-[280px]">
           <NeedsContent
-            label={
-              hovered
-                ? `CLIENT ASSET — reel/photo for "${hovered}"`
-                : "CLIENT ASSET — supporting reel/photo (rotates per hovered service, optional)"
-            }
+            label="CLIENT ASSET — supporting reel/photo"
             className="aspect-[4/5] sticky top-32"
           />
         </Reveal>
