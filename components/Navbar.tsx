@@ -12,7 +12,7 @@ export default function Navbar() {
     { href: "#work", label: "Work" },
     { href: "#deliverables", label: "Services" },
     { href: "#studio", label: "Studio" },
-    { href: "#aboutus", label: "About Us" },
+    { href: "/about", label: "About Us" },
   ];
 
   useEffect(() => {

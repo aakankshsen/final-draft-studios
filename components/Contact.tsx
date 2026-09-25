@@ -88,7 +88,7 @@ export default function Contact() {
         {services.map((s) => (
           <span
             key={s}
-            className="text-xs tracking-wide uppercase border border-white/10 px-4 py-2.5 rounded-full text-dim"
+            className="text-xs tracking-wide uppercase border border-white/10 px-4 py-2.5 rounded-full text-amber"
           >
             {s}
           </span>
