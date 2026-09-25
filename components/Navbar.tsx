@@ -33,8 +33,8 @@ export default function Navbar() {
         <nav
           className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-[5%] transition-all duration-300 ${
             scrolled
-              ? "py-4 rounded-b-2xl bg-white/[0.06] backdrop-blur-xl backdrop-saturate-150 border-b border-x border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
-              : "py-8 bg-transparent border-transparent rounded-none"
+              ? "py-2 rounded-b-2xl bg-white/[0.06] backdrop-blur-xl backdrop-saturate-150 border-b border-x border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
+              : "py-4 bg-transparent border-transparent rounded-none"
           }`}
         >
           <Link href="/" className="flex items-center">
@@ -48,7 +48,7 @@ export default function Navbar() {
             />
           </Link>
 
-          <div className="hidden md:flex gap-8 text-sm font-medium tracking-widest uppercase text-dim">
+          <div className="hidden md:flex gap-8 text-sm font-medium tracking-widest uppercase text-paper">
             {links.map((link) => (
               <Link
                 key={link.href}

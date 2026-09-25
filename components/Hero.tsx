@@ -76,10 +76,6 @@ export default function Hero() {
               slide.align === "left" ? "left-10 md:left-16 items-start" : "right-10 md:right-16 items-end"
             }`}
           >
-            <div className="font-mono text-[11px] tracking-[3px] uppercase text-amber mb-5">
-              Scene {String(slide.counter).padStart(2, "0")}
-            </div>
-
             <h2
               className={`group cursor-default select-none leading-[0.9] uppercase font-display text-paper
                 [-webkit-text-stroke:1px_rgba(245,166,35,0.6)]
@@ -105,7 +101,7 @@ export default function Hero() {
           </div>
 
           {/* the actual vertical video, fully visible, not cropped */}
-          <div className="relative z-10 h-[80vh] md:h-[84vh] aspect-[9/16]">
+          <div className="relative z-10 h-[80vh] md:h-[84vh] aspect-[9/16] translate-y-4 md:translate-y-6">
             {slide.videoSrc ? (
               <video
                 ref={i === 0 ? videoRef : undefined}
