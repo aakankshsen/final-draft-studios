@@ -66,7 +66,7 @@ export default function Contact() {
       <div className="flex justify-between gap-10 flex-wrap mb-16">
         <h2
           ref={headingRef}
-          className="font-display uppercase text-[clamp(34px,6vw,72px)] leading-[0.95] max-w-2xl"
+          className="group cursor-default font-display uppercase text-[clamp(34px,6vw,72px)] leading-[0.95] max-w-2xl text-paper [-webkit-text-stroke:1px_rgba(245,166,35,0.6)] hover:text-amber hover:[-webkit-text-stroke:1px_#F5A623] transition-all duration-500"
         >
           Let&apos;s make
           <br />
