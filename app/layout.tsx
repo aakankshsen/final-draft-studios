@@ -1,11 +1,18 @@
 import type { Metadata } from "next";
-import { Anton, Inter, IBM_Plex_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 import "./globals.css";
 
-const anton = Anton({ weight: "400", subsets: ["latin"], variable: "--font-anton" });
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-const mono = IBM_Plex_Mono({ weight: ["400", "500"], subsets: ["latin"], variable: "--font-mono" });
+const gilroy = localFont({
+  src: [
+    { path: "./fonts/Gilroy-Light.ttf", weight: "300", style: "normal" },
+    { path: "./fonts/Gilroy-Regular.ttf", weight: "400", style: "normal" },
+    { path: "./fonts/Gilroy-Medium.ttf", weight: "500", style: "normal" },
+    { path: "./fonts/Gilroy-Bold.ttf", weight: "700", style: "normal" },
+    { path: "./fonts/Gilroy-Heavy.ttf", weight: "800", style: "normal" },
+  ],
+  variable: "--font-gilroy",
+});
 
 export const metadata: Metadata = {
   title: "Final Draft Studios",
@@ -15,7 +22,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${anton.variable} ${inter.variable} ${mono.variable} bg-ink text-paper font-body antialiased`}>
+      <body className={`${gilroy.variable} bg-ink text-paper font-body antialiased`}>
         <SmoothScrollProvider>{children}</SmoothScrollProvider>
       </body>
     </html>

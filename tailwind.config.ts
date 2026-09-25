@@ -19,10 +19,10 @@ export default {
         bob: "bob 1.6s infinite",
       },
       },
-      fontFamily: {
-        display: ["var(--font-anton)", "sans-serif"],
-        body: ["var(--font-inter)", "sans-serif"],
-        mono: ["var(--font-mono)", "monospace"],
+        fontFamily: {
+        display: ["var(--font-gilroy)", "sans-serif"],
+        body: ["var(--font-gilroy)", "sans-serif"],
+        mono: ["var(--font-gilroy)", "sans-serif"],
       },
     },
   },
