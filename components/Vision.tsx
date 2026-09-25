@@ -37,7 +37,7 @@ export default function Vision() {
   }, []);
 
   return (
-    <section className="px-[5%] py-40 border-b border-white/10">
+    <section className="px-[5%] py-28 border-b border-white/10">
       <div className="text-xs tracking-[3px] uppercase text-amber mb-6">Our Approach</div>
       <p
         ref={containerRef}

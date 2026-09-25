@@ -62,7 +62,7 @@ export default function Contact() {
   }, []);
 
   return (
-    <section id="contact" className="px-[5%] py-40">
+    <section id="contact" className="px-[5%] py-28">
       <div className="flex justify-between gap-10 flex-wrap mb-16">
         <h2
           ref={headingRef}
