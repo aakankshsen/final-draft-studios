@@ -17,9 +17,13 @@ export default function Vision() {
 
     gsap.fromTo(
       words,
-      { opacity: 0.15 },
+      { opacity: 0.15, color: "#6b6b6b" },
       {
-        opacity: 1,
+        keyframes: {
+          "0%": { opacity: 0.15, color: "#6b6b6b" },
+          "50%": { opacity: 1, color: "#F5A623" },
+          "100%": { opacity: 1, color: "#EDEAE0" },
+        },
         stagger: 0.04,
         ease: "none",
         scrollTrigger: {
