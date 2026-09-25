@@ -92,7 +92,7 @@ export default function Hero() {
               {slide.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="text-[11px] tracking-wide uppercase text-dim border border-white/10 px-3 py-1.5 rounded-full whitespace-nowrap"
+                  className="text-[11px] tracking-wide uppercase text-amber border border-white/10 px-3 py-1.5 rounded-full whitespace-nowrap"
                 >
                   {tag}
                 </span>
@@ -130,7 +130,7 @@ export default function Hero() {
               {slide.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="text-[10px] tracking-wide uppercase text-dim border border-white/10 px-2.5 py-1 rounded-full"
+                  className="text-[10px] tracking-wide uppercase text-amber border border-white/10 px-2.5 py-1 rounded-full"
                 >
                   {tag}
                 </span>
