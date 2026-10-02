@@ -101,7 +101,7 @@ export default function Hero() {
           </div>
 
           {/* the actual vertical video, fully visible, not cropped */}
-          <div className="relative z-10 h-[80vh] md:h-[84vh] aspect-[9/16] translate-y-4 md:translate-y-6">
+          <div className="relative z-10 h-[92vh] -translate-y-[6vh] aspect-[9/16]">
             {slide.videoSrc ? (
               <video
                 ref={i === 0 ? videoRef : undefined}
