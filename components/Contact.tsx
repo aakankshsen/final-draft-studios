@@ -6,20 +6,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const services = [
-  "Brand Films",
-  "Wedding Films",
-  "Short Films",
-  "Editing",
-  "Colour Grading",
-  "Motion Titles",
-  "Photography",
-  "Social Content",
-];
-
 export default function Contact() {
   const headingRef = useRef<HTMLHeadingElement>(null);
-  const tagsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (headingRef.current) {
@@ -34,26 +22,6 @@ export default function Contact() {
             trigger: headingRef.current,
             start: "top 90%",
             end: "top 50%",
-            scrub: 0.5,
-          },
-        }
-      );
-    }
-
-    if (tagsRef.current) {
-      const tags = tagsRef.current.children;
-      gsap.fromTo(
-        tags,
-        { opacity: 0.15, scale: 0.9 },
-        {
-          opacity: 1,
-          scale: 1,
-          stagger: 0.05,
-          ease: "none",
-          scrollTrigger: {
-            trigger: tagsRef.current,
-            start: "top 90%",
-            end: "top 65%",
             scrub: 0.5,
           },
         }
@@ -84,15 +52,38 @@ export default function Contact() {
         </div>
       </div>
 
+<<<<<<< HEAD
       <div ref={tagsRef} className="flex flex-wrap gap-2.5 mb-16">
         {services.map((s) => (
           <span
             key={s}
             className="text-xs tracking-wide uppercase border border-white/10 px-4 py-2.5 rounded-full text-amber"
+=======
+      <div className="mb-16">
+        <a
+          href="https://www.instagram.com/finaldraftstudios"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-3 text-amber hover:text-paper transition-colors duration-300"
+        >
+          <svg
+            width="28"
+            height="28"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+>>>>>>> origin/swarna
           >
-            {s}
-          </span>
-        ))}
+            <rect x="3" y="3" width="18" height="18" rx="5" />
+            <circle cx="12" cy="12" r="4" />
+            <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none" />
+          </svg>
+          <span className="font-mono text-sm">@finaldraftstudios</span>
+        </a>
       </div>
 
       <footer className="flex justify-between items-center flex-wrap gap-3 pt-10 border-t border-white/10 text-dim text-xs">

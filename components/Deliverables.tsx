@@ -9,14 +9,13 @@ import { ArrowUpRight } from "lucide-react";
 gsap.registerPlugin(ScrollTrigger);
 
 const services = [
-  "Brand & Ad Films",
-  "Wedding Films",
-  "Short Films & Documentaries",
-  "Editing & Post-Production",
-  "Motion Titles & Graphics",
-  "Colour Grading",
-  "Photography",
-  "UGC & Social Content",
+  "Brand Films",
+  "Campaigns & Advertisements",
+  "Commercial Photography",
+  "Social & Digital Content",
+  "Event Films & Coverage",
+  "Creative Direction",
+  "Production & Post-Production",
 ];
 
 export default function Deliverables() {
@@ -46,7 +45,7 @@ export default function Deliverables() {
   return (
     <section id="deliverables" className="px-[5%] pt-16 pb-28 border-b border-white/10">
       <Reveal className="mb-12">
-       <h2 className="group cursor-default font-display uppercase text-[clamp(30px,4.5vw,52px)] leading-none text-paper [-webkit-text-stroke:1px_rgba(245,166,35,0.6)] hover:text-amber hover:[-webkit-text-stroke:1px_#F5A623] transition-all duration-500">
+        <h2 className="group cursor-default font-display uppercase text-[clamp(30px,4.5vw,52px)] leading-none text-paper [-webkit-text-stroke:1px_rgba(245,166,35,0.6)] hover:text-amber hover:[-webkit-text-stroke:1px_#F5A623] transition-all duration-500">
           What we
           <br />
           deliver
