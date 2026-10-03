@@ -5,8 +5,11 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const text =
-  "Anyone can point a camera. Directing is the difference. We chase the frame that makes someone stop scrolling — then we cut it together like it matters, because it does.";
+const textLines = [
+  "WE THINK BIG. WE MAKE BIGGER.",
+  "Sharp creative direction. High-production value.",
+  "Fast turnaround. No compromise on the final draft.",
+];
 
 export default function Vision() {
   const containerRef = useRef<HTMLParagraphElement>(null);
@@ -43,14 +46,15 @@ export default function Vision() {
         ref={containerRef}
         className="font-display font-extrabold uppercase text-[clamp(24px,4vw,44px)] leading-[1.15] max-w-4xl [-webkit-text-stroke:1px_rgba(245,166,35,0.6)]"
       >
-        {text.split(" ").map((word, i) => (
-          <span key={i} className="word inline-block mr-[0.25em]">
-            {word}
+        {textLines.map((line, lineIndex) => (
+          <span key={lineIndex} className="block">
+            {line.split(" ").map((word, i) => (
+              <span key={`${lineIndex}-${i}`} className="word inline-block mr-[0.25em]">
+                {word}
+              </span>
+            ))}
           </span>
         ))}
-      </p>
-      <p className="font-mono text-xs text-dim mt-5">
-        COPY — Replace with studio&apos;s actual point of view / philosophy line
       </p>
     </section>
   );
