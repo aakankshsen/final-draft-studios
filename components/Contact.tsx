@@ -52,13 +52,6 @@ export default function Contact() {
         </div>
       </div>
 
-<<<<<<< HEAD
-      <div ref={tagsRef} className="flex flex-wrap gap-2.5 mb-16">
-        {services.map((s) => (
-          <span
-            key={s}
-            className="text-xs tracking-wide uppercase border border-white/10 px-4 py-2.5 rounded-full text-amber"
-=======
       <div className="mb-16">
         <a
           href="https://www.instagram.com/finaldraftstudios"
@@ -76,7 +69,6 @@ export default function Contact() {
             strokeLinecap="round"
             strokeLinejoin="round"
             aria-hidden="true"
->>>>>>> origin/swarna
           >
             <rect x="3" y="3" width="18" height="18" rx="5" />
             <circle cx="12" cy="12" r="4" />
