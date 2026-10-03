@@ -1,7 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
-import NeedsContent from "@/components/NeedsContent";
-import { ArrowUpRight } from "lucide-react";
+import { useRef } from "react";
 
 const slides = [
   {
@@ -12,42 +10,14 @@ const slides = [
     counter: 1,
     align: "left" as const,
   },
-    {
-    tags: ["Post-Production", "Motion Titles", "Grade & Mix"],
-    title: ["Short Films", "& Editing"],
-    assetLabel: "CLIENT ASSET — Short film / edit reel",
-    videoSrc: null,
-    counter: 2,
-    align: "right" as const,
-  },
 ];
-
-function Timecode({ videoRef }: { videoRef: React.RefObject<HTMLVideoElement | null> }) {
-  const [time, setTime] = useState("00:00:00");
-
-  useEffect(() => {
-    const el = videoRef.current;
-    if (!el) return;
-    const update = () => {
-      const t = el.currentTime;
-      const mm = String(Math.floor(t / 60)).padStart(2, "0");
-      const ss = String(Math.floor(t % 60)).padStart(2, "0");
-      const ff = String(Math.floor((t % 1) * 30)).padStart(2, "0");
-      setTime(`${mm}:${ss}:${ff}`);
-    };
-    el.addEventListener("timeupdate", update);
-    return () => el.removeEventListener("timeupdate", update);
-  }, [videoRef]);
-
-  return <span className="tabular-nums">{time}</span>;
-}
 
 export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   return (
     <div>
-      {slides.map((slide, i) => (
+      {slides.map((slide) => (
         <div
           key={slide.counter}
           className="relative min-h-screen flex items-center justify-center overflow-hidden bg-ink"
@@ -102,20 +72,16 @@ export default function Hero() {
 
           {/* the actual vertical video, fully visible, not cropped */}
           <div className="relative z-10 h-[92vh] -translate-y-[6vh] aspect-[9/16]">
-            {slide.videoSrc ? (
-              <video
-                ref={i === 0 ? videoRef : undefined}
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="w-full h-full object-contain"
-              >
-                <source src={slide.videoSrc} type="video/mp4" />
-              </video>
-            ) : (
-              <NeedsContent label={slide.assetLabel} className="w-full h-full" />
-            )}
+            <video
+              ref={videoRef}
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="w-full h-full object-contain"
+            >
+              <source src={slide.videoSrc} type="video/mp4" />
+            </video>
           </div>
 
           {/* mobile: heading + tags stacked below video, centered */}

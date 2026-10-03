@@ -56,9 +56,9 @@ export default function ArrowTransition() {
           Final Draft Studios
         </div>
         <h3 className="font-display uppercase text-[clamp(28px,5vw,56px)] text-paper leading-tight">
-          Always moving
+          CUT THE NOISE
           <br />
-          things forward
+          
         </h3>
       </div>
 
