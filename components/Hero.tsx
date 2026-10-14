@@ -42,7 +42,7 @@ export default function Hero() {
 
           {/* GROUPED TEXT BLOCK — tags + heading together, alternating side */}
           <div
-            className={`hidden md:flex flex-col z-20 absolute top-1/2 -translate-y-1/2 max-w-[38%] ${
+            className={`hidden lg:flex flex-col z-20 absolute top-1/2 -translate-y-1/2 max-w-[38%] ${
               slide.align === "left" ? "left-10 md:left-16 items-start" : "right-10 md:right-16 items-end"
             }`}
           >
@@ -71,7 +71,7 @@ export default function Hero() {
           </div>
 
           {/* the actual vertical video, fully visible, not cropped */}
-          <div className="relative z-10 h-[92vh] aspect-[9/16]">
+          <div className="relative z-10 w-[85vw] aspect-[4/5] sm:w-[70vw] sm:aspect-[3/4] md:w-[60vw] lg:w-auto lg:h-[92vh] lg:aspect-[9/16]">
             <video
               ref={videoRef}
               autoPlay
@@ -85,7 +85,7 @@ export default function Hero() {
           </div>
 
           {/* mobile: heading + tags stacked below video, centered */}
-          <div className="md:hidden flex flex-col items-center gap-5 absolute bottom-24 left-0 right-0 z-20 px-6 text-center">
+          <div className="lg:hidden flex flex-col items-center gap-3 sm:gap-5 absolute bottom-8 sm:bottom-12 left-0 right-0 z-20 px-4 sm:px-6 text-center">
             <h2
               className="uppercase font-display text-paper [-webkit-text-stroke:1px_rgba(245,166,35,0.6)] leading-[0.95] drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)]"
               style={{ fontSize: "clamp(32px, 9vw, 52px)" }}

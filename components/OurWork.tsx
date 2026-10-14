@@ -22,6 +22,8 @@ export default function OurWork() {
   const carouselRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const isAnimatingRef = useRef(false);
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
+  const suppressClickRef = useRef(false);
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -55,11 +57,12 @@ export default function OurWork() {
     const resetTrack = () => {
       const firstSlot = track.firstElementChild as HTMLElement | null;
       if (!firstSlot) return;
+      const centerOffset = window.matchMedia("(min-width: 768px)").matches ? 1 : 2;
 
       gsap.set(track.querySelectorAll<HTMLElement>("[data-carousel-card]"), {
         clearProps: "transform,opacity,visibility",
       });
-      gsap.set(track, { x: -firstSlot.offsetWidth });
+      gsap.set(track, { x: -firstSlot.offsetWidth * centerOffset });
       isAnimatingRef.current = false;
     };
 
@@ -88,7 +91,8 @@ export default function OurWork() {
 
     isAnimatingRef.current = true;
     const slotWidth = firstSlot.offsetWidth;
-    const targetX = direction > 0 ? -slotWidth * 2 : 0;
+    const centerOffset = window.matchMedia("(min-width: 768px)").matches ? 1 : 2;
+    const targetX = -slotWidth * (centerOffset + direction);
     const timeline = gsap.timeline({
       onComplete: () => {
         setIndex((i) => (i + direction + projects.length) % projects.length);
@@ -123,7 +127,7 @@ export default function OurWork() {
       {/* See All — top right */}
       <Link
         href="/work"
-        className="absolute top-6 right-[5%] z-20 group flex items-center gap-2 text-amber text-xs tracking-widest uppercase border border-amber/60 px-5 py-2.5 rounded-full hover:bg-amber hover:text-ink transition-colors"
+        className="relative z-20 mb-4 self-end group flex items-center gap-2 text-amber text-xs tracking-widest uppercase border border-amber/60 px-5 py-2.5 rounded-full hover:bg-amber hover:text-ink transition-colors md:absolute md:top-6 md:right-[5%] md:mb-0"
       >
         See All
         <ArrowUpRight size={14} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -139,20 +143,52 @@ export default function OurWork() {
       </div>
 
       {/* carousel */}
-      <div ref={carouselRef} className="relative w-full overflow-visible">
+      <div
+        ref={carouselRef}
+        className="relative w-full overflow-hidden md:overflow-visible touch-pan-y"
+        onTouchStart={(event) => {
+          const touch = event.touches[0];
+          if (!touch) return;
+          touchStartRef.current = { x: touch.clientX, y: touch.clientY };
+        }}
+        onTouchEnd={(event) => {
+          const start = touchStartRef.current;
+          const touch = event.changedTouches[0];
+          touchStartRef.current = null;
+          if (!start || !touch) return;
+          const deltaX = touch.clientX - start.x;
+          const deltaY = touch.clientY - start.y;
+          if (Math.abs(deltaX) < 40 || Math.abs(deltaX) <= Math.abs(deltaY) * 1.2) return;
+          suppressClickRef.current = true;
+          window.setTimeout(() => {
+            suppressClickRef.current = false;
+          }, 400);
+          if (deltaX < 0) next();
+          else prev();
+        }}
+        onTouchCancel={() => {
+          touchStartRef.current = null;
+        }}
+        onClickCapture={(event) => {
+          if (!suppressClickRef.current) return;
+          event.preventDefault();
+          event.stopPropagation();
+          suppressClickRef.current = false;
+        }}
+      >
         <div ref={trackRef} className="flex w-full">
         {[-2, -1, 0, 1, 2].map((offset, slot) => {
           const project = getProject(offset);
           const isCenter = offset === 0;
 
           return (
-            <div key={slot} className="relative flex-none w-full px-2 md:w-1/3 md:px-3">
+            <div key={slot} className="relative flex-none w-full px-2 sm:w-4/5 md:w-1/3 md:px-3">
               <Link
                 data-carousel-card
                 href={`/work/${project.slug}`}
                 className={isCenter
-                  ? "group relative block w-full aspect-[9/16] md:aspect-[4/3] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.6)] transition-transform duration-500 ease-out hover:z-10 hover:scale-[1.04]"
-                  : "group relative block w-full aspect-[9/16] md:aspect-[4/3] overflow-hidden opacity-35 scale-90 hover:opacity-55 transition-opacity"}
+                  ? "group relative block w-full aspect-[4/5] md:aspect-[4/3] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.6)] transition-transform duration-500 ease-out hover:z-10 hover:scale-[1.04]"
+                  : "group relative block w-full aspect-[4/5] md:aspect-[4/3] overflow-hidden opacity-35 scale-90 hover:opacity-55 transition-opacity"}
               >
                 <Image
                   src={project.image}

@@ -41,8 +41,8 @@ export default function Studio() {
         </h2>
       </Reveal>
 
-      <Reveal className="flex flex-wrap gap-14 items-center">
-        <div className="flex-1 min-w-[300px]">
+      <Reveal className="flex flex-wrap gap-10 md:gap-14 items-center">
+        <div className="flex-1 min-w-0 md:min-w-[300px]">
           <p className="text-dim text-base max-w-[480px] leading-relaxed">
             Before the final cut, there&apos;s a lot of chaos. This is where most of it happens
           </p>
@@ -51,11 +51,11 @@ export default function Studio() {
           </p>
         </div>
 
-        <div className="flex-1 min-w-[300px] grid grid-cols-2 gap-4">
+        <div className="flex-1 min-w-0 md:min-w-[300px] grid grid-cols-2 gap-3 sm:gap-4">
           <div ref={photo1Ref}>
             <NeedsContent label="CLIENT ASSET — Team/BTS photo 1" className="aspect-[3/4]" />
           </div>
-          <div ref={photo2Ref} className="mt-10">
+          <div ref={photo2Ref} className="mt-5 sm:mt-10">
             <NeedsContent label="CLIENT ASSET — Team/BTS photo 2" className="aspect-[3/4]" />
           </div>
         </div>

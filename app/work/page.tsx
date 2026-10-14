@@ -22,7 +22,7 @@ export default function WorkListPage() {
           All Work
         </h1>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
           {projects.map((p) => (
             <Link key={p.slug} href={`/work/${p.slug}`} className="group">
               <NeedsContent label={`CLIENT ASSET — ${p.name}`} className="aspect-[9/16] mb-4 group-hover:opacity-80 transition-opacity" />

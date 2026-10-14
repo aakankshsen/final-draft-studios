@@ -19,9 +19,9 @@ export default function ArrowTransition() {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top top",
-          end: "+=150%",
+          end: ScrollTrigger.isTouch ? "+=80%" : "+=150%",
           scrub: 0.6,
-          pin: true,
+          pin: !ScrollTrigger.isTouch,
           invalidateOnRefresh: true,
         },
       });

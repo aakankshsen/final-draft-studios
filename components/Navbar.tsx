@@ -91,7 +91,7 @@ export default function Navbar() {
 
       {/* MOBILE FULL-SCREEN MENU */}
       {open && (
-        <div className="fixed inset-0 z-[100] bg-ink flex flex-col">
+        <div className="fixed inset-0 z-[100] flex flex-col overflow-y-auto bg-ink">
           <div className="flex items-center justify-between px-[5%] py-6">
             <Image src="/logo/wordmark-white2.png" alt="Final Draft Studios" width={140} height={35} className="w-auto h-8" />
             <button onClick={() => setOpen(false)} className="text-paper" aria-label="Close menu">
@@ -99,7 +99,7 @@ export default function Navbar() {
             </button>
           </div>
 
-          <div className="flex flex-col justify-center flex-1 px-[5%] gap-8">
+          <div className="flex flex-1 flex-col justify-center gap-6 px-[5%] py-6">
             {links.map((link) => (
               <Link
                 key={link.href}
@@ -108,7 +108,7 @@ export default function Navbar() {
                   setOpen(false);
                   handleSectionNavigation(event, link.href);
                 }}
-                className="font-display uppercase text-4xl text-paper hover:text-amber transition-colors"
+                className="font-display uppercase text-[clamp(2rem,8vw,2.5rem)] text-paper hover:text-amber transition-colors"
               >
                 {link.label}
               </Link>
