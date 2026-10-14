@@ -26,6 +26,19 @@
   background-position: center;
 }
 
+.client-reel-viewport {
+  scrollbar-width: none;
+  cursor: grab;
+}
+
+.client-reel-viewport::-webkit-scrollbar {
+  display: none;
+}
+
+.client-reel-viewport:active {
+  cursor: grabbing;
+}
+
 .film-track {
   animation: filmscroll 28s linear infinite;
 }
