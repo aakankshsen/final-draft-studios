@@ -119,7 +119,7 @@ export default function OurWork() {
   const current = getProject(0);
 
   return (
-    <section ref={sectionRef} className="relative min-h-screen md:h-screen md:min-h-[620px] flex flex-col justify-center bg-ink overflow-hidden px-[4%] md:px-[2%] py-10 md:py-8 opacity-0 translate-y-28 scale-[0.86]">
+    <section id="work" ref={sectionRef} className="relative min-h-screen md:h-screen md:min-h-[620px] flex flex-col justify-center bg-ink overflow-hidden px-[4%] md:px-[2%] py-10 md:py-8 opacity-0 translate-y-28 scale-[0.86]">
       {/* See All — top right */}
       <Link
         href="/work"
@@ -131,10 +131,10 @@ export default function OurWork() {
 
       <div className="text-center mb-6">
         <div className="font-mono text-xs tracking-[3px] uppercase text-amber mb-3">
-          Our Work
+          Highlight
         </div>
         <h2 className="font-display uppercase text-[clamp(28px,4vw,48px)] text-paper leading-none">
-          Selected Projects
+          Our Recent Work
         </h2>
       </div>
 

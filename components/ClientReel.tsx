@@ -16,7 +16,7 @@ type Client = {
 
 const clients: Client[] = [
   { name: "Lakmē", logoSrc: `${LOGO_BASE}/Gold-logo2.png`, scale: 1.4 },
-    { name: "Sparx", logoSrc: `${LOGO_BASE}/Sparx%20New%20Logo%2017-08-2026-1.png` },
+  { name: "Sparx", logoSrc: `${LOGO_BASE}/Sparx%20New%20Logo%2017-08-2026-1.png` },
   { name: "Bhagat Tarachand", logoSrc: `${LOGO_BASE}/Bhagat-Tarachand-Logo.png`, scale: 1.9 },
   { name: "Flite", logoSrc: `${LOGO_BASE}/Flite%20Logo%202.png` },
   { name: "Nissan", logoSrc: `${LOGO_BASE}/nissan%20white.png` },
@@ -147,17 +147,12 @@ export default function ClientReel() {
               <div
                 key={String(isDuplicate)}
                 aria-hidden={isDuplicate || undefined}
-                className={`flex shrink-0 items-center gap-3 pl-[5%] pr-3 motion-reduce:w-full motion-reduce:flex-wrap motion-reduce:justify-center ${
+                className={`flex shrink-0 items-center motion-reduce:w-full motion-reduce:flex-wrap motion-reduce:justify-center ${
                   isDuplicate ? "motion-reduce:hidden" : ""
                 }`}
               >
-                {clients.map((client, i) => (
-                  <div key={client.name} className="flex-shrink-0 flex items-center gap-3">
-                    {/* frame number, like real film edge printing */}
-                    <div className="font-mono text-[10px] text-white/25 rotate-90 origin-center w-4 text-center select-none">
-                      {String(i + 1).padStart(2, "0")}
-                    </div>
-
+                {clients.map((client) => (
+                  <div key={client.name} className="flex-shrink-0">
                     {/* the film frame itself */}
                     <div className="relative bg-black border-[10px] border-[#0a0a0a] w-[300px] md:w-[340px] aspect-[4/3]">
                       <div

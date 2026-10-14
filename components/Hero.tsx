@@ -16,7 +16,7 @@ export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   return (
-    <div>
+    <div className="bg-ink pt-24">
       {slides.map((slide) => (
         <div
           key={slide.counter}
@@ -71,7 +71,7 @@ export default function Hero() {
           </div>
 
           {/* the actual vertical video, fully visible, not cropped */}
-          <div className="relative z-10 h-[92vh] -translate-y-[6vh] aspect-[9/16]">
+          <div className="relative z-10 h-[92vh] aspect-[9/16]">
             <video
               ref={videoRef}
               autoPlay

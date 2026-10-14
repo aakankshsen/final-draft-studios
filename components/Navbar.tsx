@@ -1,19 +1,31 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, type MouseEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 
 export default function Navbar() {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   const links = [
-    { href: "#work", label: "Work" },
-    { href: "#deliverables", label: "Services" },
-    { href: "#studio", label: "Studio" },
+    { href: `${pathname === "/" ? "" : "/"}#work`, label: "Work" },
+    { href: `${pathname === "/" ? "" : "/"}#deliverables`, label: "Services" },
+    { href: `${pathname === "/" ? "" : "/"}#studio`, label: "Studio" },
     { href: "/about", label: "About Us" },
   ];
+
+  const handleSectionNavigation = (
+    event: MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
+    if (pathname !== "/" && href.startsWith("/#")) {
+      event.preventDefault();
+      window.location.assign(href);
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -53,6 +65,7 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
+                onClick={(event) => handleSectionNavigation(event, link.href)}
                 className="hover:text-amber transition-colors"
               >
                 {link.label}
@@ -91,7 +104,10 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                onClick={() => setOpen(false)}
+                onClick={(event) => {
+                  setOpen(false);
+                  handleSectionNavigation(event, link.href);
+                }}
                 className="font-display uppercase text-4xl text-paper hover:text-amber transition-colors"
               >
                 {link.label}
