@@ -4,17 +4,7 @@ import Navbar from "@/components/Navbar";
 import CustomCursor from "@/components/CustomCursor";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-
-const services = [
-  "Brand Films",
-  "Wedding Films",
-  "Short Films",
-  "Editing",
-  "Colour Grading",
-  "Motion Titles",
-  "Photography",
-  "Social Content",
-];
+import { services } from "@/data/services";
 
 export default function EnquirePage() {
   const [form, setForm] = useState({ name: "", email: "", phone: "", service: "", message: "" });

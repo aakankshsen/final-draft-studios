@@ -4,19 +4,10 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Reveal from "@/components/Reveal";
 import NeedsContent from "@/components/NeedsContent";
+import { services } from "@/data/services";
 import { ArrowUpRight } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
-
-const services = [
-  "Brand Films",
-  "Campaigns & Advertisements",
-  "Commercial Photography",
-  "Social & Digital Content",
-  "Event Films & Coverage",
-  "Creative Direction",
-  "Production & Post-Production",
-];
 
 export default function Deliverables() {
   const rowRefs = useRef<(HTMLDivElement | null)[]>([]);

@@ -9,10 +9,10 @@ import { ChevronLeft, ChevronRight, ArrowUpRight } from "lucide-react";
 gsap.registerPlugin(ScrollTrigger);
 
 const projects = [
-  { slug: "lakme", name: "Lakmē", category: "Ad Film", description: "A sun-care campaign shot across three locations, blending product beauty shots with lifestyle film.", image: "/work-lakme.jpg" },
+  { slug: "lakme", name: "Lakmē Sun Expert", category: "Ad Film", description: "A sun-care campaign shot across three locations, blending product beauty shots with lifestyle film.", image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Lakme%20Sun%20Expert/Lakme-tint-(model)1505.jpg" },
   { slug: "nissan", name: "Nissan", category: "Brand Film", description: "A cinematic brand film capturing precision engineering through dynamic motion and light.", image: "/work-nissan.jpg" },
   { slug: "sparx", name: "Sparx", category: "UGC / Social", description: "A fast-paced social campaign built for scroll-stopping reach across Instagram and YouTube Shorts.", image: "/work-sparx.jpg" },
-  { slug: "bering", name: "Bering Watches", category: "Product Film", description: "A quiet, detail-driven product film highlighting craftsmanship frame by frame.", image: "/work-bering.jpg" },
+  { slug: "bering", name: "Bering Watches", category: "Product Film", description: "A quiet, detail-driven product film highlighting craftsmanship frame by frame.", image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Bering%20Watches/DSC00219.png" },
   { slug: "afnan", name: "Afnan Perfumes", category: "Brand Campaign", description: "A sensorial campaign translating scent into visual rhythm and mood.", image: "/work-afnan.jpg" },
 ];
 
@@ -139,7 +139,7 @@ export default function OurWork() {
       </div>
 
       {/* carousel */}
-      <div ref={carouselRef} className="relative w-full overflow-hidden">
+      <div ref={carouselRef} className="relative w-full overflow-visible">
         <div ref={trackRef} className="flex w-full">
         {[-2, -1, 0, 1, 2].map((offset, slot) => {
           const project = getProject(offset);
@@ -151,15 +151,15 @@ export default function OurWork() {
                 data-carousel-card
                 href={`/work/${project.slug}`}
                 className={isCenter
-                  ? "group relative block w-full aspect-[9/16] md:aspect-[4/3] shadow-[0_20px_60px_rgba(0,0,0,0.6)]"
-                  : "group relative block w-full aspect-[9/16] md:aspect-[4/3] opacity-35 scale-90 hover:opacity-55 transition-opacity"}
+                  ? "group relative block w-full aspect-[9/16] md:aspect-[4/3] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.6)] transition-transform duration-500 ease-out hover:z-10 hover:scale-[1.04]"
+                  : "group relative block w-full aspect-[9/16] md:aspect-[4/3] overflow-hidden opacity-35 scale-90 hover:opacity-55 transition-opacity"}
               >
                 <Image
                   src={project.image}
                   alt=""
                   fill
                   sizes="(min-width: 768px) 33vw, 100vw"
-                  className={`object-cover transition-transform duration-700 group-hover:scale-105 ${isCenter ? "rounded-2xl" : "rounded-xl"}`}
+                  className={`object-cover transition-[filter,transform] duration-700 ease-out ${isCenter ? "group-hover:brightness-110 group-hover:saturate-110 rounded-2xl" : "group-hover:scale-105 rounded-xl"}`}
                 />
                 <div className={`absolute inset-0 bg-gradient-to-t from-black/75 via-black/5 to-transparent ${isCenter ? "rounded-2xl" : "rounded-xl"}`} />
                 {!isCenter && (
@@ -167,9 +167,6 @@ export default function OurWork() {
                     <div className="font-mono text-[10px] tracking-wide uppercase text-amber">{project.category}</div>
                     <div className="font-display uppercase text-paper text-sm md:text-lg">{project.name}</div>
                   </div>
-                )}
-                {isCenter && (
-                  <div className="absolute inset-0 rounded-2xl ring-1 ring-amber/40 group-hover:ring-amber transition-all" />
                 )}
               </Link>
             </div>
