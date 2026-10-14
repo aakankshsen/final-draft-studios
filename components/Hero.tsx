@@ -4,7 +4,7 @@ import { useRef } from "react";
 const slides = [
   {
     tags: ["Direction", "Cinematography", "Colour", "Sound Design"],
-    title: ["Brand", "Films"],
+    title: ["Showreel", "2025"],
     assetLabel: "CLIENT ASSET — Brand film reel / hero video",
     videoSrc: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/FinalDraftLV_1.mp4",
     counter: 1,
@@ -51,7 +51,7 @@ export default function Hero() {
                 [-webkit-text-stroke:1px_rgba(245,166,35,0.6)]
                 hover:text-amber hover:[-webkit-text-stroke:1px_#F5A623]
                 transition-all duration-500 drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)] ${slide.align === "left" ? "text-left" : "text-right"}`}
-              style={{ fontSize: "clamp(48px, 6.5vw, 110px)" }}
+              style={{ fontSize: "clamp(48px, 6vw, 100px)" }}
             >
               {slide.title[0]}
               <br />
@@ -88,7 +88,7 @@ export default function Hero() {
           <div className="md:hidden flex flex-col items-center gap-5 absolute bottom-24 left-0 right-0 z-20 px-6 text-center">
             <h2
               className="uppercase font-display text-paper [-webkit-text-stroke:1px_rgba(245,166,35,0.6)] leading-[0.95] drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)]"
-              style={{ fontSize: "clamp(32px, 10vw, 56px)" }}
+              style={{ fontSize: "clamp(32px, 9vw, 52px)" }}
             >
               {slide.title[0]} {slide.title[1]}
             </h2>
