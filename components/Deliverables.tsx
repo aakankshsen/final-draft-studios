@@ -40,7 +40,7 @@ export default function Deliverables() {
   return (
     <section id="deliverables" className="px-[5%] py-24 md:py-32 border-b border-white/10">
       <Reveal className="mb-12 text-center">
-        <h2 className="group cursor-default font-display uppercase text-[clamp(30px,4.5vw,52px)] leading-none text-paper [-webkit-text-stroke:1px_rgba(245,166,35,0.6)] hover:text-amber hover:[-webkit-text-stroke:1px_#F5A623] transition-all duration-500">
+        <h2 className="group mx-auto w-fit cursor-default font-display uppercase text-[clamp(30px,4.5vw,52px)] leading-none text-paper [-webkit-text-stroke:1px_rgba(245,166,35,0.6)] hover:text-amber hover:[-webkit-text-stroke:1px_#F5A623] transition-all duration-500">
           What we
           <br />
           deliver

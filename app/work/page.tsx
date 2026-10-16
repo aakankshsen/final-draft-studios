@@ -1,18 +1,63 @@
 import Navbar from "@/components/Navbar";
 import CustomCursor from "@/components/CustomCursor";
-import NeedsContent from "@/components/NeedsContent";
 import Link from "next/link";
+import Image from "next/image";
 
 const projects = [
-  { slug: "lakme", name: "Lakmē", category: "Ad Film" },
-  { slug: "nissan", name: "Nissan", category: "Brand Film" },
-  { slug: "sparx", name: "Sparx", category: "UGC / Social" },
-  { slug: "bering", name: "Bering Watches", category: "Product Film" },
-  { slug: "afnan", name: "Afnan Perfumes", category: "Brand Campaign" },
-  { slug: "flite", name: "Flite x Ali Fazal & Sania Malhotra", category: "Brand Campaign" },
-  { slug: "nissan-gravite-launch", name: "Nissan Gravite Launch Event", category: "Event Coverage" },
-  { slug: "bagicha-wilderness", name: "Bagicha Wilderness", category: "Property Photography & Video" },
-  { slug: "bhagat-tarachand", name: "Bhagat Tarachand", category: "Property Photography & Video" },
+  {
+    slug: "lakme",
+    name: "Lakmē Sun Expert",
+    category: "Ad Film",
+    description: "Quick Commerce Digital Campaign for Lakme’s Sunscreen range",
+    image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Lakme%20Sun%20Expert/Lakme-tint-(model)1505.jpg",
+    layout: "lg:col-span-7",
+    imageRatio: "aspect-[4/3] sm:aspect-[1.2/1] lg:aspect-[1.35/1]",
+  },
+  {
+    slug: "nissan",
+    name: "Nissan x Lakshya",
+    category: "Brand Film",
+    description: "Digital Ads and Shoulder Content for Nissan Gravite",
+    image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/lakshyaaaa.webp",
+    layout: "lg:col-span-5",
+    imageRatio: "aspect-[4/5] sm:aspect-[1/1] lg:aspect-[0.9/1]",
+  },
+  {
+    slug: "bering",
+    name: "Bering Watches",
+    category: "Product Film",
+    description: "Digital Ads, Model + Product Campaigns.",
+    image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Bering%20Watches/DSC00219.png",
+    layout: "lg:col-span-5",
+    imageRatio: "aspect-[4/3] sm:aspect-[1/1] lg:aspect-square",
+  },
+  {
+    slug: "sparx-and-flite",
+    name: "Sparx & Flite",
+    category: "Brand Campaign",
+    description: "Celebrity campaigns, digital ads.",
+    image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/Screenshot%202026-10-15%20at%206.37.55%E2%80%AFPM.png",
+    layout: "lg:col-span-7",
+    imageRatio: "aspect-[4/5] sm:aspect-[1.2/1] lg:aspect-[1.4/1]",
+  },
+  {
+    slug: "nissan-gravite-launch",
+    name: "Nissan Gravite Launch Event",
+    category: "Event Coverage",
+    description: "Full Event Coverage and live edits",
+    image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/6a8991bdcafcedc39a89628c_Nissan%20Gravite%20Image.webp",
+    layout: "lg:col-span-7",
+    imageRatio: "aspect-[4/3] sm:aspect-[1.2/1] lg:aspect-[1.2/1]",
+  },
+  {
+    slug: "property-and-interiors",
+    name: "Property and Interiors",
+    category: "Property Photography & Video",
+    description: "Interior, space, and property photos and videos",
+    image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/Bagicha.jpg",
+    layout: "lg:col-span-5",
+    imageRatio: "aspect-[4/5] sm:aspect-[1/1] lg:aspect-[0.9/1]",
+  },
 ];
 
 export default function WorkListPage() {
@@ -21,17 +66,36 @@ export default function WorkListPage() {
       <CustomCursor />
       <Navbar />
 
-      <section className="px-[5%] pt-40 pb-32">
+      <section className="mx-auto max-w-5xl px-[5%] pt-40 pb-32">
         <h1 className="font-display uppercase text-[clamp(36px,6vw,64px)] leading-[0.95] mb-16">
           All Work
         </h1>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
-          {projects.map((p) => (
-            <Link key={p.slug} href={`/work/${p.slug}`} className="group">
-              <NeedsContent label={`CLIENT ASSET — ${p.name}`} className="aspect-[9/16] mb-4 group-hover:opacity-80 transition-opacity" />
-              <div className="font-mono text-[11px] tracking-wide uppercase text-amber mb-1">{p.category}</div>
-              <div className="text-paper font-semibold">{p.name}</div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-x-5 gap-y-10 sm:gap-x-6 sm:gap-y-12">
+          {projects.map((project) => (
+            <Link
+              key={project.slug}
+              href={`/work/${project.slug}`}
+              className={`group block ${project.layout}`}
+            >
+              <div className={`relative mb-4 overflow-hidden bg-white/5 ${project.imageRatio}`}>
+                <Image
+                  src={project.image}
+                  alt={project.name}
+                  fill
+                  priority={project.slug === "lakme"}
+                  sizes="(min-width: 1024px) 60vw, (min-width: 640px) 50vw, 100vw"
+                  className={`object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03] ${
+                    project.slug === "sparx-and-flite" ? "object-[center_25%]" : ""
+                  }`}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-70 transition-opacity group-hover:opacity-100" />
+              </div>
+              <div className="font-mono text-[11px] tracking-wide uppercase text-amber mb-2">{project.category}</div>
+              <h2 className="w-fit text-paper text-lg sm:text-xl font-semibold transition-colors duration-300 group-hover:text-amber">
+                {project.name}
+              </h2>
+              <p className="mt-2 max-w-lg text-sm leading-relaxed text-dim">{project.description}</p>
             </Link>
           ))}
         </div>

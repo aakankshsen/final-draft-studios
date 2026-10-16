@@ -47,7 +47,7 @@ export default function Hero() {
             }`}
           >
             <h2
-              className={`group cursor-default select-none leading-[0.9] uppercase font-display text-paper
+              className={`group w-fit cursor-default select-none leading-[0.9] uppercase font-display text-paper
                 [-webkit-text-stroke:1px_rgba(245,166,35,0.6)]
                 hover:text-amber hover:[-webkit-text-stroke:1px_#F5A623]
                 transition-all duration-500 drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)] ${slide.align === "left" ? "text-left" : "text-right"}`}

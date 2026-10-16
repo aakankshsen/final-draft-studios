@@ -34,7 +34,7 @@ export default function Contact() {
       <div className="flex flex-col sm:flex-row sm:justify-between gap-8 sm:gap-10 mb-16">
         <h2
           ref={headingRef}
-          className="group cursor-default font-display uppercase text-[clamp(34px,6vw,72px)] leading-[0.95] max-w-2xl text-paper [-webkit-text-stroke:1px_rgba(245,166,35,0.6)] hover:text-amber hover:[-webkit-text-stroke:1px_#F5A623] transition-all duration-500"
+          className="group w-fit cursor-default font-display uppercase text-[clamp(34px,6vw,72px)] leading-[0.95] max-w-2xl text-paper [-webkit-text-stroke:1px_rgba(245,166,35,0.6)] hover:text-amber hover:[-webkit-text-stroke:1px_#F5A623] transition-all duration-500"
         >
           Let&apos;s make
           <br />
