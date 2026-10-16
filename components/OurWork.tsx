@@ -152,10 +152,6 @@ export default function OurWork() {
         {[-2, -1, 0, 1, 2].map((offset, slot) => {
           const project = getProject(offset);
           const isCenter = offset === 0;
-          const cardAspect =
-            project.slug === "sparx-and-flite"
-              ? "aspect-[4/5] md:aspect-square"
-              : "aspect-[4/5] md:aspect-[4/3]";
 
           return (
             <div key={slot} className="relative flex-none w-full px-2 sm:w-4/5 md:w-1/3 md:px-3">
@@ -163,8 +159,8 @@ export default function OurWork() {
                 data-carousel-card
                 href={`/work/${project.slug}`}
                 className={`${isCenter
-                  ? `group relative block w-full ${cardAspect} overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.6)] transition-transform duration-500 ease-out hover:z-10 hover:scale-[1.04]`
-                  : `group relative block w-full ${cardAspect} overflow-hidden opacity-35 scale-90 hover:opacity-55 transition-opacity`
+                  ? "group relative block w-full aspect-[4/5] md:aspect-[4/3] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.6)] transition-transform duration-500 ease-out hover:z-10 hover:scale-[1.04]"
+                  : "group relative block w-full aspect-[4/5] md:aspect-[4/3] overflow-hidden opacity-35 scale-90 hover:opacity-55 transition-opacity"
                 } ${project.slug === "sparx" || project.slug === "afnan" || project.slug === "flite" || project.slug === "sparx-and-flite" ? "bg-black" : ""}`}
               >
                 <Image
