@@ -26,7 +26,8 @@ export default function ArrowTransition() {
           start: "top top",
           end: isTouch ? "+=100%" : "+=150%",
           scrub: isTouch ? true : 0.6,
-          pin: !isTouch,
+          pin: true,
+          anticipatePin: isTouch ? 1 : 0,
           invalidateOnRefresh: true,
         },
       });

@@ -106,9 +106,6 @@ export default function OurWork() {
       </Link>
 
       <div className="text-center mb-6">
-        <div className="font-mono text-xs tracking-[3px] uppercase text-amber mb-3">
-          Highlight
-        </div>
         <h2 className="font-display uppercase text-[clamp(28px,4vw,48px)] text-paper leading-none">
           Our Recent Work
         </h2>
