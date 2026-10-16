@@ -9,11 +9,15 @@ import { ChevronLeft, ChevronRight, ArrowUpRight } from "lucide-react";
 gsap.registerPlugin(ScrollTrigger);
 
 const projects = [
-  { slug: "lakme", name: "Lakmē Sun Expert", category: "Ad Film", description: "A sun-care campaign shot across three locations, blending product beauty shots with lifestyle film.", image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Lakme%20Sun%20Expert/Lakme-tint-(model)1505.jpg" },
-  { slug: "nissan", name: "Nissan", category: "Brand Film", description: "A cinematic brand film capturing precision engineering through dynamic motion and light.", image: "/work-nissan.jpg" },
-  { slug: "sparx", name: "Sparx", category: "UGC / Social", description: "A fast-paced social campaign built for scroll-stopping reach across Instagram and YouTube Shorts.", image: "/work-sparx.jpg" },
-  { slug: "bering", name: "Bering Watches", category: "Product Film", description: "A quiet, detail-driven product film highlighting craftsmanship frame by frame.", image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Bering%20Watches/DSC00219.png" },
-  { slug: "afnan", name: "Afnan Perfumes", category: "Brand Campaign", description: "A sensorial campaign translating scent into visual rhythm and mood.", image: "/work-afnan.jpg" },
+  { slug: "lakme", name: "Lakmē Sun Expert", category: "Ad Film", description: "Quick Commerce Digital Campaign for Lakme’s Sunscreen range", image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Lakme%20Sun%20Expert/Lakme-tint-(model)1505.jpg" },
+  { slug: "nissan", name: "Nissan x Lakshya", category: "Brand Film", description: "Digital Ads and Shoulder Content for Nissan Gravite", image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/lakshyaaaa.webp" },
+  { slug: "sparx", name: "Sparx x Raghu Rajiv", category: "UGC / Social", description: "Celebrity campaigns, digital ads.", image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/Screenshot%202026-10-15%20at%206.42.50%E2%80%AFPM.png" },
+  { slug: "bering", name: "Bering Watches", category: "Product Film", description: "Digital Ads, Model + Product Campaigns.", image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Bering%20Watches/DSC00219.png" },
+  { slug: "afnan", name: "Sparx x Chunky Pandey", category: "Brand Campaign", description: "Celebrity campaigns, digital ads.", image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/Screenshot%202026-10-15%20at%206.46.33%E2%80%AFPM.png" },
+  { slug: "flite", name: "Flite x Ali Fazal & Sania Malhotra", category: "Brand Campaign", description: "Celebrity campaigns, digital ads.", image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/Screenshot%202026-10-15%20at%206.37.55%E2%80%AFPM.png" },
+  { slug: "nissan-gravite-launch", name: "Nissan Gravite Launch Event", category: "Event Coverage", description: "Full Event Coverage and live edits", image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/6a8991bdcafcedc39a89628c_Nissan%20Gravite%20Image.webp" },
+  { slug: "bagicha-wilderness", name: "Bagicha Wilderness", category: "Property Photography & Video", description: "Interior, space, and property photos and videos", image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/Bagicha.jpg" },
+  { slug: "bhagat-tarachand", name: "Bhagat Tarachand", category: "Property Photography & Video", description: "Interior, space, and property photos and videos", image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/btc.jpg" },
 ];
 
 export default function OurWork() {
@@ -186,21 +190,20 @@ export default function OurWork() {
               <Link
                 data-carousel-card
                 href={`/work/${project.slug}`}
-                className={isCenter
+                className={`${isCenter
                   ? "group relative block w-full aspect-[4/5] md:aspect-[4/3] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.6)] transition-transform duration-500 ease-out hover:z-10 hover:scale-[1.04]"
-                  : "group relative block w-full aspect-[4/5] md:aspect-[4/3] overflow-hidden opacity-35 scale-90 hover:opacity-55 transition-opacity"}
+                  : "group relative block w-full aspect-[4/5] md:aspect-[4/3] overflow-hidden opacity-35 scale-90 hover:opacity-55 transition-opacity"} ${project.slug === "sparx" || project.slug === "afnan" || project.slug === "flite" ? "bg-black" : ""}`}
               >
                 <Image
                   src={project.image}
                   alt=""
                   fill
                   sizes="(min-width: 768px) 33vw, 100vw"
-                  className={`object-cover transition-[filter,transform] duration-700 ease-out ${isCenter ? "group-hover:brightness-110 group-hover:saturate-110 rounded-2xl" : "group-hover:scale-105 rounded-xl"}`}
+                  className={`${project.slug === "sparx" || project.slug === "afnan" || project.slug === "flite" ? "object-contain" : "object-cover"} ${project.slug === "afnan" ? "scale-[1.3] -translate-y-[8%]" : ""} transition-[filter,transform] duration-700 ease-out ${isCenter ? "group-hover:brightness-110 group-hover:saturate-110 rounded-2xl" : "group-hover:scale-105 rounded-xl"}`}
                 />
                 <div className={`absolute inset-0 bg-gradient-to-t from-black/75 via-black/5 to-transparent ${isCenter ? "rounded-2xl" : "rounded-xl"}`} />
                 {!isCenter && (
                   <div className="absolute inset-x-3 bottom-3 md:inset-x-5 md:bottom-5">
-                    <div className="font-mono text-[10px] tracking-wide uppercase text-amber">{project.category}</div>
                     <div className="font-display uppercase text-paper text-sm md:text-lg">{project.name}</div>
                   </div>
                 )}
@@ -213,9 +216,6 @@ export default function OurWork() {
 
       {/* description */}
       <div className="text-center max-w-md mx-auto mt-5 md:mt-4">
-        <div className="font-mono text-[11px] tracking-wide uppercase text-amber mb-2">
-          {current.category}
-        </div>
         <h3 className="text-xl font-semibold text-paper mb-2">{current.name}</h3>
         <p className="text-dim text-sm leading-relaxed">{current.description}</p>
       </div>

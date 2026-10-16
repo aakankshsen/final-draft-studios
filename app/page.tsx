@@ -21,8 +21,8 @@ export default function Home() {
       <ClientReel />
       <ArrowTransition />
       <Deliverables />
-      <Vision />
       <Studio />
+      <Vision />
       <Contact />
     </main>
   );

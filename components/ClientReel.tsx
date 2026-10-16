@@ -48,27 +48,67 @@ export default function ClientReel() {
 
     const media = gsap.matchMedia();
     media.add("(prefers-reduced-motion: no-preference)", () => {
-      const animation = gsap.to(viewport, {
-        scrollLeft: viewport.scrollWidth / 2,
-        duration: 50,
-        ease: "none",
-        repeat: -1,
-      });
-
-      const stopAutoScroll = () => animation.kill();
+      let animationFrame: number | null = null;
+      let resumeTimer: number | null = null;
       let pointerId: number | null = null;
       let startX = 0;
       let startScrollLeft = 0;
       let dragging = false;
+
+      const startAutoScroll = () => {
+        const loopWidth = viewport.scrollWidth / 2;
+        if (loopWidth <= 0) return;
+        viewport.scrollLeft %= loopWidth;
+        const start = viewport.scrollLeft;
+        const duration = (50 * (loopWidth - start)) / loopWidth;
+        const startedAt = performance.now();
+
+        const animate = (now: number) => {
+          const progress = Math.min((now - startedAt) / (duration * 1000), 1);
+          viewport.scrollLeft = start + (loopWidth - start) * progress;
+          if (progress === 1) {
+            viewport.scrollLeft = 0;
+            startAutoScroll();
+          } else {
+            animationFrame = window.requestAnimationFrame(animate);
+          }
+        };
+
+        animationFrame = window.requestAnimationFrame(animate);
+      };
+
+      const stopAutoScroll = () => {
+        if (animationFrame !== null) window.cancelAnimationFrame(animationFrame);
+        animationFrame = null;
+      };
+
+      const scheduleAutoScroll = () => {
+        if (resumeTimer !== null) window.clearTimeout(resumeTimer);
+        resumeTimer = window.setTimeout(() => {
+          resumeTimer = null;
+          startAutoScroll();
+        }, 5000);
+      };
 
       const onWheel = (event: WheelEvent) => {
         if (event.deltaX === 0 && event.deltaY === 0) return;
         stopAutoScroll();
         event.preventDefault();
         viewport.scrollLeft += event.deltaX || event.deltaY;
+        scheduleAutoScroll();
       };
 
-      const onTouchStart = () => stopAutoScroll();
+      const onTouchStart = () => {
+        stopAutoScroll();
+        if (resumeTimer !== null) {
+          window.clearTimeout(resumeTimer);
+          resumeTimer = null;
+        }
+      };
+      const onTouchEnd = (event: TouchEvent) => {
+        if (event.touches.length > 0) return;
+        scheduleAutoScroll();
+      };
 
       const onPointerDown = (event: PointerEvent) => {
         if (event.pointerType !== "mouse" || event.button !== 0) return;
@@ -85,6 +125,10 @@ export default function ClientReel() {
         if (!dragging) {
           dragging = true;
           stopAutoScroll();
+          if (resumeTimer !== null) {
+            window.clearTimeout(resumeTimer);
+            resumeTimer = null;
+          }
           viewport.setPointerCapture(event.pointerId);
         }
         event.preventDefault();
@@ -97,19 +141,27 @@ export default function ClientReel() {
           viewport.releasePointerCapture(event.pointerId);
         }
         pointerId = null;
+        if (dragging) scheduleAutoScroll();
+        dragging = false;
       };
 
+      startAutoScroll();
       viewport.addEventListener("wheel", onWheel, { passive: false });
       viewport.addEventListener("touchstart", onTouchStart, { passive: true });
+      viewport.addEventListener("touchend", onTouchEnd);
+      viewport.addEventListener("touchcancel", onTouchEnd);
       viewport.addEventListener("pointerdown", onPointerDown);
       viewport.addEventListener("pointermove", onPointerMove);
       viewport.addEventListener("pointerup", onPointerUp);
       viewport.addEventListener("pointercancel", onPointerUp);
 
       return () => {
-        animation.kill();
+        stopAutoScroll();
+        if (resumeTimer !== null) window.clearTimeout(resumeTimer);
         viewport.removeEventListener("wheel", onWheel);
         viewport.removeEventListener("touchstart", onTouchStart);
+        viewport.removeEventListener("touchend", onTouchEnd);
+        viewport.removeEventListener("touchcancel", onTouchEnd);
         viewport.removeEventListener("pointerdown", onPointerDown);
         viewport.removeEventListener("pointermove", onPointerMove);
         viewport.removeEventListener("pointerup", onPointerUp);
@@ -121,7 +173,7 @@ export default function ClientReel() {
   }, []);
 
   return (
-    <div className="relative bg-black py-10 border-b border-white/10">
+    <div className="relative bg-[radial-gradient(ellipse_at_50%_35%,rgba(245,166,35,0.1),transparent_65%),#080706] py-10 border-b border-amber/20">
       <div className="mb-8 px-[5%] pt-16">
         <Reveal>
           <h2 className="group cursor-default font-display uppercase text-[clamp(24px,3.5vw,40px)] leading-none text-paper [-webkit-text-stroke:1px_rgba(245,166,35,0.6)] hover:text-amber hover:[-webkit-text-stroke:1px_#F5A623] transition-all duration-500">
@@ -131,7 +183,7 @@ export default function ClientReel() {
       </div>
 
       {/* the actual filmstrip object */}
-      <div className="relative bg-[#111] overflow-hidden">
+      <div className="relative bg-[radial-gradient(ellipse_at_center,rgba(245,166,35,0.12),transparent_68%),linear-gradient(90deg,#090909,#17120b_50%,#090909)] overflow-hidden">
         {/* top perforation row */}
         <div className="film-sprockets" />
 
@@ -154,10 +206,12 @@ export default function ClientReel() {
                 {clients.map((client) => (
                   <div key={client.name} className="flex-shrink-0">
                     {/* the film frame itself */}
-                    <div className="relative bg-black border-[10px] border-[#0a0a0a] w-[300px] md:w-[340px] aspect-[4/3]">
+                    <div className="relative bg-black border-[10px] border-[#1c1409] shadow-[0_0_28px_rgba(245,166,35,0.12)] w-[300px] md:w-[340px] aspect-[4/3]">
                       <div
                         className={`w-full h-full relative overflow-hidden flex items-center justify-center ${
-                          client.onLight ? "bg-paper" : ""
+                          client.onLight
+                            ? "bg-paper"
+                            : "bg-[radial-gradient(ellipse_at_center,rgba(245,166,35,0.12),rgba(10,10,10,0.96)_72%)]"
                         }`}
                       >
                         {client.logoSrc ? (
@@ -166,7 +220,7 @@ export default function ClientReel() {
                             src={client.logoSrc}
                             alt={isDuplicate ? "" : client.name}
                             loading="lazy"
-                            className="w-auto h-auto object-contain max-w-[70%] max-h-[60%]"
+                            className="w-auto h-auto object-contain max-w-[70%] max-h-[60%] drop-shadow-[0_0_18px_rgba(245,166,35,0.24)]"
                             style={{ transform: `scale(${client.scale ?? 1})` }}
                           />
                         ) : (

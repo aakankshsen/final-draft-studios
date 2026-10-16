@@ -4,11 +4,15 @@ import NeedsContent from "@/components/NeedsContent";
 import Link from "next/link";
 
 const projects = [
-  { slug: "lakme", name: "Lakmē", category: "Ad Film", description: "A sun-care campaign shot across three locations, blending product beauty shots with lifestyle film." },
-  { slug: "nissan", name: "Nissan", category: "Brand Film", description: "A cinematic brand film capturing precision engineering through dynamic motion and light." },
-  { slug: "sparx", name: "Sparx", category: "UGC / Social", description: "A fast-paced social campaign built for scroll-stopping reach across Instagram and YouTube Shorts." },
-  { slug: "bering", name: "Bering Watches", category: "Product Film", description: "A quiet, detail-driven product film highlighting craftsmanship frame by frame." },
-  { slug: "afnan", name: "Afnan Perfumes", category: "Brand Campaign", description: "A sensorial campaign translating scent into visual rhythm and mood." },
+  { slug: "lakme", name: "Lakmē", category: "Ad Film", description: "Quick Commerce Digital Campaign for Lakme’s Sunscreen range" },
+  { slug: "nissan", name: "Nissan", category: "Brand Film", description: "Digital Ads and Shoulder Content for Nissan Gravite" },
+  { slug: "sparx", name: "Sparx", category: "UGC / Social", description: "Celebrity campaigns, digital ads." },
+  { slug: "bering", name: "Bering Watches", category: "Product Film", description: "Digital Ads, Model + Product Campaigns." },
+  { slug: "afnan", name: "Afnan Perfumes", category: "Brand Campaign", description: "Celebrity campaigns, digital ads." },
+  { slug: "flite", name: "Flite x Ali Fazal & Sania Malhotra", category: "Brand Campaign", description: "Celebrity campaigns, digital ads." },
+  { slug: "nissan-gravite-launch", name: "Nissan Gravite Launch Event", category: "Event Coverage", description: "Full Event Coverage and live edits" },
+  { slug: "bagicha-wilderness", name: "Bagicha Wilderness", category: "Property Photography & Video", description: "Interior, space, and property photos and videos" },
+  { slug: "bhagat-tarachand", name: "Bhagat Tarachand", category: "Property Photography & Video", description: "Interior, space, and property photos and videos" },
 ];
 
 export default async function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {

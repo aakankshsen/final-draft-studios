@@ -9,6 +9,10 @@ const projects = [
   { slug: "sparx", name: "Sparx", category: "UGC / Social" },
   { slug: "bering", name: "Bering Watches", category: "Product Film" },
   { slug: "afnan", name: "Afnan Perfumes", category: "Brand Campaign" },
+  { slug: "flite", name: "Flite x Ali Fazal & Sania Malhotra", category: "Brand Campaign" },
+  { slug: "nissan-gravite-launch", name: "Nissan Gravite Launch Event", category: "Event Coverage" },
+  { slug: "bagicha-wilderness", name: "Bagicha Wilderness", category: "Property Photography & Video" },
+  { slug: "bhagat-tarachand", name: "Bhagat Tarachand", category: "Property Photography & Video" },
 ];
 
 export default function WorkListPage() {
