@@ -15,79 +15,43 @@ export default function ArrowTransition() {
     if (!sectionRef.current || !arrowWrapRef.current || !textRef.current) return;
 
     const section = sectionRef.current;
-    let handleTouchScroll: (() => void) | undefined;
     const ctx = gsap.context(() => {
       const isTouch =
         ScrollTrigger.isTouch ||
         window.matchMedia("(pointer: coarse)").matches ||
         navigator.maxTouchPoints > 0;
-      const tl = gsap.timeline(
-        isTouch
-          ? { paused: true }
-          : {
-              scrollTrigger: {
-                trigger: section,
-                start: "top top",
-                end: "+=150%",
-                scrub: 0.6,
-                pin: true,
-                invalidateOnRefresh: true,
-              },
-            }
-      );
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: "top top",
+          end: isTouch ? "+=100%" : "+=150%",
+          scrub: isTouch ? true : 0.6,
+          pin: !isTouch,
+          invalidateOnRefresh: true,
+        },
+      });
 
       tl.fromTo(
         textRef.current,
         { opacity: 1, y: 0 },
-        { opacity: 0, y: -40, duration: isTouch ? 0.7 : 1, ease: isTouch ? "power2.inOut" : "none" },
+        { opacity: 0, y: -40, ease: "none" },
         0
-      );
-
-      if (isTouch) {
-        tl.fromTo(
-          arrowWrapRef.current,
-          { opacity: 0, y: 20, scale: 0.9 },
-          { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: "power2.inOut" },
-          0.1
-        ).to(
-          arrowWrapRef.current,
-          { scale: 1.7, opacity: 0, duration: 0.7, ease: "power2.inOut", transformOrigin: "center" },
-          0.75
-        );
-
-        handleTouchScroll = () => {
-          const bounds = section.getBoundingClientRect();
-          const isInView = bounds.top < window.innerHeight * 0.8 && bounds.bottom > window.innerHeight * 0.2;
-
-          if (isInView) {
-            tl.play();
-          } else if (bounds.top >= window.innerHeight) {
-            tl.reverse();
-          }
-        };
-        window.addEventListener("scroll", handleTouchScroll, { passive: true });
-        handleTouchScroll();
-      } else {
-        tl.fromTo(
+      )
+        .fromTo(
           arrowWrapRef.current,
           { clipPath: "inset(100% 0% 0% 0%)" },
           { clipPath: "inset(0% 0% 0% 0%)", ease: "none" },
           0.1
-        ).fromTo(
+        )
+        .fromTo(
           arrowWrapRef.current,
           { scale: 1, opacity: 1 },
           { scale: 1.7, opacity: 0, ease: "none", transformOrigin: "center" },
           0.75
         );
-      }
     }, sectionRef);
 
-    return () => {
-      if (handleTouchScroll) {
-        window.removeEventListener("scroll", handleTouchScroll);
-      }
-      ctx.revert();
-    };
+    return () => ctx.revert();
   }, []);
 
   return (
