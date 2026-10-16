@@ -4,7 +4,6 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Reveal from "@/components/Reveal";
 import { services } from "@/data/services";
-import { ArrowUpRight } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -58,7 +57,7 @@ export default function Deliverables() {
             className="border-t border-white/10 last:border-b py-5"
           >
             <h3 className="flex items-center justify-center gap-3 text-center font-semibold text-lg text-paper">
-              <ArrowUpRight size={16} className="text-amber shrink-0" />
+              <span aria-hidden="true" className="h-2 w-2 rounded-full bg-amber shrink-0" />
               {service}
             </h3>
           </div>

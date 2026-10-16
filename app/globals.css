@@ -24,7 +24,7 @@ body {
   background-color: #0a0a0a;
   background-image: radial-gradient(
     circle,
-    rgba(245, 166, 35, 0.6) 3px,
+    #f5a623 3px,
     transparent 3px
   );
   background-size: 24px 16px;

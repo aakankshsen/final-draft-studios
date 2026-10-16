@@ -3,7 +3,7 @@ import { useRef } from "react";
 
 const slides = [
   {
-    tags: ["Direction", "Cinematography", "Colour", "Sound Design"],
+    tags: ["Digital Campaigns", "Photoshoots", "Events"],
     title: ["Showreel", "2025"],
     assetLabel: "CLIENT ASSET — Brand film reel / hero video",
     videoSrc: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/FinalDraftLV_1.mp4",
@@ -16,7 +16,7 @@ export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   return (
-    <div className="bg-ink pt-24">
+    <div className="bg-ink pt-4 md:pt-6">
       {slides.map((slide) => (
         <div
           key={slide.counter}
