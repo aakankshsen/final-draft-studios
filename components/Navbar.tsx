@@ -11,7 +11,8 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
 
   const links = [
-    { href: `${pathname === "/" ? "" : "/"}#work`, label: "Work" },
+    { href: "/", label: "Home" },
+    { href: "/work", label: "Work" },
     { href: `${pathname === "/" ? "" : "/"}#deliverables`, label: "Services" },
     { href: `${pathname === "/" ? "" : "/"}#studio`, label: "Studio" },
     { href: "/about", label: "About Us" },

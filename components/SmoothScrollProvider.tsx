@@ -6,6 +6,14 @@ import Lenis from "lenis";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const isAssetTarget = (target: EventTarget | null) => {
+  if (!(target instanceof Element)) return false;
+  if (target.closest("img, video, audio, svg")) return true;
+
+  const href = target.closest("a[href]")?.getAttribute("href");
+  return Boolean(href && /\.(avif|gif|jpe?g|mp4|png|svg|webm|webp)(?:$|[?#])/i.test(href));
+};
+
 export default function SmoothScrollProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const lenis = new Lenis();
@@ -36,5 +44,17 @@ export default function SmoothScrollProvider({ children }: { children: React.Rea
     };
   }, []);
 
-  return <>{children}</>;
+  return (
+    <div
+      className="contents"
+      onContextMenuCapture={(event) => {
+        if (isAssetTarget(event.target)) event.preventDefault();
+      }}
+      onDragStartCapture={(event) => {
+        if (isAssetTarget(event.target)) event.preventDefault();
+      }}
+    >
+      {children}
+    </div>
+  );
 }

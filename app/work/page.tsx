@@ -91,7 +91,6 @@ export default function WorkListPage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-70 transition-opacity group-hover:opacity-100" />
               </div>
-              <div className="font-mono text-[11px] tracking-wide uppercase text-amber mb-2">{project.category}</div>
               <h2 className="w-fit text-paper text-lg sm:text-xl font-semibold transition-colors duration-300 group-hover:text-amber">
                 {project.name}
               </h2>
