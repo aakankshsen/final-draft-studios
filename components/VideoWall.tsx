@@ -22,7 +22,7 @@ export type PortfolioAsset = PortfolioVideo | PortfolioImage;
 type VideoWallProps = {
   videos: PortfolioAsset[];
   label: string;
-  layout?: "portrait" | "landscape" | "launch-event" | "mixed";
+  layout?: "portrait" | "landscape" | "launch-event" | "mixed" | "portrait-centered-last";
   hideCaptions?: boolean;
 };
 
@@ -142,7 +142,9 @@ export default function VideoWall({ videos, label, layout = "portrait", hideCapt
       ? "mx-auto grid max-w-[58rem] grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-6 lg:gap-6"
       : layout === "mixed"
         ? "mx-auto grid max-w-[72rem] grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6"
-        : `grid grid-cols-1 gap-5 sm:grid-cols-2 ${layout === "portrait" ? "lg:grid-cols-3 lg:gap-6" : "lg:grid-cols-2 lg:gap-8"}`;
+        : layout === "portrait-centered-last"
+          ? "mx-auto grid max-w-[58rem] grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6"
+      : `grid grid-cols-1 gap-5 sm:grid-cols-2 ${layout === "portrait" ? "lg:grid-cols-3 lg:gap-6" : "lg:grid-cols-2 lg:gap-8"}`;
 
   return (
     <>
@@ -163,6 +165,8 @@ export default function VideoWall({ videos, label, layout = "portrait", hideCapt
                   ? "lg:col-start-2"
                   : layout === "mixed" && index === 9
                     ? "lg:col-start-3"
+                    : layout === "portrait-centered-last" && index === videos.length - 1
+                      ? "sm:col-span-2 sm:w-1/2 sm:justify-self-center lg:col-span-1 lg:col-start-2 lg:w-auto"
                     : ""
             }`}
           >
@@ -193,7 +197,7 @@ export default function VideoWall({ videos, label, layout = "portrait", hideCapt
                     });
                   }}
                   className={`w-full bg-white/5 ${
-                    layout === "portrait" || layout === "mixed" || (layout === "launch-event" && index > 0)
+                    layout === "portrait" || layout === "mixed" || layout === "portrait-centered-last" || (layout === "launch-event" && index > 0)
                       ? `aspect-[9/16] ${layout === "portrait" ? "object-cover" : "object-contain"}`
                       : "aspect-video object-contain"
                   }`}
@@ -256,7 +260,7 @@ export default function VideoWall({ videos, label, layout = "portrait", hideCapt
 
           <div
             className={`relative flex max-h-[88vh] flex-col ${
-              layout === "portrait" || layout === "mixed"
+              layout === "portrait" || layout === "mixed" || layout === "portrait-centered-last"
                 ? "h-[88vh] w-auto max-w-[min(76vw,calc(88vh*9/16))] aspect-[9/16]"
                 : "aspect-video w-[min(88vw,calc(78vh*16/9))]"
             }`}

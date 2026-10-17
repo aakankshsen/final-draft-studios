@@ -93,6 +93,75 @@ const nissanVideos: PortfolioVideo[] = [
   },
 ];
 
+const sparxChunkyVideos: PortfolioVideo[] = [
+  {
+    title: "Apology",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Sparx/Sparx%20x%20Chunky%20Pandey/Apology%20006.mp4",
+  },
+  {
+    title: "GenZ Rev",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Sparx/Sparx%20x%20Chunky%20Pandey/GenZ%20Rev%203.mp4",
+  },
+  {
+    title: "BTS",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Sparx/Sparx%20x%20Chunky%20Pandey/BTS%20FINAL%20opt1.mp4",
+  },
+  {
+    title: "Jutsu",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Sparx/Sparx%20x%20Chunky%20Pandey/Jutsu%202_1.mp4",
+  },
+];
+
+const sparxRaghuVideos: PortfolioVideo[] = [
+  {
+    title: "Rapid Fire",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Sparx/Sparx%20x%20Raghu%20Rajiv/Rapid%20Fire%20rev4.mp4",
+  },
+  {
+    title: "Target Audience",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Sparx/Sparx%20x%20Raghu%20Rajiv/TARGET%20AUDIENCE.mp4",
+  },
+  {
+    title: "Shoe or Sanda",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Sparx/Sparx%20x%20Raghu%20Rajiv/SHOE%20OR%20SANDA.mp4",
+  },
+  {
+    title: "Sparx Recap",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Sparx/Sparx%20x%20Raghu%20Rajiv/SPARX%20RECAP5.mp4",
+  },
+];
+
+const fliteVideos: PortfolioVideo[] = [
+  {
+    title: "Teaser",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Sparx/Flite%20x%20Ali%20Fazal%20%26%20Saniya%20Malhotra/Teaser.mp4",
+  },
+  {
+    title: "Reveal",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Sparx/Flite%20x%20Ali%20Fazal%20%26%20Saniya%20Malhotra/Reveal_9.mp4",
+  },
+  {
+    title: "Reel 1",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Sparx/Flite%20x%20Ali%20Fazal%20%26%20Saniya%20Malhotra/Reel%201.mp4",
+  },
+  {
+    title: "Lights Camera Buckle",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Sparx/Flite%20x%20Ali%20Fazal%20%26%20Saniya%20Malhotra/Lights%20Camera%20Buckle_7.mp4",
+  },
+  {
+    title: "Diwali",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Sparx/Flite%20x%20Ali%20Fazal%20%26%20Saniya%20Malhotra/Diwali-_2.mp4",
+  },
+  {
+    title: "Eid",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Sparx/Flite%20x%20Ali%20Fazal%20%26%20Saniya%20Malhotra/Eid-.mp4",
+  },
+  {
+    title: "Reel 2 Happier",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Sparx/Flite%20x%20Ali%20Fazal%20%26%20Saniya%20Malhotra/Reel%202%20Happier.mp4",
+  },
+];
+
 const nissanGraviteLaunchVideos: PortfolioVideo[] = [
   {
     title: "After Movie",
@@ -222,13 +291,22 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   const photos = slug === "lakme" ? lakmePhotos : null;
   const isNissanGraviteLaunch = slug === "nissan-gravite-launch";
   const isBering = slug === "bering";
+  const isSparxChunky = slug === "afnan";
+  const isSparxRaghu = slug === "sparx";
+  const isFlite = slug === "flite";
   const videos = slug === "nissan"
     ? nissanVideos
     : isNissanGraviteLaunch
       ? nissanGraviteLaunchVideos
       : isBering
         ? beringAssets
-        : null;
+        : isSparxChunky
+          ? sparxChunkyVideos
+          : isSparxRaghu
+            ? sparxRaghuVideos
+            : isFlite
+              ? fliteVideos
+            : null;
   const project = projects.find((p) => p.slug === slug) ?? projects[0];
 
   return (
@@ -294,7 +372,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
               <PhotoWall photos={photos} layouts={photoWallLayouts} label="Lakmē Sun Expert" />
             ) : videos ? (
               <div>
-                {!isNissanGraviteLaunch && (
+                {!isNissanGraviteLaunch && !isSparxChunky && !isSparxRaghu && !isFlite && (
                   <h2 className="mb-5 text-xs font-medium tracking-[0.2em] text-dim uppercase">
                     Campaign films
                   </h2>
@@ -302,7 +380,15 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
                 <VideoWall
                   videos={videos}
                   label={project.name}
-                  layout={isNissanGraviteLaunch ? "launch-event" : isBering ? "mixed" : "portrait"}
+                  layout={
+                    isNissanGraviteLaunch
+                      ? "launch-event"
+                      : isBering
+                        ? "mixed"
+                        : isSparxChunky || isSparxRaghu || isFlite
+                            ? "portrait-centered-last"
+                          : "portrait"
+                  }
                   hideCaptions
                 />
               </div>
