@@ -10,6 +10,7 @@ type PhotoWallProps = {
 };
 
 export default function PhotoWall({ photos, layouts, label }: PhotoWallProps) {
+  const orderedPhotos = [...photos].reverse();
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const isOpen = activeIndex !== null;
   const closeButtonRef = useRef<HTMLButtonElement>(null);
@@ -64,7 +65,7 @@ export default function PhotoWall({ photos, layouts, label }: PhotoWallProps) {
   return (
     <>
       <div className="columns-1 gap-3 sm:columns-2 lg:columns-4">
-        {photos.map((src, index) => (
+        {orderedPhotos.map((src, index) => (
           <button
             key={src}
             type="button"
@@ -92,7 +93,7 @@ export default function PhotoWall({ photos, layouts, label }: PhotoWallProps) {
               fill
               loading="lazy"
               sizes="(min-width: 1024px) 23vw, (min-width: 640px) 45vw, 100vw"
-              className="object-cover transition-transform duration-700 hover:scale-[1.02]"
+              className="object-contain"
             />
           </button>
         ))}
@@ -133,8 +134,8 @@ export default function PhotoWall({ photos, layouts, label }: PhotoWallProps) {
             onClick={(event) => event.stopPropagation()}
           >
             <Image
-              key={photos[activeIndex]}
-              src={photos[activeIndex]}
+              key={orderedPhotos[activeIndex]}
+              src={orderedPhotos[activeIndex]}
               alt={`${label} portfolio photo ${activeIndex + 1}`}
               fill
               sizes="100vw"

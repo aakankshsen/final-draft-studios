@@ -2,7 +2,7 @@ import Navbar from "@/components/Navbar";
 import CustomCursor from "@/components/CustomCursor";
 import NeedsContent from "@/components/NeedsContent";
 import PhotoWall from "@/components/PhotoWall";
-import VideoWall, { type PortfolioVideo } from "@/components/VideoWall";
+import VideoWall, { type PortfolioAsset, type PortfolioVideo } from "@/components/VideoWall";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -62,21 +62,6 @@ const lakmePhotos = [
 
 const nissanVideos: PortfolioVideo[] = [
   {
-    title: "Sunset W Music",
-    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Nissan%20x%20Lakshya/SUNSET%20W%20MUSIC.mp4",
-    poster: "/work/nissan/01.jpg",
-  },
-  {
-    title: "Onam",
-    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Nissan%20x%20Lakshya/ONAM%20FINAL.mp4",
-    poster: "/work/nissan/02.jpg",
-  },
-  {
-    title: "Meeting Friends W Music",
-    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Nissan%20x%20Lakshya/MEETING%20FRIENDS%20W%20MUSIC.mp4",
-    poster: "/work/nissan/03.jpg",
-  },
-  {
     title: "Diwali",
     src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Nissan%20x%20Lakshya/DIWALI%20FINAL.mp4",
     poster: "/work/nissan/04.jpg",
@@ -87,9 +72,98 @@ const nissanVideos: PortfolioVideo[] = [
     poster: "/work/nissan/05.jpg",
   },
   {
+    title: "Sunset W Music",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Nissan%20x%20Lakshya/SUNSET%20W%20MUSIC.mp4",
+    poster: "/work/nissan/01.jpg",
+  },
+  {
+    title: "Meeting Friends W Music",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Nissan%20x%20Lakshya/MEETING%20FRIENDS%20W%20MUSIC.mp4",
+    poster: "/work/nissan/03.jpg",
+  },
+  {
     title: "BTS Day 1",
     src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Nissan%20x%20Lakshya/BTS%20DAY%201.mp4",
     poster: "/work/nissan/06.jpg",
+  },
+  {
+    title: "Onam Final",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Nissan%20x%20Lakshya/ONAM%20FINAL.mp4",
+    poster: "/work/nissan/02.jpg",
+  },
+];
+
+const nissanGraviteLaunchVideos: PortfolioVideo[] = [
+  {
+    title: "After Movie",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Nissan%20Gravite%20Launch%20event/After%20Movie_1.mp4",
+  },
+  {
+    title: "Udaipur",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Nissan%20Gravite%20Launch%20event/Udaipur.mp4",
+  },
+  {
+    title: "Entry",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Nissan%20Gravite%20Launch%20event/Entry.mp4",
+  },
+  {
+    title: "Montage",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Nissan%20Gravite%20Launch%20event/Montage.mp4",
+  },
+  {
+    title: "Mix 1",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Nissan%20Gravite%20Launch%20event/Mix%201.mp4",
+  },
+  {
+    title: "Mix 2",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Nissan%20Gravite%20Launch%20event/Mix%202.mp4",
+  },
+];
+
+const beringAssets: PortfolioAsset[] = [
+  {
+    title: "Product 1",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Bering%20Watches/PRODUCT%201%20FINAL.mp4",
+  },
+  {
+    title: "Video 2",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Bering%20Watches/VIDEO%202%20VERTICAL%20FINAL%20.mp4%20.mp4",
+  },
+  {
+    title: "Video 4",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Bering%20Watches/VIDEO%204%20FINAL.mp4",
+  },
+  {
+    title: "Video 5",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Bering%20Watches/VIDEO%205%20FINAL.mp4",
+  },
+  {
+    type: "image",
+    title: "Bering Watch 1",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Bering%20Watches/DSC00185A%20copy.jpg",
+  },
+  {
+    type: "image",
+    title: "Bering Watch 2",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Bering%20Watches/Copy%20of%20axadwsf_sgsg_254.jpg",
+  },
+  {
+    type: "image",
+    title: "Bering Watch 3",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Bering%20Watches/DSC00219.png",
+  },
+  {
+    type: "image",
+    title: "Bering Watch 4",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Bering%20Watches/DSC00370.png",
+  },
+  {
+    title: "Male 2",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Bering%20Watches/MALE%202%20CHANGED.mp4",
+  },
+  {
+    title: "Female 3",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Bering%20Watches/FEMALE%203%20FINAL.mp4",
   },
 ];
 
@@ -146,7 +220,15 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   const isPropertyCollection = slug === "property-and-interiors";
   const isSparxFliteCollection = slug === "sparx-and-flite";
   const photos = slug === "lakme" ? lakmePhotos : null;
-  const videos = slug === "nissan" ? nissanVideos : null;
+  const isNissanGraviteLaunch = slug === "nissan-gravite-launch";
+  const isBering = slug === "bering";
+  const videos = slug === "nissan"
+    ? nissanVideos
+    : isNissanGraviteLaunch
+      ? nissanGraviteLaunchVideos
+      : isBering
+        ? beringAssets
+        : null;
   const project = projects.find((p) => p.slug === slug) ?? projects[0];
 
   return (
@@ -212,10 +294,17 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
               <PhotoWall photos={photos} layouts={photoWallLayouts} label="Lakmē Sun Expert" />
             ) : videos ? (
               <div>
-                <h2 className="mb-5 text-xs font-medium tracking-[0.2em] text-dim uppercase">
-                  Campaign films
-                </h2>
-                <VideoWall videos={videos} label={project.name} />
+                {!isNissanGraviteLaunch && (
+                  <h2 className="mb-5 text-xs font-medium tracking-[0.2em] text-dim uppercase">
+                    Campaign films
+                  </h2>
+                )}
+                <VideoWall
+                  videos={videos}
+                  label={project.name}
+                  layout={isNissanGraviteLaunch ? "launch-event" : isBering ? "mixed" : "portrait"}
+                  hideCaptions
+                />
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-4 sm:gap-5 lg:gap-6">
