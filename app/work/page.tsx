@@ -9,7 +9,7 @@ const projects = [
     name: "Lakmē Sun Expert",
     category: "Ad Film",
     description: "Quick Commerce Digital Campaign for Lakme’s Sunscreen range",
-    image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Lakme%20Sun%20Expert/Lakme-tint-(model)1505.jpg",
+    image: "/work/lakme/cover.jpg",
     layout: "lg:col-span-7",
     imageRatio: "aspect-[4/3] sm:aspect-[1.2/1] lg:aspect-[1.35/1]",
   },
@@ -60,6 +60,13 @@ const projects = [
   },
 ];
 
+const eagerThumbnailSlugs = new Set([
+  "bering",
+  "sparx-and-flite",
+  "nissan-gravite-launch",
+  "property-and-interiors",
+]);
+
 export default function WorkListPage() {
   return (
     <main className="min-h-screen bg-ink">
@@ -83,7 +90,7 @@ export default function WorkListPage() {
                   src={project.image}
                   alt={project.name}
                   fill
-                  priority={project.slug === "lakme"}
+                  priority={project.slug === "lakme" || eagerThumbnailSlugs.has(project.slug)}
                   sizes="(min-width: 1024px) 60vw, (min-width: 640px) 50vw, 100vw"
                   className={`object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03] ${
                     project.slug === "sparx-and-flite" ? "object-[center_25%]" : ""

@@ -6,7 +6,7 @@ import Link from "next/link";
 import { ChevronLeft, ChevronRight, ArrowUpRight } from "lucide-react";
 
 const projects = [
-  { slug: "lakme", name: "Lakmē Sun Expert", category: "Ad Film", description: "Quick Commerce Digital Campaign for Lakme’s Sunscreen range", image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Lakme%20Sun%20Expert/Lakme-tint-(model)1505.jpg" },
+  { slug: "lakme", name: "Lakmē Sun Expert", category: "Ad Film", description: "Quick Commerce Digital Campaign for Lakme’s Sunscreen range", image: "/work/lakme/cover.jpg" },
   { slug: "nissan", name: "Nissan x Lakshya", category: "Brand Film", description: "Digital Ads and Shoulder Content for Nissan Gravite", image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/lakshyaaaa.webp" },
   { slug: "bering", name: "Bering Watches", category: "Product Film", description: "Digital Ads, Model + Product Campaigns.", image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Bering%20Watches/DSC00219.png" },
   { slug: "sparx-and-flite", name: "Sparx & Flite", category: "Brand Campaign", description: "Celebrity campaigns, digital ads.", image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/Screenshot%202026-10-15%20at%206.37.55%E2%80%AFPM.png" },
@@ -14,10 +14,18 @@ const projects = [
   { slug: "property-and-interiors", name: "Property and Interiors", category: "Property Photography & Video", description: "Interior, space, and property photos and videos", image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/Bagicha.jpg" },
 ];
 
+const eagerThumbnailSlugs = new Set([
+  "bering",
+  "sparx-and-flite",
+  "nissan-gravite-launch",
+  "property-and-interiors",
+]);
+
 export default function OurWork() {
   const [index, setIndex] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const timelineRef = useRef<gsap.core.Timeline | null>(null);
   const isAnimatingRef = useRef(false);
   const touchStartRef = useRef<{ x: number; y: number } | null>(null);
   const suppressClickRef = useRef(false);
@@ -29,22 +37,39 @@ export default function OurWork() {
     const resetTrack = () => {
       const firstSlot = track.firstElementChild as HTMLElement | null;
       if (!firstSlot) return;
-      const centerOffset = window.matchMedia("(min-width: 768px)").matches ? 1 : 2;
+      const carouselWidth = carouselRef.current?.clientWidth ?? firstSlot.offsetWidth;
+      const centerOffset = firstSlot.offsetWidth > carouselWidth * 0.6 ? 2 : 1;
 
+      timelineRef.current?.kill();
+      timelineRef.current = null;
+      isAnimatingRef.current = false;
       gsap.set(track.querySelectorAll<HTMLElement>("[data-carousel-card]"), {
         clearProps: "transform,opacity,visibility",
       });
       gsap.set(track, { x: -firstSlot.offsetWidth * centerOffset });
-      isAnimatingRef.current = false;
     };
 
-    const handleResize = () => {
-      if (!isAnimatingRef.current) resetTrack();
+    let resizeFrame = 0;
+    const scheduleReset = () => {
+      cancelAnimationFrame(resizeFrame);
+      resizeFrame = requestAnimationFrame(() => {
+        resizeFrame = requestAnimationFrame(() => {
+          resizeFrame = 0;
+          resetTrack();
+        });
+      });
     };
 
     resetTrack();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    const carousel = carouselRef.current;
+    const observer = carousel ? new ResizeObserver(scheduleReset) : null;
+    if (carousel) observer?.observe(carousel);
+    window.addEventListener("resize", scheduleReset);
+    return () => {
+      window.removeEventListener("resize", scheduleReset);
+      observer?.disconnect();
+      cancelAnimationFrame(resizeFrame);
+    };
   }, [index]);
 
   const shiftCarousel = (direction: number) => {
@@ -63,13 +88,16 @@ export default function OurWork() {
 
     isAnimatingRef.current = true;
     const slotWidth = firstSlot.offsetWidth;
-    const centerOffset = window.matchMedia("(min-width: 768px)").matches ? 1 : 2;
+    const carouselWidth = carouselRef.current?.clientWidth ?? slotWidth;
+    const centerOffset = slotWidth > carouselWidth * 0.6 ? 2 : 1;
     const targetX = -slotWidth * (centerOffset + direction);
     const timeline = gsap.timeline({
       onComplete: () => {
+        timelineRef.current = null;
         setIndex((i) => (i + direction + projects.length) % projects.length);
       },
     });
+    timelineRef.current = timeline;
 
     timeline
       .to(track, { x: targetX, duration: 0.65, ease: "power2.inOut" }, 0)
@@ -167,6 +195,7 @@ export default function OurWork() {
                   src={project.image}
                   alt=""
                   fill
+                  priority={isCenter || eagerThumbnailSlugs.has(project.slug)}
                   sizes="(min-width: 768px) 33vw, 100vw"
                   className={`${project.slug === "sparx-and-flite" ? "object-cover object-top" : project.slug === "sparx" || project.slug === "afnan" || project.slug === "flite" ? "object-contain" : "object-cover"} ${project.slug === "afnan" ? "scale-[1.3] -translate-y-[8%]" : ""} transition-[filter,transform] duration-700 ease-out ${isCenter ? "group-hover:brightness-110 group-hover:saturate-110 rounded-2xl" : "group-hover:scale-105 rounded-xl"}`}
                 />
