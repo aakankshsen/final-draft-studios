@@ -1,22 +1,143 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { TouchEvent } from "react";
 
 type PhotoWallProps = {
   photos: string[];
-  layouts: string[];
   label: string;
+  /** No longer used for sizing. Kept optional so pages that still pass it don't break. */
+  layouts?: string[];
+  /** Optional: real pixel size of each photo, in the same order as `photos`. */
+  dimensions?: { width: number; height: number }[];
 };
 
-export default function PhotoWall({ photos, layouts, label }: PhotoWallProps) {
-  const orderedPhotos = [...photos].reverse();
+// ---- tweak these to change how the wall looks ----
+// Target row height in px at each screen size (bigger = bigger photos, fewer per row)
+const BASE_HEIGHT = { desktop: 380, tablet: 300, mobile: 220 };
+// Row heights cycle through these multipliers, which is what gives different frame sizes
+const ROW_SCALES = [1, 0.8, 1.2, 0.9, 1.3, 0.85];
+// Show the wall after this long even if some photos haven't reported their shape
+const MAX_WAIT_MS = 4000;
+
+type Row = { items: number[]; height: number; centered: boolean };
+
+function buildRows(ratios: number[], width: number): { rows: Row[]; gap: number } {
+  const gap = width >= 1024 ? 16 : 12;
+  const base =
+    width >= 1024 ? BASE_HEIGHT.desktop : width >= 640 ? BASE_HEIGHT.tablet : BASE_HEIGHT.mobile;
+
+  // height a row needs so its photos exactly fill the full width
+  const fit = (idxs: number[]) => {
+    const sum = idxs.reduce((s, i) => s + ratios[i], 0);
+    return (width - gap * (idxs.length - 1)) / sum;
+  };
+
+  const rows: Row[] = [];
+  let row: number[] = [];
+  const target = () => base * ROW_SCALES[rows.length % ROW_SCALES.length];
+
+  ratios.forEach((_, i) => {
+    if (row.length === 0) {
+      row = [i];
+      return;
+    }
+    const t = target();
+    const withIt = fit([...row, i]);
+    const without = fit(row);
+    if (Math.abs(withIt - t) <= Math.abs(without - t)) {
+      row.push(i);
+    } else {
+      rows.push({ items: row, height: without, centered: false });
+      row = [i];
+    }
+  });
+
+  if (row.length) {
+    const t = target();
+    const h = fit(row);
+    // a short last row would stretch huge, so keep it at target height and center it
+    if (h <= t * 1.35) rows.push({ items: row, height: h, centered: false });
+    else rows.push({ items: row, height: t, centered: true });
+  }
+
+  return { rows, gap };
+}
+
+// Re-mounts fresh whenever the list of photos changes
+export default function PhotoWall(props: PhotoWallProps) {
+  return <PhotoWallInner key={props.photos.join("|")} {...props} />;
+}
+
+function PhotoWallInner({ photos, label, dimensions }: PhotoWallProps) {
+  const orderedPhotos = photos;
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const isOpen = activeIndex !== null;
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const openerRef = useRef<HTMLButtonElement>(null);
   const touchStartRef = useRef<{ x: number; y: number } | null>(null);
+  const lightboxOpenRef = useRef(false);
+
+  const wallRef = useRef<HTMLDivElement>(null);
+  const [width, setWidth] = useState(0);
+  const [timedOut, setTimedOut] = useState(false);
+  const [ratios, setRatios] = useState<(number | null)[]>(() =>
+    photos.map((_, i) => {
+      const d = dimensions?.[i];
+      return d ? d.width / d.height : null;
+    }),
+  );
+
+  // photo shape (width / height), reported by each image once it loads
+  const reportRatio = useCallback((index: number, img: HTMLImageElement) => {
+    const r = img.naturalHeight ? img.naturalWidth / img.naturalHeight : 1;
+    setRatios((prev) => {
+      const current = prev[index];
+      if (current !== null && Math.abs(current - r) < 0.001) return prev;
+      const next = prev.slice();
+      next[index] = r;
+      return next;
+    });
+  }, []);
+
+  const reportFailed = useCallback((index: number) => {
+    setRatios((prev) => {
+      if (prev[index] !== null) return prev;
+      const next = prev.slice();
+      next[index] = 1;
+      return next;
+    });
+  }, []);
+
+  // never leave the wall hidden forever
+  useEffect(() => {
+    const timer = setTimeout(() => setTimedOut(true), MAX_WAIT_MS);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const ready = timedOut || ratios.every((r) => r !== null);
+
+  // track the wall's width
+  useEffect(() => {
+    const el = wallRef.current;
+    if (!el) return;
+    const update = () => {
+      // ignore the width change caused by the lightbox hiding the page scrollbar
+      if (lightboxOpenRef.current) return;
+      setWidth(Math.floor(el.getBoundingClientRect().width));
+    };
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  // group photos into rows (unknown shapes count as square until they load)
+  const layout = useMemo(
+    () => (width > 0 ? buildRows(ratios.map((r) => r ?? 1), width) : null),
+    [ratios, width],
+  );
 
   const closeGallery = useCallback(() => {
     setActiveIndex(null);
@@ -32,6 +153,10 @@ export default function PhotoWall({ photos, layouts, label }: PhotoWallProps) {
     },
     [photos.length],
   );
+
+  useEffect(() => {
+    lightboxOpenRef.current = isOpen;
+  }, [isOpen]);
 
   useEffect(() => {
     if (activeIndex === null) return;
@@ -85,39 +210,78 @@ export default function PhotoWall({ photos, layouts, label }: PhotoWallProps) {
 
   return (
     <>
-      <div className="columns-1 gap-3 sm:columns-2 lg:columns-4">
-        {orderedPhotos.map((src, index) => (
-          <button
-            key={src}
-            type="button"
-            aria-label={`Open ${label} photo ${index + 1} fullscreen`}
-            title="Double-click to view fullscreen"
-            onDoubleClick={(event) => openGallery(index, event.currentTarget)}
-            onClick={(event) => {
-              if (window.matchMedia("(hover: none)").matches) {
-                openGallery(index, event.currentTarget);
-              }
-            }}
-            onKeyDown={(event) => {
-              if (event.key === "Enter" || event.key === " ") {
-                event.preventDefault();
-                openGallery(index, event.currentTarget);
-              }
-            }}
-            className={`relative mb-3 inline-block w-full break-inside-avoid overflow-hidden bg-white/5 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber ${
-              layouts[index % layouts.length]
-            }`}
-          >
-            <Image
-              src={src}
-              alt={`${label} portfolio photo ${index + 1}`}
-              fill
-              loading="lazy"
-              sizes="(min-width: 1024px) 23vw, (min-width: 640px) 45vw, 100vw"
-              className="object-contain"
-            />
-          </button>
-        ))}
+      <div
+        ref={wallRef}
+        style={{ position: "relative", width: "100%", minHeight: layout ? undefined : 240 }}
+      >
+        {!ready && (
+          <p className="absolute inset-x-0 top-10 text-center font-mono text-xs tracking-widest text-dim">
+            LOADING PHOTOS…
+          </p>
+        )}
+
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: layout?.gap ?? 12,
+            opacity: ready ? 1 : 0,
+            transition: "opacity 400ms ease",
+          }}
+        >
+          {layout?.rows.map((row, r) => (
+            <div
+              key={r}
+              style={{
+                display: "flex",
+                alignItems: "flex-start",
+                gap: layout.gap,
+                justifyContent: row.centered ? "center" : "flex-start",
+              }}
+            >
+              {row.items.map((index) => {
+                const ratio = ratios[index] ?? 1;
+                return (
+                  <button
+                    key={orderedPhotos[index]}
+                    type="button"
+                    aria-label={`Open ${label} photo ${index + 1} fullscreen`}
+                    title="Double-click to view fullscreen"
+                    onDoubleClick={(event) => openGallery(index, event.currentTarget)}
+                    onClick={(event) => {
+                      if (window.matchMedia("(hover: none)").matches) {
+                        openGallery(index, event.currentTarget);
+                      }
+                    }}
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter" || event.key === " ") {
+                        event.preventDefault();
+                        openGallery(index, event.currentTarget);
+                      }
+                    }}
+                    style={
+                      row.centered
+                        ? { width: ratio * row.height, height: row.height, flex: "0 0 auto" }
+                        : { height: row.height, flex: `${ratio} 1 0%`, minWidth: 0 }
+                    }
+                    className="relative block overflow-hidden bg-transparent text-left ring-1 ring-white/10 transition-shadow hover:ring-amber/60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber"
+                  >
+                    <Image
+                      src={orderedPhotos[index]}
+                      alt={`${label} portfolio photo ${index + 1}`}
+                      fill
+                      loading="eager"
+                      sizes="(min-width: 1024px) 45vw, 100vw"
+                      onLoad={(event) => reportRatio(index, event.currentTarget)}
+                      onError={() => reportFailed(index)}
+                      className="object-contain"
+                    />
+                  </button>
+                );
+              })}
+            </div>
+          ))}
+        </div>
       </div>
 
       {activeIndex !== null && (
