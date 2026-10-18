@@ -322,6 +322,26 @@ const localVideoPosters: Record<string, Array<string | undefined>> = {
     "flite-eid.jpg",
     "flite-reel-2-happier.jpg",
   ].map((file) => `/work/posters/${file}`),
+  "nissan-gravite-launch": [
+    "gravite-after-movie.jpg",
+    "gravite-udaipur.jpg",
+    "gravite-entry.jpg",
+    "gravite-montage.jpg",
+    "gravite-mix-1.jpg",
+    "gravite-mix-2.jpg",
+  ].map((file) => `/work/posters/${file}`),
+  bering: [
+    "bering-product-1.jpg",
+    "bering-video-2.jpg",
+    "bering-video-4.jpg",
+    "bering-video-5.jpg",
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    "bering-male-2.jpg",
+    "bering-female-3.jpg",
+  ].map((file) => file ? `/work/posters/${file}` : undefined),
 };
 
 export default async function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {
