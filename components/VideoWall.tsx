@@ -3,6 +3,7 @@
 import { Expand, X } from "lucide-react";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
+import type { TouchEvent } from "react";
 
 export type PortfolioVideo = {
   type?: "video";
@@ -39,6 +40,7 @@ export default function VideoWall({ videos, label, defaultPoster, layout = "port
   const openerRef = useRef<HTMLButtonElement>(null);
   const fullscreenButtonRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const gridVideoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
   const isOpen = activeVideo !== null;
 
   const openFullscreen = useCallback(
@@ -79,6 +81,25 @@ export default function VideoWall({ videos, label, defaultPoster, layout = "port
     },
     [videos.length],
   );
+
+  const handleTouchStart = (event: TouchEvent<HTMLDivElement>) => {
+    const touch = event.touches[0];
+    if (!touch) return;
+    touchStartRef.current = { x: touch.clientX, y: touch.clientY };
+  };
+
+  const handleTouchEnd = (event: TouchEvent<HTMLDivElement>) => {
+    const start = touchStartRef.current;
+    const touch = event.changedTouches[0];
+    touchStartRef.current = null;
+    if (!start || !touch) return;
+
+    const deltaX = touch.clientX - start.x;
+    const deltaY = touch.clientY - start.y;
+    if (Math.abs(deltaX) < 50 || Math.abs(deltaX) <= Math.abs(deltaY) * 1.2) return;
+
+    moveVideo(deltaX < 0 ? 1 : -1);
+  };
 
   useEffect(() => {
     if (!isOpen) return;
@@ -261,12 +282,17 @@ export default function VideoWall({ videos, label, defaultPoster, layout = "port
           </button>
 
           <div
-            className={`relative flex max-h-[88vh] flex-col ${
+            className={`relative flex max-h-[88vh] touch-pan-y select-none flex-col overscroll-contain ${
               layout === "portrait" || layout === "mixed" || layout === "portrait-centered-last"
                 ? "h-[88vh] w-auto max-w-[min(76vw,calc(88vh*9/16))] aspect-[9/16]"
                 : "aspect-video w-[min(88vw,calc(78vh*16/9))]"
             }`}
             onClick={(event) => event.stopPropagation()}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+            onTouchCancel={() => {
+              touchStartRef.current = null;
+            }}
           >
             {activeAsset.type === "image" ? (
               <Image
