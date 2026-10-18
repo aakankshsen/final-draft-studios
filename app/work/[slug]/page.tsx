@@ -292,6 +292,38 @@ const portfolioVideoPosters: Record<string, string> = {
   bering: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Bering%20Watches/DSC00219.png",
 };
 
+const localVideoPosters: Record<string, Array<string | undefined>> = {
+  nissan: [
+    "nissan-diwali.jpg",
+    "nissan-compilation.jpg",
+    "nissan-sunset.jpg",
+    "nissan-meeting-friends.jpg",
+    "nissan-bts-day-1.jpg",
+    "nissan-onam.jpg",
+  ].map((file) => `/work/posters/${file}`),
+  afnan: [
+    "sparx-chunky-apology.jpg",
+    "sparx-chunky-genz-rev.jpg",
+    "sparx-chunky-bts.jpg",
+    "sparx-chunky-jutsu.jpg",
+  ].map((file) => `/work/posters/${file}`),
+  sparx: [
+    "sparx-raghu-rapid-fire.jpg",
+    "sparx-raghu-target-audience.jpg",
+    "sparx-raghu-shoe-or-sanda.jpg",
+    "sparx-raghu-recap.jpg",
+  ].map((file) => `/work/posters/${file}`),
+  flite: [
+    "flite-teaser.jpg",
+    "flite-reveal.jpg",
+    "flite-reel-1.jpg",
+    "flite-lights-camera-buckle.jpg",
+    "flite-diwali.jpg",
+    "flite-eid.jpg",
+    "flite-reel-2-happier.jpg",
+  ].map((file) => `/work/posters/${file}`),
+};
+
 export default async function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const isPropertyCollection = slug === "property-and-interiors";
@@ -316,6 +348,11 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
               ? fliteVideos
             : null;
   const project = projects.find((p) => p.slug === slug) ?? projects[0];
+  const videosWithPosters = videos?.map((asset, index) => (
+    asset.type === "image"
+      ? asset
+      : { ...asset, poster: localVideoPosters[slug]?.[index] ?? asset.poster }
+  ));
 
   return (
     <main className="min-h-screen bg-ink">
@@ -386,7 +423,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
                   </h2>
                 )}
                 <VideoWall
-                  videos={videos}
+                  videos={videosWithPosters ?? videos}
                   label={project.name}
                   defaultPoster={portfolioVideoPosters[slug]}
                   layout={
