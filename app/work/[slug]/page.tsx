@@ -284,6 +284,14 @@ const sparxFliteProjects = [
   },
 ];
 
+const portfolioVideoPosters: Record<string, string> = {
+  flite: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/Screenshot%202026-10-15%20at%206.37.55%E2%80%AFPM.png",
+  sparx: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/Screenshot%202026-10-15%20at%206.42.50%E2%80%AFPM.png",
+  afnan: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/Screenshot%202026-10-15%20at%206.46.33%E2%80%AFPM.png",
+  "nissan-gravite-launch": "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/6a8991bdcafcedc39a89628c_Nissan%20Gravite%20Image.webp",
+  bering: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Bering%20Watches/DSC00219.png",
+};
+
 export default async function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const isPropertyCollection = slug === "property-and-interiors";
@@ -380,6 +388,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
                 <VideoWall
                   videos={videos}
                   label={project.name}
+                  defaultPoster={portfolioVideoPosters[slug]}
                   layout={
                     isNissanGraviteLaunch
                       ? "launch-event"

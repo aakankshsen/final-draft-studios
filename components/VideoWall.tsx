@@ -22,6 +22,7 @@ export type PortfolioAsset = PortfolioVideo | PortfolioImage;
 type VideoWallProps = {
   videos: PortfolioAsset[];
   label: string;
+  defaultPoster?: string;
   layout?: "portrait" | "landscape" | "launch-event" | "mixed" | "portrait-centered-last";
   hideCaptions?: boolean;
 };
@@ -31,7 +32,7 @@ type ActiveVideo = {
   currentTime: number;
 };
 
-export default function VideoWall({ videos, label, layout = "portrait", hideCaptions = false }: VideoWallProps) {
+export default function VideoWall({ videos, label, defaultPoster, layout = "portrait", hideCaptions = false }: VideoWallProps) {
   const [activeVideo, setActiveVideo] = useState<ActiveVideo | null>(null);
   const [playbackError, setPlaybackError] = useState<string | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
@@ -176,6 +177,7 @@ export default function VideoWall({ videos, label, layout = "portrait", hideCapt
                   src={item.src}
                   alt={`${label}: ${item.title}`}
                   fill
+                  loading="eager"
                   unoptimized
                   sizes="(min-width: 1024px) 23vw, (min-width: 640px) 45vw, 100vw"
                   className="bg-white/5 object-contain"
@@ -189,7 +191,7 @@ export default function VideoWall({ videos, label, layout = "portrait", hideCapt
                   controlsList="nodownload"
                   playsInline
                   preload="metadata"
-                  poster={item.poster}
+                  poster={item.poster ?? defaultPoster}
                   aria-label={`${label}: ${item.title}`}
                   onPlay={() => {
                     gridVideoRefs.current.forEach((element, elementIndex) => {
@@ -284,7 +286,7 @@ export default function VideoWall({ videos, label, layout = "portrait", hideCapt
                 controlsList="nodownload"
                 playsInline
                 preload="metadata"
-                poster={activeAsset.poster}
+                poster={activeAsset.poster ?? defaultPoster}
                 autoPlay
                 aria-label={`${label}: ${activeAsset.title}`}
                 onLoadedMetadata={(event) => {
