@@ -8,15 +8,21 @@ gsap.registerPlugin(ScrollTrigger);
 
 const roughDraftAssets = [
   "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/BTS%20ASSETS/1568e892-05f2-4b91-9fbf-f19bd7360326.JPG",
-  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/BTS%20ASSETS/53c30a87-84c7-444d-b5b8-d145500d8d28.JPG",
-  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/BTS%20ASSETS/6763b731-c0d7-4f48-93a2-28484e166f12%202.JPG",
+  "/work/rough-draft/2.jpg",
   "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/BTS%20ASSETS/IMG_3512.PNG",
+  "/work/rough-draft/3.jpg",
   "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/BTS%20ASSETS/IMG_4025.PNG",
   "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/BTS%20ASSETS/IMG_4293.JPG",
+  "/work/rough-draft/4.jpg",
   "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/BTS%20ASSETS/IMG_6052.JPG",
-  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/BTS%20ASSETS/IMG_6064.JPG",
   "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/BTS%20ASSETS/IMG_6115.JPG",
   "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/BTS%20ASSETS/IMG_6409.JPG",
+  "/work/rough-draft/1.jpg",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/BTS%20ASSETS/IMG_8866.PNG",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/BTS%20ASSETS/IMG_8867.PNG",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/BTS%20ASSETS/IMG_9263.PNG",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/BTS%20ASSETS/IMG_9264.PNG",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/BTS%20ASSETS/IMG_9504.JPG",
 ];
 
 export default function Studio() {
