@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
+import type { TouchEvent } from "react";
 
 type PhotoWallProps = {
   photos: string[];
@@ -15,6 +16,7 @@ export default function PhotoWall({ photos, layouts, label }: PhotoWallProps) {
   const isOpen = activeIndex !== null;
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const openerRef = useRef<HTMLButtonElement>(null);
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
 
   const closeGallery = useCallback(() => {
     setActiveIndex(null);
@@ -60,6 +62,25 @@ export default function PhotoWall({ photos, layouts, label }: PhotoWallProps) {
   const openGallery = (index: number, opener: HTMLButtonElement) => {
     openerRef.current = opener;
     setActiveIndex(index);
+  };
+
+  const handleTouchStart = (event: TouchEvent<HTMLDivElement>) => {
+    const touch = event.touches[0];
+    if (!touch) return;
+    touchStartRef.current = { x: touch.clientX, y: touch.clientY };
+  };
+
+  const handleTouchEnd = (event: TouchEvent<HTMLDivElement>) => {
+    const start = touchStartRef.current;
+    const touch = event.changedTouches[0];
+    touchStartRef.current = null;
+    if (!start || !touch) return;
+
+    const deltaX = touch.clientX - start.x;
+    const deltaY = touch.clientY - start.y;
+    if (Math.abs(deltaX) < 50 || Math.abs(deltaX) <= Math.abs(deltaY) * 1.2) return;
+
+    movePhoto(deltaX < 0 ? 1 : -1);
   };
 
   return (
@@ -130,8 +151,13 @@ export default function PhotoWall({ photos, layouts, label }: PhotoWallProps) {
           </button>
 
           <div
-            className="relative h-full max-h-[88vh] w-full max-w-6xl"
+            className="relative h-full max-h-[88vh] w-full max-w-6xl touch-pan-y select-none overscroll-contain"
             onClick={(event) => event.stopPropagation()}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+            onTouchCancel={() => {
+              touchStartRef.current = null;
+            }}
           >
             <Image
               key={orderedPhotos[activeIndex]}
