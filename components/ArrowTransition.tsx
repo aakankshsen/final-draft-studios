@@ -61,7 +61,7 @@ export default function ArrowTransition() {
         <div className="font-mono text-xs tracking-[3px] uppercase text-amber mb-4">
           Final Draft Studios
         </div>
-        <h3 className="font-display uppercase text-[clamp(28px,5vw,56px)] text-paper leading-tight">
+        <h3 className="group mx-auto w-fit cursor-default font-display uppercase text-[clamp(28px,5vw,56px)] leading-tight text-paper [-webkit-text-stroke:1px_rgba(245,166,35,0.6)] hover:text-amber hover:[-webkit-text-stroke:1px_#F5A623] transition-all duration-500">
           CUT THE NOISE
           <br />
           
