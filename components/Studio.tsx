@@ -1,14 +1,35 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Reveal from "@/components/Reveal";
-import NeedsContent from "@/components/NeedsContent";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const roughDraftAssets = [
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/BTS%20ASSETS/1568e892-05f2-4b91-9fbf-f19bd7360326.JPG",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/BTS%20ASSETS/53c30a87-84c7-444d-b5b8-d145500d8d28.JPG",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/BTS%20ASSETS/6763b731-c0d7-4f48-93a2-28484e166f12%202.JPG",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/BTS%20ASSETS/IMG_3512.PNG",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/BTS%20ASSETS/IMG_4025.PNG",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/BTS%20ASSETS/IMG_4293.JPG",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/BTS%20ASSETS/IMG_6052.JPG",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/BTS%20ASSETS/IMG_6064.JPG",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/BTS%20ASSETS/IMG_6115.JPG",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/BTS%20ASSETS/IMG_6409.JPG",
+];
+
 export default function Studio() {
   const assetRef = useRef<HTMLDivElement>(null);
+  const [activeAsset, setActiveAsset] = useState(0);
+
+  useEffect(() => {
+    const slideshow = window.setInterval(() => {
+      setActiveAsset((current) => (current + 1) % roughDraftAssets.length);
+    }, 4500);
+
+    return () => window.clearInterval(slideshow);
+  }, []);
 
   useEffect(() => {
     const el = assetRef.current;
@@ -45,10 +66,18 @@ export default function Studio() {
 
         <div className="flex items-center justify-center">
           <div ref={assetRef} className="w-full md:max-w-[720px] md:ml-auto">
-            <NeedsContent
-              label="CLIENT ASSET — Team/BTS photo"
-              className="w-full h-[400px] sm:h-[500px] md:h-[600px]"
-            />
+            <div className="relative w-full h-[400px] sm:h-[500px] md:h-[600px] overflow-hidden">
+              {roughDraftAssets.map((asset, index) => (
+                <img
+                  key={asset}
+                  src={asset}
+                  alt={`Behind-the-scenes studio image ${index + 1}`}
+                  className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-1000 ${
+                    activeAsset === index ? "opacity-100" : "opacity-0"
+                  }`}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </Reveal>
