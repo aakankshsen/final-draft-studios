@@ -7,6 +7,8 @@ import type { TouchEvent } from "react";
 type PhotoWallProps = {
   photos: string[];
   label: string;
+  rowGap?: number;
+  instagramLinks?: { photo: string; href: string }[];
   /** No longer used for sizing. Kept optional so pages that still pass it don't break. */
   layouts?: string[];
   /** Optional: real pixel size of each photo, in the same order as `photos`. */
@@ -70,7 +72,7 @@ export default function PhotoWall(props: PhotoWallProps) {
   return <PhotoWallInner key={props.photos.join("|")} {...props} />;
 }
 
-function PhotoWallInner({ photos, label, dimensions }: PhotoWallProps) {
+function PhotoWallInner({ photos, label, dimensions, rowGap, instagramLinks }: PhotoWallProps) {
   const orderedPhotos = photos;
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const isOpen = activeIndex !== null;
@@ -224,7 +226,7 @@ function PhotoWallInner({ photos, label, dimensions }: PhotoWallProps) {
           style={{
             display: "flex",
             flexDirection: "column",
-            gap: layout?.gap ?? 12,
+            gap: rowGap ?? layout?.gap ?? 12,
             opacity: ready ? 1 : 0,
             transition: "opacity 400ms ease",
           }}
@@ -241,42 +243,74 @@ function PhotoWallInner({ photos, label, dimensions }: PhotoWallProps) {
             >
               {row.items.map((index) => {
                 const ratio = ratios[index] ?? 1;
+                const instagramHref = instagramLinks?.find(
+                  (link) => link.photo === orderedPhotos[index],
+                )?.href;
                 return (
-                  <button
+                  <div
                     key={orderedPhotos[index]}
-                    type="button"
-                    aria-label={`Open ${label} photo ${index + 1} fullscreen`}
-                    title="Double-click to view fullscreen"
-                    onDoubleClick={(event) => openGallery(index, event.currentTarget)}
-                    onClick={(event) => {
-                      if (window.matchMedia("(hover: none)").matches) {
-                        openGallery(index, event.currentTarget);
-                      }
-                    }}
-                    onKeyDown={(event) => {
-                      if (event.key === "Enter" || event.key === " ") {
-                        event.preventDefault();
-                        openGallery(index, event.currentTarget);
-                      }
-                    }}
                     style={
                       row.centered
-                        ? { width: ratio * row.height, height: row.height, flex: "0 0 auto" }
-                        : { height: row.height, flex: `${ratio} 1 0%`, minWidth: 0 }
+                        ? { width: ratio * row.height, flex: "0 0 auto" }
+                        : { flex: `${ratio} 1 0%`, minWidth: 0 }
                     }
-                    className="relative block overflow-hidden bg-transparent text-left ring-1 ring-white/10 transition-shadow hover:ring-amber/60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber"
+                    className="flex min-w-0 flex-col"
                   >
-                    <Image
-                      src={orderedPhotos[index]}
-                      alt={`${label} portfolio photo ${index + 1}`}
-                      fill
-                      loading="eager"
-                      sizes="(min-width: 1024px) 45vw, 100vw"
-                      onLoad={(event) => reportRatio(index, event.currentTarget)}
-                      onError={() => reportFailed(index)}
-                      className="object-contain"
-                    />
-                  </button>
+                    <button
+                      type="button"
+                      aria-label={`Open ${label} photo ${index + 1} fullscreen`}
+                      title="Double-click to view fullscreen"
+                      onDoubleClick={(event) => openGallery(index, event.currentTarget)}
+                      onClick={(event) => {
+                        if (window.matchMedia("(hover: none)").matches) {
+                          openGallery(index, event.currentTarget);
+                        }
+                      }}
+                      onKeyDown={(event) => {
+                        if (event.key === "Enter" || event.key === " ") {
+                          event.preventDefault();
+                          openGallery(index, event.currentTarget);
+                        }
+                      }}
+                      style={{ height: row.height }}
+                      className="relative block w-full overflow-hidden bg-transparent text-left ring-1 ring-white/10 transition-shadow hover:ring-amber/60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber"
+                    >
+                      <Image
+                        src={orderedPhotos[index]}
+                        alt={`${label} portfolio photo ${index + 1}`}
+                        fill
+                        loading="eager"
+                        sizes="(min-width: 1024px) 45vw, 100vw"
+                        onLoad={(event) => reportRatio(index, event.currentTarget)}
+                        onError={() => reportFailed(index)}
+                        className="object-contain"
+                      />
+                    </button>
+                    {instagramHref && (
+                      <a
+                        href={instagramHref}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-3 inline-flex w-fit items-center gap-2 text-base text-dim transition-colors hover:text-amber focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber"
+                      >
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.7"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          aria-hidden="true"
+                          className="size-4"
+                        >
+                          <rect x="3" y="3" width="18" height="18" rx="5" />
+                          <circle cx="12" cy="12" r="4" />
+                          <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" />
+                        </svg>
+                        <span>Instagram</span>
+                      </a>
+                    )}
+                  </div>
                 );
               })}
             </div>

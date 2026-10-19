@@ -15,21 +15,21 @@ const projects = [
   { slug: "flite", name: "Flite x Ali Fazal & Sanya Malhotra", category: "Brand Campaign", description: "Celebrity campaigns, digital ads." },
   { slug: "nissan-gravite-launch", name: "Nissan Gravite Launch Event", category: "Event Coverage", description: "Full Event Coverage and live edits" },
   { slug: "bagicha-wilderness", name: "Bagicha Wilderness", category: "Property Photography & Video", description: "Interior, space, and property photos and videos" },
-  { slug: "bhagat-tarachand", name: "Bhagat Tarachand", category: "Property Photography & Video", description: "Interior, space, and property photos and videos" },
+  { slug: "bhagat-tarachand", name: "B Bhagat Tarachand", category: "Property Photography & Video", description: "Interior, space, and property photos and videos" },
 ];
 
 const propertyProjects = [
   {
-    slug: "bhagat-tarachand",
-    name: "Bhagat Tarachand",
-    image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/btc.jpg",
-    imageRatio: "aspect-[1/1] md:aspect-auto md:h-[360px]",
-  },
-  {
     slug: "bagicha-wilderness",
     name: "Bagicha Wilderness",
     image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/Bagicha.jpg",
-    imageRatio: "aspect-[4/5] md:aspect-auto md:h-[360px]",
+    imageRatio: "aspect-[4/5] md:aspect-auto md:h-[420px]",
+  },
+  {
+    slug: "bhagat-tarachand",
+    name: "B Bhagat Tarachand",
+    image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/btc.jpg",
+    imageRatio: "aspect-[4/5] md:aspect-auto md:h-[420px]",
   },
 ];
 
@@ -44,6 +44,8 @@ const lakmePhotos = [
   "/work/lakme/20.webp",
   "/work/lakme/18.webp",
   "/work/lakme/17.webp",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Lakme%20Sun%20Expert/Lakme-Tint-(Model)1159.jpg",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Lakme%20Sun%20Expert/Lakme-Gel-(Model)821.jpg",
   "/work/lakme/16.webp",
   "/work/lakme/15.webp",
   "/work/lakme/14.webp",
@@ -378,7 +380,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       <CustomCursor />
       <Navbar />
 
-      <section className={`px-[5%] pt-40 pb-32 mx-auto ${isPropertyCollection || isSparxFliteCollection ? "max-w-5xl" : photos ? "max-w-[1600px] px-[4%]" : videos ? "max-w-[1440px] px-[5%]" : "max-w-4xl"}`}>
+      <section className={`px-[5%] pt-40 pb-32 mx-auto ${isPropertyCollection ? "max-w-6xl" : isSparxFliteCollection ? "max-w-5xl" : photos ? "max-w-[1600px] px-[4%]" : videos ? "max-w-[1440px] px-[5%]" : "max-w-4xl"}`}>
         <Link href="/work" className="inline-flex items-center gap-2 text-dim text-xs tracking-widest uppercase mb-10 hover:text-amber transition-colors">
           ← Back to all work
         </Link>
@@ -399,17 +401,17 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
                   href={`/work/${collectionProject.slug}`}
                   className={`group block ${
                     isPropertyCollection
-                      ? index === 0 ? "md:col-span-7" : "md:col-span-5"
+                      ? "md:col-span-6"
                       : ["md:col-span-5", "md:col-span-4", "md:col-span-3"][index]
                   }`}
                 >
-                  <div className={`relative mb-5 overflow-hidden bg-white/5 ${collectionProject.imageRatio}`}>
+                  <div className={`relative mb-5 overflow-hidden ${isPropertyCollection ? "bg-transparent" : "bg-white/5"} ${collectionProject.imageRatio}`}>
                     <Image
                       src={collectionProject.image}
                       alt={collectionProject.name}
                       fill
                       sizes="(min-width: 768px) 45vw, 90vw"
-                      className={`object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03] ${
+                      className={`${isPropertyCollection ? "object-contain" : "object-cover"} transition-transform duration-700 ease-out group-hover:scale-[1.03] ${
                         isSparxFliteCollection && index === 0 ? "object-[center_25%]" : ""
                       }`}
                     />
@@ -433,7 +435,42 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
             <p className={`text-dim text-base max-w-lg ${photos || videos ? "mb-10" : "mb-16"}`}>{project.description}</p>
 
             {photos ? (
-              <PhotoWall photos={photos} layouts={photoWallLayouts} label="Lakmē Sun Expert" />
+              <PhotoWall
+                photos={photos}
+                layouts={photoWallLayouts}
+                label="Lakmē Sun Expert"
+                rowGap={24}
+                instagramLinks={[
+                  {
+                    photo: "/work/lakme/14.webp",
+                    href: "https://www.instagram.com/p/DeQ3qpfCIca/?img_index=2&vrfl=MWQ0ejF4d2U2bWk4",
+                  },
+                  {
+                    photo: "/work/lakme/23.webp",
+                    href: "https://www.instagram.com/p/DeJK6h9CLse/?img_index=3&psln=a3F0Z3hwbm92dG4y",
+                  },
+                  {
+                    photo: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Lakme%20Sun%20Expert/Lakme-Fluid(model)297%20copy.jpg",
+                    href: "https://www.instagram.com/p/DdN697vCL1f/?cplk=MTVyaG1scG1rZzBmYw==",
+                  },
+                  {
+                    photo: "/work/lakme/04.webp",
+                    href: "https://www.instagram.com/p/DdIxXFBiCdB/?img_index=3&dlrf=ZTJiODlhMW03MTEw",
+                  },
+                  {
+                    photo: "/work/lakme/03.webp",
+                    href: "https://www.instagram.com/p/DdGLzcYT-oG/?psln=cmx6dHU1Nmd1eGlq",
+                  },
+                  {
+                    photo: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Lakme%20Sun%20Expert/Lakme-Tint-(Model)1159.jpg",
+                    href: "https://www.instagram.com/p/DbF_LVilC5R/?srtk=ajhncGc0dzB3eDlm",
+                  },
+                  {
+                    photo: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Lakme%20Sun%20Expert/Lakme-Gel-(Model)821.jpg",
+                    href: "https://www.instagram.com/reel/DeLt_FJhN7l/?dlrf=MTU4MTM2ZzQwOTl6dQ==",
+                  },
+                ]}
+              />
             ) : videos ? (
               <div>
                 {!isNissanGraviteLaunch && !isSparxChunky && !isSparxRaghu && !isFlite && (
