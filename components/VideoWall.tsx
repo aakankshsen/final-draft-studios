@@ -26,6 +26,7 @@ type VideoWallProps = {
   defaultPoster?: string;
   layout?: "portrait" | "landscape" | "landscape-full" | "launch-event" | "mixed" | "portrait-centered-last";
   hideCaptions?: boolean;
+  onOpenVideo?: (index: number, currentTime: number, opener: HTMLButtonElement | null) => void;
 };
 
 type ActiveVideo = {
@@ -33,7 +34,7 @@ type ActiveVideo = {
   currentTime: number;
 };
 
-export default function VideoWall({ videos, label, defaultPoster, layout = "portrait", hideCaptions = false }: VideoWallProps) {
+export default function VideoWall({ videos, label, defaultPoster, layout = "portrait", hideCaptions = false, onOpenVideo }: VideoWallProps) {
   const [activeVideo, setActiveVideo] = useState<ActiveVideo | null>(null);
   const [playbackError, setPlaybackError] = useState<string | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
@@ -56,11 +57,15 @@ export default function VideoWall({ videos, label, defaultPoster, layout = "port
 
       const webkitVideo = sourceVideo as (HTMLVideoElement & { webkitExitFullscreen?: () => void }) | null | undefined;
       webkitVideo?.webkitExitFullscreen?.();
+      if (onOpenVideo) {
+        onOpenVideo(index, currentTime, opener ?? fullscreenButtonRefs.current[index] ?? null);
+        return;
+      }
       openerRef.current = opener ?? fullscreenButtonRefs.current[index];
       setPlaybackError(null);
       setActiveVideo({ index, currentTime });
     },
-    [],
+    [onOpenVideo],
   );
 
   const closeGallery = useCallback(() => {

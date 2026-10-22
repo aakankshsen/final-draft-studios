@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import CustomCursor from "@/components/CustomCursor";
 import NeedsContent from "@/components/NeedsContent";
 import PhotoWall from "@/components/PhotoWall";
+import BagichaPortfolio from "@/components/BagichaPortfolio";
 import VideoWall, { type PortfolioAsset, type PortfolioVideo } from "@/components/VideoWall";
 import Link from "next/link";
 import Image from "next/image";
@@ -97,6 +98,7 @@ const bagichaPhotos = [
 const bagichaHeroVideo: PortfolioVideo = {
   title: "Hero",
   src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Alibaug%20Videos/HORIZONTAL%201.mp4",
+  poster: "/work/posters/bagicha-hero.jpg",
 };
 
 const bagichaReels: PortfolioVideo[] = [
@@ -107,6 +109,7 @@ const bagichaReels: PortfolioVideo[] = [
   {
     title: "Reel 2",
     src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Alibaug%20Videos/1st%20FLOOR.mp4",
+    poster: "/work/posters/bagicha-reel-2.jpg",
   },
   {
     title: "Reel 3",
@@ -513,15 +516,14 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
             <p className={`text-dim text-base max-w-lg ${photos || videos ? "mb-10" : "mb-16"}`}>{project.description}</p>
 
             {photos ? (
-              <div className="space-y-10">
-                {slug === "bagicha-wilderness" && (
-                  <VideoWall
-                    videos={[bagichaHeroVideo]}
-                    label={project.name}
-                    layout="landscape-full"
-                    hideCaptions
-                  />
-                )}
+              slug === "bagicha-wilderness" ? (
+                <BagichaPortfolio
+                  photos={photos}
+                  heroVideo={bagichaHeroVideo}
+                  reels={bagichaReels}
+                  label={project.name}
+                />
+              ) : (
                 <PhotoWall
                   photos={photos}
                   layouts={photoWallLayouts}
@@ -563,15 +565,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
                     },
                   ]}
                 />
-                {slug === "bagicha-wilderness" && (
-                  <VideoWall
-                    videos={bagichaReels}
-                    label={project.name}
-                    layout="portrait"
-                    hideCaptions
-                  />
-                )}
-              </div>
+              )
             ) : videos ? (
               <div>
                 {!isNissanGraviteLaunch && !isSparxChunky && !isSparxRaghu && !isFlite && (

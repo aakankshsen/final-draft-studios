@@ -10,6 +10,7 @@ type PhotoWallProps = {
   rowGap?: number;
   unoptimized?: boolean;
   instagramLinks?: { photo: string; href: string }[];
+  onOpenPhoto?: (index: number, opener: HTMLButtonElement) => void;
   /** No longer used for sizing. Kept optional so pages that still pass it don't break. */
   layouts?: string[];
   /** Optional: real pixel size of each photo, in the same order as `photos`. */
@@ -21,6 +22,8 @@ type PhotoWallProps = {
 const BASE_HEIGHT = { desktop: 380, tablet: 300, mobile: 220 };
 // Row heights cycle through these multipliers, which is what gives different frame sizes
 const ROW_SCALES = [1, 0.8, 1.2, 0.9, 1.3, 0.85];
+const INITIAL_EAGER_COUNT = 4;
+const UNOPTIMIZED_EAGER_COUNT = 1;
 // Show the wall after this long even if some photos haven't reported their shape
 const MAX_WAIT_MS = 4000;
 
@@ -73,7 +76,7 @@ export default function PhotoWall(props: PhotoWallProps) {
   return <PhotoWallInner key={props.photos.join("|")} {...props} />;
 }
 
-function PhotoWallInner({ photos, label, dimensions, rowGap, unoptimized, instagramLinks }: PhotoWallProps) {
+function PhotoWallInner({ photos, label, dimensions, rowGap, unoptimized, instagramLinks, onOpenPhoto }: PhotoWallProps) {
   const orderedPhotos = photos;
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const isOpen = activeIndex !== null;
@@ -90,6 +93,10 @@ function PhotoWallInner({ photos, label, dimensions, rowGap, unoptimized, instag
       const d = dimensions?.[i];
       return d ? d.width / d.height : null;
     }),
+  );
+  const initialLoadCount = Math.min(
+    unoptimized ? UNOPTIMIZED_EAGER_COUNT : INITIAL_EAGER_COUNT,
+    photos.length,
   );
 
   // photo shape (width / height), reported by each image once it loads
@@ -119,7 +126,7 @@ function PhotoWallInner({ photos, label, dimensions, rowGap, unoptimized, instag
     return () => clearTimeout(timer);
   }, []);
 
-  const ready = timedOut || ratios.every((r) => r !== null);
+  const ready = timedOut || ratios.slice(0, initialLoadCount).every((r) => r !== null);
 
   // track the wall's width
   useEffect(() => {
@@ -188,6 +195,10 @@ function PhotoWallInner({ photos, label, dimensions, rowGap, unoptimized, instag
   }, [isOpen]);
 
   const openGallery = (index: number, opener: HTMLButtonElement) => {
+    if (onOpenPhoto) {
+      onOpenPhoto(index, opener);
+      return;
+    }
     openerRef.current = opener;
     setActiveIndex(index);
   };
@@ -280,7 +291,7 @@ function PhotoWallInner({ photos, label, dimensions, rowGap, unoptimized, instag
                         src={orderedPhotos[index]}
                         alt={`${label} portfolio photo ${index + 1}`}
                         fill
-                        loading={unoptimized ? "lazy" : "eager"}
+                        loading={index < initialLoadCount ? "eager" : "lazy"}
                         unoptimized={unoptimized}
                         sizes="(min-width: 1024px) 45vw, 100vw"
                         onLoad={(event) => reportRatio(index, event.currentTarget)}
