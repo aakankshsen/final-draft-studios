@@ -19,6 +19,14 @@ const projects = [
   { slug: "bhagat-tarachand", name: "B Bhagat Tarachand", category: "Property Photography & Video", description: "Interior, space, and property photos and videos" },
 ];
 
+export function generateStaticParams() {
+  return [
+    ...projects.map(({ slug }) => ({ slug })),
+    { slug: "sparx-and-flite" },
+    { slug: "property-and-interiors" },
+  ];
+}
+
 const portfolioParents: Record<string, { href: string; label: string }> = {
   sparx: { href: "/work/sparx-and-flite", label: "Sparx & Flite" },
   afnan: { href: "/work/sparx-and-flite", label: "Sparx & Flite" },
