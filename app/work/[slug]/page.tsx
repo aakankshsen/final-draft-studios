@@ -18,6 +18,20 @@ const projects = [
   { slug: "bhagat-tarachand", name: "B Bhagat Tarachand", category: "Property Photography & Video", description: "Interior, space, and property photos and videos" },
 ];
 
+const portfolioParents: Record<string, { href: string; label: string }> = {
+  sparx: { href: "/work/sparx-and-flite", label: "Sparx & Flite" },
+  afnan: { href: "/work/sparx-and-flite", label: "Sparx & Flite" },
+  flite: { href: "/work/sparx-and-flite", label: "Sparx & Flite" },
+  "bagicha-wilderness": {
+    href: "/work/property-and-interiors",
+    label: "Property and Interiors",
+  },
+  "bhagat-tarachand": {
+    href: "/work/property-and-interiors",
+    label: "Property and Interiors",
+  },
+};
+
 const propertyProjects = [
   {
     slug: "bagicha-wilderness",
@@ -59,6 +73,63 @@ const lakmePhotos = [
   "/work/lakme/04.webp",
   "/work/lakme/03.webp",
   "/work/lakme/02.webp",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Lakme%20Sun%20Expert/Lakme-tint-(product)1938%20copy.jpg",
+];
+
+const bagichaPhotos = [
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bagicha%20Wilderness/DJI_20260616112745_0012_D.jpg",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bagicha%20Wilderness/DSC00565.jpg",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bagicha%20Wilderness/DSC00528.jpg",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bagicha%20Wilderness/DSC00538.jpg",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bagicha%20Wilderness/DSC01005.jpg",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bagicha%20Wilderness/DSC00986.jpg",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bagicha%20Wilderness/DSC00780.jpg",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bagicha%20Wilderness/DSC00677.jpg",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bagicha%20Wilderness/DSC00704.jpg",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bagicha%20Wilderness/DSC00752.jpg",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bagicha%20Wilderness/DSC00645.jpg",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bagicha%20Wilderness/DSC00918.jpg",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bagicha%20Wilderness/DSC00928.jpg",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bagicha%20Wilderness/DSC00657.jpg",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bagicha%20Wilderness/DSC00960.jpg",
+];
+
+const bagichaHeroVideo: PortfolioVideo = {
+  title: "Hero",
+  src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Alibaug%20Videos/HORIZONTAL%201.mp4",
+};
+
+const bagichaReels: PortfolioVideo[] = [
+  {
+    title: "Reel 1",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Alibaug%20Videos/RESYNC%201.mp4",
+  },
+  {
+    title: "Reel 2",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Alibaug%20Videos/1st%20FLOOR.mp4",
+  },
+  {
+    title: "Reel 3",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Alibaug%20Videos/FOOD%20REEL.mp4",
+  },
+];
+
+const bhagatPhotos = [
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bhagat%20Tarachand/Combined/HERO%201.jpg",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bhagat%20Tarachand/Combined/Hero%202.jpg",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bhagat%20Tarachand/Combined/DAYLIGHT%20FACADE.jpg",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bhagat%20Tarachand/Combined/DAYLIGHT%20VINTAGE.jpg",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bhagat%20Tarachand/Combined/EXTRA%20B%26W.jpg",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bhagat%20Tarachand/Combined/SHA_1633-HDR-2.jpg",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bhagat%20Tarachand/Combined/NIGHT%20SEPIA.jpg",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bhagat%20Tarachand/Combined/any.jpg",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bhagat%20Tarachand/Combined/SHA_1163-HDR-2.jpg",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bhagat%20Tarachand/Combined/SHA_1170-HDR-2.jpg",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bhagat%20Tarachand/Combined/SHA_1177-HDR.jpg",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bhagat%20Tarachand/Combined/SHA_1470-HDR.jpg",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bhagat%20Tarachand/Combined/SHA_1499-HDR.jpg",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bhagat%20Tarachand/Combined/SHA_1505-HDR.jpg",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bhagat%20Tarachand/Combined/SHA_1520-HDR.jpg",
 ];
 
 const nissanVideos: PortfolioVideo[] = [
@@ -349,7 +420,14 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   const { slug } = await params;
   const isPropertyCollection = slug === "property-and-interiors";
   const isSparxFliteCollection = slug === "sparx-and-flite";
-  const photos = slug === "lakme" ? lakmePhotos : null;
+  const previousMenu = portfolioParents[slug];
+  const photos = slug === "lakme"
+    ? lakmePhotos
+    : slug === "bagicha-wilderness"
+      ? bagichaPhotos
+      : slug === "bhagat-tarachand"
+        ? bhagatPhotos
+        : null;
   const isNissanGraviteLaunch = slug === "nissan-gravite-launch";
   const isBering = slug === "bering";
   const isSparxChunky = slug === "afnan";
@@ -381,8 +459,8 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       <Navbar />
 
       <section className={`px-[5%] pt-40 pb-32 mx-auto ${isPropertyCollection ? "max-w-6xl" : isSparxFliteCollection ? "max-w-5xl" : photos ? "max-w-[1600px] px-[4%]" : videos ? "max-w-[1440px] px-[5%]" : "max-w-4xl"}`}>
-        <Link href="/work" className="inline-flex items-center gap-2 text-dim text-xs tracking-widest uppercase mb-10 hover:text-amber transition-colors">
-          ← Back to all work
+        <Link href={previousMenu?.href ?? "/work"} className="inline-flex items-center gap-2 text-dim text-xs tracking-widest uppercase mb-10 hover:text-amber transition-colors">
+          {previousMenu ? `← Back to ${previousMenu.label}` : "← Back to all work"}
         </Link>
 
         {isPropertyCollection || isSparxFliteCollection ? (
@@ -435,42 +513,65 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
             <p className={`text-dim text-base max-w-lg ${photos || videos ? "mb-10" : "mb-16"}`}>{project.description}</p>
 
             {photos ? (
-              <PhotoWall
-                photos={photos}
-                layouts={photoWallLayouts}
-                label="Lakmē Sun Expert"
-                rowGap={24}
-                instagramLinks={[
-                  {
-                    photo: "/work/lakme/14.webp",
-                    href: "https://www.instagram.com/p/DeQ3qpfCIca/?img_index=2&vrfl=MWQ0ejF4d2U2bWk4",
-                  },
-                  {
-                    photo: "/work/lakme/23.webp",
-                    href: "https://www.instagram.com/p/DeJK6h9CLse/?img_index=3&psln=a3F0Z3hwbm92dG4y",
-                  },
-                  {
-                    photo: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Lakme%20Sun%20Expert/Lakme-Fluid(model)297%20copy.jpg",
-                    href: "https://www.instagram.com/p/DdN697vCL1f/?cplk=MTVyaG1scG1rZzBmYw==",
-                  },
-                  {
-                    photo: "/work/lakme/04.webp",
-                    href: "https://www.instagram.com/p/DdIxXFBiCdB/?img_index=3&dlrf=ZTJiODlhMW03MTEw",
-                  },
-                  {
-                    photo: "/work/lakme/03.webp",
-                    href: "https://www.instagram.com/p/DdGLzcYT-oG/?psln=cmx6dHU1Nmd1eGlq",
-                  },
-                  {
-                    photo: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Lakme%20Sun%20Expert/Lakme-Tint-(Model)1159.jpg",
-                    href: "https://www.instagram.com/p/DbF_LVilC5R/?srtk=ajhncGc0dzB3eDlm",
-                  },
-                  {
-                    photo: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Lakme%20Sun%20Expert/Lakme-Gel-(Model)821.jpg",
-                    href: "https://www.instagram.com/reel/DeLt_FJhN7l/?dlrf=MTU4MTM2ZzQwOTl6dQ==",
-                  },
-                ]}
-              />
+              <div className="space-y-10">
+                {slug === "bagicha-wilderness" && (
+                  <VideoWall
+                    videos={[bagichaHeroVideo]}
+                    label={project.name}
+                    layout="landscape-full"
+                    hideCaptions
+                  />
+                )}
+                <PhotoWall
+                  photos={photos}
+                  layouts={photoWallLayouts}
+                  label={slug === "lakme" ? "Lakmē Sun Expert" : project.name}
+                  rowGap={24}
+                  unoptimized={slug === "bhagat-tarachand"}
+                  instagramLinks={[
+                    {
+                      photo: "/work/lakme/14.webp",
+                      href: "https://www.instagram.com/p/DeQ3qpfCIca/?img_index=2&vrfl=MWQ0ejF4d2U2bWk4",
+                    },
+                    {
+                      photo: "/work/lakme/23.webp",
+                      href: "https://www.instagram.com/p/DeJK6h9CLse/?img_index=3&psln=a3F0Z3hwbm92dG4y",
+                    },
+                    {
+                      photo: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Lakme%20Sun%20Expert/Lakme-Fluid(model)297%20copy.jpg",
+                      href: "https://www.instagram.com/p/DdN697vCL1f/?cplk=MTVyaG1scG1rZzBmYw==",
+                    },
+                    {
+                      photo: "/work/lakme/04.webp",
+                      href: "https://www.instagram.com/p/DdIxXFBiCdB/?img_index=3&dlrf=ZTJiODlhMW03MTEw",
+                    },
+                    {
+                      photo: "/work/lakme/03.webp",
+                      href: "https://www.instagram.com/p/DdGLzcYT-oG/?psln=cmx6dHU1Nmd1eGlq",
+                    },
+                    {
+                      photo: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Lakme%20Sun%20Expert/Lakme-Tint-(Model)1159.jpg",
+                      href: "https://www.instagram.com/p/DbF_LVilC5R/?srtk=ajhncGc0dzB3eDlm",
+                    },
+                    {
+                      photo: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Lakme%20Sun%20Expert/Lakme-Gel-(Model)821.jpg",
+                      href: "https://www.instagram.com/reel/DeLt_FJhN7l/?dlrf=MTU4MTM2ZzQwOTl6dQ==",
+                    },
+                    {
+                      photo: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Lakme%20Sun%20Expert/Lakme-tint-(product)1938%20copy.jpg",
+                      href: "https://www.instagram.com/p/DeOS0yvlJo5/?xtok=MTVodHF4bmsxZmJnZg==",
+                    },
+                  ]}
+                />
+                {slug === "bagicha-wilderness" && (
+                  <VideoWall
+                    videos={bagichaReels}
+                    label={project.name}
+                    layout="portrait"
+                    hideCaptions
+                  />
+                )}
+              </div>
             ) : videos ? (
               <div>
                 {!isNissanGraviteLaunch && !isSparxChunky && !isSparxRaghu && !isFlite && (

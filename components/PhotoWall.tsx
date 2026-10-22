@@ -8,6 +8,7 @@ type PhotoWallProps = {
   photos: string[];
   label: string;
   rowGap?: number;
+  unoptimized?: boolean;
   instagramLinks?: { photo: string; href: string }[];
   /** No longer used for sizing. Kept optional so pages that still pass it don't break. */
   layouts?: string[];
@@ -72,7 +73,7 @@ export default function PhotoWall(props: PhotoWallProps) {
   return <PhotoWallInner key={props.photos.join("|")} {...props} />;
 }
 
-function PhotoWallInner({ photos, label, dimensions, rowGap, instagramLinks }: PhotoWallProps) {
+function PhotoWallInner({ photos, label, dimensions, rowGap, unoptimized, instagramLinks }: PhotoWallProps) {
   const orderedPhotos = photos;
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const isOpen = activeIndex !== null;
@@ -279,7 +280,8 @@ function PhotoWallInner({ photos, label, dimensions, rowGap, instagramLinks }: P
                         src={orderedPhotos[index]}
                         alt={`${label} portfolio photo ${index + 1}`}
                         fill
-                        loading="eager"
+                        loading={unoptimized ? "lazy" : "eager"}
+                        unoptimized={unoptimized}
                         sizes="(min-width: 1024px) 45vw, 100vw"
                         onLoad={(event) => reportRatio(index, event.currentTarget)}
                         onError={() => reportFailed(index)}
@@ -364,6 +366,7 @@ function PhotoWallInner({ photos, label, dimensions, rowGap, instagramLinks }: P
               fill
               sizes="100vw"
               priority
+              unoptimized={unoptimized}
               className="object-contain"
             />
             <p className="absolute bottom-2 left-1/2 -translate-x-1/2 rounded-full bg-black/60 px-3 py-1 text-xs tracking-widest text-white/80">
