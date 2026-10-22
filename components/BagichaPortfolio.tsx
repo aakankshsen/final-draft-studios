@@ -104,6 +104,7 @@ export default function BagichaPortfolio({ photos, heroVideo, reels, label }: Ba
           label={label}
           layout="landscape-full"
           hideCaptions
+          preloadVideos="none"
           onOpenVideo={(index, currentTime, opener) => openMedia(index, currentTime, opener)}
         />
 
@@ -111,7 +112,6 @@ export default function BagichaPortfolio({ photos, heroVideo, reels, label }: Ba
           photos={photos}
           label={label}
           rowGap={24}
-          unoptimized
           onOpenPhoto={(index, opener) => openMedia(index + 1, 0, opener)}
         />
 
@@ -121,6 +121,7 @@ export default function BagichaPortfolio({ photos, heroVideo, reels, label }: Ba
             label={label}
             layout="portrait"
             hideCaptions
+            preloadVideos="none"
             onOpenVideo={(index, currentTime, opener) =>
               openMedia(1 + photos.length + index, currentTime, opener)
             }

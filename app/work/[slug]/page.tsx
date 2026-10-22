@@ -537,7 +537,6 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
                   layouts={photoWallLayouts}
                   label={slug === "lakme" ? "Lakmē Sun Expert" : project.name}
                   rowGap={24}
-                  unoptimized={slug === "bhagat-tarachand"}
                   instagramLinks={[
                     {
                       photo: "/work/lakme/14.webp",
@@ -585,6 +584,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
                   videos={videosWithPosters ?? videos}
                   label={project.name}
                   defaultPoster={portfolioVideoPosters[slug]}
+                  preloadVideos={isBering ? "none" : "metadata"}
                   layout={
                     isNissanGraviteLaunch
                       ? "launch-event"

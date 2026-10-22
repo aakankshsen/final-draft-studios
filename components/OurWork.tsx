@@ -14,13 +14,6 @@ const projects = [
   { slug: "property-and-interiors", name: "Property and Interiors", category: "Property Photography & Video", description: "Interior, space, and property photos and videos", image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/Bagicha.jpg" },
 ];
 
-const eagerThumbnailSlugs = new Set([
-  "bering",
-  "sparx-and-flite",
-  "nissan-gravite-launch",
-  "property-and-interiors",
-]);
-
 export default function OurWork() {
   const [index, setIndex] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
@@ -195,8 +188,8 @@ export default function OurWork() {
                   src={project.image}
                   alt=""
                   fill
-                  priority={isCenter || eagerThumbnailSlugs.has(project.slug)}
-                  sizes="(min-width: 768px) 33vw, 100vw"
+                  priority={isCenter}
+                  sizes="(min-width: 768px) 33vw, 70vw"
                   className={`${project.slug === "sparx-and-flite" ? "object-cover object-top" : project.slug === "sparx" || project.slug === "afnan" || project.slug === "flite" ? "object-contain" : "object-cover"} ${project.slug === "afnan" ? "scale-[1.3] -translate-y-[8%]" : ""} transition-[filter,transform] duration-700 ease-out ${isCenter ? "group-hover:brightness-110 group-hover:saturate-110 rounded-2xl" : "group-hover:scale-105 rounded-xl"}`}
                 />
                 <div className={`absolute inset-0 bg-gradient-to-t from-black/75 via-black/5 to-transparent ${isCenter ? "rounded-2xl" : "rounded-xl"}`} />

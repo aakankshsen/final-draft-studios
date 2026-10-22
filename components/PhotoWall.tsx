@@ -293,7 +293,7 @@ function PhotoWallInner({ photos, label, dimensions, rowGap, unoptimized, instag
                         fill
                         loading={index < initialLoadCount ? "eager" : "lazy"}
                         unoptimized={unoptimized}
-                        sizes="(min-width: 1024px) 45vw, 100vw"
+                        sizes="(min-width: 1024px) 32vw, 50vw"
                         onLoad={(event) => reportRatio(index, event.currentTarget)}
                         onError={() => reportFailed(index)}
                         className="object-contain"

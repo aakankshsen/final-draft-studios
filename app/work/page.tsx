@@ -60,13 +60,6 @@ const projects = [
   },
 ];
 
-const eagerThumbnailSlugs = new Set([
-  "bering",
-  "sparx-and-flite",
-  "nissan-gravite-launch",
-  "property-and-interiors",
-]);
-
 export default function WorkListPage() {
   return (
     <main className="min-h-screen bg-ink">
@@ -79,7 +72,7 @@ export default function WorkListPage() {
         </h1>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-x-5 gap-y-10 sm:gap-x-6 sm:gap-y-12">
-          {projects.map((project) => (
+          {projects.map((project, index) => (
             <Link
               key={project.slug}
               href={`/work/${project.slug}`}
@@ -90,8 +83,8 @@ export default function WorkListPage() {
                   src={project.image}
                   alt={project.name}
                   fill
-                  priority={project.slug === "lakme" || eagerThumbnailSlugs.has(project.slug)}
-                  sizes="(min-width: 1024px) 60vw, (min-width: 640px) 50vw, 100vw"
+                  priority={index < 2}
+                  sizes="(min-width: 1024px) 45vw, (min-width: 640px) 48vw, 90vw"
                   className={`object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03] ${
                     project.slug === "sparx-and-flite" ? "object-[center_25%]" : ""
                   }`}
