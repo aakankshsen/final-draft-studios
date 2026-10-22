@@ -36,7 +36,7 @@ const projects = [
     name: "Sparx & Flite",
     category: "Brand Campaign",
     description: "Celebrity campaigns, digital ads.",
-    image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/Screenshot%202026-10-15%20at%206.37.55%E2%80%AFPM.png",
+    image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/New%20Thumbnails/Ali%20%26%20Sanya.png",
     layout: "lg:col-span-7",
     imageRatio: "aspect-[4/5] sm:aspect-[1.2/1] lg:aspect-[1.4/1]",
   },
@@ -63,43 +63,7 @@ const projects = [
     name: "Purple Finance",
     category: "Brand Film",
     description: "Corporate Documentaries/Brand Films for Purple Finance Limited",
-    image: "/work/posters/purple-finance.jpg",
-    layout: "lg:col-span-7",
-    imageRatio: "aspect-[4/3] sm:aspect-[1.2/1] lg:aspect-[1.2/1]",
-  },
-  {
-    slug: "picnic-2026-by-district",
-    name: "Picnic 2026 by District",
-    category: "Event Coverage",
-    description: "Full event coverage + Live edits for Picnic 2026 by District",
-    image: "/work/posters/picnic-district.jpg",
-    layout: "lg:col-span-5",
-    imageRatio: "aspect-[4/3] sm:aspect-[1/1] lg:aspect-square",
-  },
-  {
-    slug: "armour-clothing",
-    name: "Armour Clothing",
-    category: "Brand Campaign",
-    description: "Brand Launch reels for Aramour Clothing",
-    image: "/work/posters/armour-clothing.jpg",
-    layout: "lg:col-span-5",
-    imageRatio: "aspect-[4/5] sm:aspect-[1/1] lg:aspect-[0.9/1]",
-  },
-  {
-    slug: "food-and-beverage",
-    name: "Food & Beverage",
-    category: "Food Photography",
-    description: "F&B Photography for B Bhagat Tarachand and FinX Commune Cafe",
-    image: "/work/food-and-beverage/01.jpg",
-    layout: "lg:col-span-7",
-    imageRatio: "aspect-[4/3] sm:aspect-[1.2/1] lg:aspect-[1.2/1]",
-  },
-  {
-    slug: "motion-graphics",
-    name: "Motion Graphics",
-    category: "Digital Campaign",
-    description: "Relaxo Website Launch Ad",
-    image: "/work/posters/motion-graphics.jpg",
+    image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/New%20Thumbnails/Purple%20option%201.png",
     layout: "lg:col-span-7",
     imageRatio: "aspect-[4/3] sm:aspect-[1.2/1] lg:aspect-[1.2/1]",
   },
@@ -108,9 +72,45 @@ const projects = [
     name: "Sparx Product Launch",
     category: "Product Launch",
     description: "Fashion/lifestyle reels for Sparx Footwear",
-    image: "/work/posters/sparx-product-launch-1.jpg",
+    image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/New%20Thumbnails/Sparx%20option%201.png",
     layout: "lg:col-span-5",
     imageRatio: "aspect-[4/5] sm:aspect-[1/1] lg:aspect-[0.9/1]",
+  },
+  {
+    slug: "armour-clothing",
+    name: "Aramour Clothing",
+    category: "Brand Campaign",
+    description: "Brand Launch reels for Aramour Clothing",
+    image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/New%20Thumbnails/ARAMOUR.png",
+    layout: "lg:col-span-5",
+    imageRatio: "aspect-[4/5] sm:aspect-[1/1] lg:aspect-[0.9/1]",
+  },
+  {
+    slug: "food-and-beverage",
+    name: "Food & Beverage",
+    category: "Food Photography",
+    description: "F&B Photography for B Bhagat Tarachand and FinX Commune Cafe",
+    image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/New%20Thumbnails/F%26B%20Option%202.png",
+    layout: "lg:col-span-7",
+    imageRatio: "aspect-[4/3] sm:aspect-[1.2/1] lg:aspect-[1.2/1]",
+  },
+  {
+    slug: "motion-graphics",
+    name: "Motion Graphics",
+    category: "Digital Campaign",
+    description: "Relaxo Website Launch Ad",
+    image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/New%20Thumbnails/Motion%20Graphics.png",
+    layout: "lg:col-span-7",
+    imageRatio: "aspect-video",
+  },
+  {
+    slug: "picnic-2026-by-district",
+    name: "Picnic 2026 by District",
+    category: "Event Coverage",
+    description: "Full event coverage + Live edits for Picnic 2026 by District",
+    image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/New%20Thumbnails/PICNIC.png",
+    layout: "lg:col-span-5",
+    imageRatio: "aspect-video",
   },
 ];
 
@@ -139,8 +139,8 @@ export default function WorkListPage() {
                   fill
                   priority={index < 2}
                   sizes="(min-width: 1024px) 45vw, (min-width: 640px) 48vw, 90vw"
-                  className={`object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03] ${
-                    project.slug === "sparx-and-flite" ? "object-[center_25%]" : ""
+                  className={`${project.slug === "motion-graphics" || project.slug === "picnic-2026-by-district" ? "object-contain" : "object-cover"} ${project.slug === "motion-graphics" || project.slug === "picnic-2026-by-district" ? "" : "transition-transform duration-700 ease-out group-hover:scale-[1.03]"} ${
+                    project.slug === "sparx-and-flite" ? "object-[center_55%]" : ""
                   }`}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-70 transition-opacity group-hover:opacity-100" />

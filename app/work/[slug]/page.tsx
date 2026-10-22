@@ -19,7 +19,7 @@ const projects = [
   { slug: "bhagat-tarachand", name: "B Bhagat Tarachand", category: "Property Photography & Video", description: "Interior, space, and property photos and videos" },
   { slug: "purple-finance", name: "Purple Finance", category: "Brand Film", description: "Corporate Documentaries/Brand Films for Purple Finance Limited" },
   { slug: "picnic-2026-by-district", name: "Picnic 2026 by District", category: "Event Coverage", description: "Full event coverage + Live edits for Picnic 2026 by District" },
-  { slug: "armour-clothing", name: "Armour Clothing", category: "Brand Campaign", description: "Brand Launch reels for Aramour Clothing" },
+  { slug: "armour-clothing", name: "Aramour Clothing", category: "Brand Campaign", description: "Brand Launch reels for Aramour Clothing" },
   { slug: "food-and-beverage", name: "Food & Beverage", category: "Food Photography", description: "F&B Photography for B Bhagat Tarachand and FinX Commune Cafe" },
   { slug: "motion-graphics", name: "Motion Graphics", category: "Digital Campaign", description: "Relaxo Website Launch Ad" },
   { slug: "sparx-product-launch", name: "Sparx Product Launch", category: "Product Launch", description: "Fashion/lifestyle reels for Sparx Footwear" },
@@ -491,7 +491,7 @@ const sparxFliteProjects = [
   {
     slug: "flite",
     name: "Flite x Ali Fazal & Sanya Malhotra",
-    image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/Screenshot%202026-10-15%20at%206.37.55%E2%80%AFPM.png",
+    image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/New%20Thumbnails/Ali%20%26%20Sanya.png",
     imageRatio: "aspect-[4/3] md:aspect-auto md:h-[340px]",
   },
   {
@@ -509,7 +509,7 @@ const sparxFliteProjects = [
 ];
 
 const portfolioVideoPosters: Record<string, string> = {
-  flite: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/Screenshot%202026-10-15%20at%206.37.55%E2%80%AFPM.png",
+  flite: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/New%20Thumbnails/Ali%20%26%20Sanya.png",
   sparx: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/Screenshot%202026-10-15%20at%206.42.50%E2%80%AFPM.png",
   afnan: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/Screenshot%202026-10-15%20at%206.46.33%E2%80%AFPM.png",
   "nissan-gravite-launch": "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/6a8991bdcafcedc39a89628c_Nissan%20Gravite%20Image.webp",
@@ -659,7 +659,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
                       fill
                       sizes="(min-width: 768px) 45vw, 90vw"
                       className={`${isPropertyCollection ? "object-contain" : "object-cover"} transition-transform duration-700 ease-out group-hover:scale-[1.03] ${
-                        isSparxFliteCollection && index === 0 ? "object-[center_25%]" : ""
+                        isSparxFliteCollection && index === 0 ? "object-[center_55%]" : ""
                       }`}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-70 transition-opacity group-hover:opacity-100" />
