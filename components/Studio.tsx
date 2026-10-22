@@ -1,5 +1,7 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Reveal from "@/components/Reveal";
@@ -28,14 +30,48 @@ const roughDraftAssets = [
 export default function Studio() {
   const assetRef = useRef<HTMLDivElement>(null);
   const [activeAsset, setActiveAsset] = useState(0);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const openerRef = useRef<HTMLButtonElement | null>(null);
+
+  const moveSlide = useCallback((direction: number) => {
+    setActiveAsset((current) => (current + direction + roughDraftAssets.length) % roughDraftAssets.length);
+  }, []);
 
   useEffect(() => {
+    if (isFullscreen) return;
+
     const slideshow = window.setInterval(() => {
-      setActiveAsset((current) => (current + 1) % roughDraftAssets.length);
-    }, 4500);
+      moveSlide(1);
+    }, 3000);
 
     return () => window.clearInterval(slideshow);
+  }, [isFullscreen, moveSlide]);
+
+  const closeFullscreen = useCallback(() => {
+    setIsFullscreen(false);
+    openerRef.current?.focus();
   }, []);
+
+  useEffect(() => {
+    if (!isFullscreen) return;
+
+    closeButtonRef.current?.focus();
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") closeFullscreen();
+      if (event.key === "ArrowLeft") moveSlide(-1);
+      if (event.key === "ArrowRight") moveSlide(1);
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isFullscreen, closeFullscreen, moveSlide]);
 
   useEffect(() => {
     const el = assetRef.current;
@@ -72,21 +108,119 @@ export default function Studio() {
 
         <div className="flex items-center justify-center">
           <div ref={assetRef} className="w-full md:max-w-[720px] md:ml-auto">
-            <div className="relative w-full h-[400px] sm:h-[500px] md:h-[600px] overflow-hidden">
-              {roughDraftAssets.map((asset, index) => (
-                <img
-                  key={asset}
-                  src={asset}
-                  alt={`Behind-the-scenes studio image ${index + 1}`}
-                  className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-1000 ${
-                    activeAsset === index ? "opacity-100" : "opacity-0"
-                  }`}
+            <div className="relative isolate h-[400px] w-full overflow-hidden sm:h-[500px] md:h-[600px]">
+              <button
+                type="button"
+                aria-label={`Open behind-the-scenes image ${activeAsset + 1} fullscreen`}
+                onClick={(event) => {
+                  openerRef.current = event.currentTarget;
+                  setIsFullscreen(true);
+                }}
+                className="absolute inset-0 z-0 block size-full cursor-zoom-in focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber"
+              >
+                <Image
+                  key={roughDraftAssets[activeAsset]}
+                  src={roughDraftAssets[activeAsset]}
+                  alt={`Behind-the-scenes studio image ${activeAsset + 1}`}
+                  fill
+                  priority={activeAsset === 0}
+                  sizes="(min-width: 768px) 45vw, 90vw"
+                  className="object-contain"
                 />
-              ))}
+              </button>
+
+              <button
+                type="button"
+                aria-label="Previous slideshow image"
+                onPointerDown={(event) => event.stopPropagation()}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  moveSlide(-1);
+                }}
+                className="absolute left-3 top-1/2 z-20 flex size-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/40 bg-black/60 text-white transition-colors hover:border-amber hover:text-amber focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber"
+              >
+                <ChevronLeft size={22} aria-hidden="true" />
+              </button>
+
+              <button
+                type="button"
+                aria-label="Next slideshow image"
+                onPointerDown={(event) => event.stopPropagation()}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  moveSlide(1);
+                }}
+                className="absolute right-3 top-1/2 z-20 flex size-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/40 bg-black/60 text-white transition-colors hover:border-amber hover:text-amber focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber"
+              >
+                <ChevronRight size={22} aria-hidden="true" />
+              </button>
+
+              <p aria-live="polite" className="absolute bottom-3 left-1/2 z-10 -translate-x-1/2 rounded-full bg-black/60 px-3 py-1 text-xs tracking-widest text-white/80">
+                {activeAsset + 1} / {roughDraftAssets.length}
+              </p>
             </div>
           </div>
         </div>
       </Reveal>
+
+      {isFullscreen && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Behind-the-scenes slideshow"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 p-4 sm:p-8"
+          onClick={closeFullscreen}
+        >
+          <button
+            ref={closeButtonRef}
+            type="button"
+            aria-label="Close fullscreen slideshow"
+            onClick={closeFullscreen}
+            className="absolute right-4 top-4 z-10 flex size-11 items-center justify-center rounded-full border border-white/30 bg-black/50 text-white transition-colors hover:border-amber hover:text-amber sm:right-8 sm:top-8"
+          >
+            <X size={23} aria-hidden="true" />
+          </button>
+
+          <button
+            type="button"
+            aria-label="Previous slideshow image"
+            onClick={(event) => {
+              event.stopPropagation();
+              moveSlide(-1);
+            }}
+            className="absolute left-3 top-1/2 z-10 flex size-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/50 text-white transition-colors hover:border-amber hover:text-amber sm:left-8 sm:size-14"
+          >
+            <ChevronLeft size={23} aria-hidden="true" />
+          </button>
+
+          <div className="relative h-[88vh] max-h-[88vh] w-[88vw] max-w-7xl" onClick={(event) => event.stopPropagation()}>
+            <Image
+              key={roughDraftAssets[activeAsset]}
+              src={roughDraftAssets[activeAsset]}
+              alt={`Behind-the-scenes studio image ${activeAsset + 1}`}
+              fill
+              sizes="100vw"
+              priority
+              className="object-contain"
+            />
+            <p className="absolute bottom-2 left-1/2 -translate-x-1/2 rounded-full bg-black/60 px-3 py-1 text-xs tracking-widest text-white/80">
+              {activeAsset + 1} / {roughDraftAssets.length}
+            </p>
+          </div>
+
+          <button
+            type="button"
+            aria-label="Next slideshow image"
+            onClick={(event) => {
+              event.stopPropagation();
+              moveSlide(1);
+            }}
+            className="absolute right-3 top-1/2 z-10 flex size-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/50 text-white transition-colors hover:border-amber hover:text-amber sm:right-8 sm:size-14"
+          >
+            <ChevronRight size={23} aria-hidden="true" />
+          </button>
+        </div>
+      )}
     </section>
   );
 }
