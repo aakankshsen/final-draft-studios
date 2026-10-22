@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import CustomCursor from "@/components/CustomCursor";
-import NeedsContent from "@/components/NeedsContent";
 
 export default function AboutPage() {
   return (
@@ -9,44 +8,38 @@ export default function AboutPage() {
       <CustomCursor />
       <Navbar />
 
-      <section className="px-[5%] pt-36 pb-32 border-b border-white/10">
+      <section className="border-b border-white/10 px-[5%] pt-36 pb-32">
+        <div className="mx-auto max-w-5xl text-center">
         <div className="mb-16">
           <Link
             href="/"
-            className="inline-flex text-dim text-xs tracking-widest uppercase mb-10 hover:text-amber transition-colors"
+            className="mb-10 inline-flex text-dim text-xs uppercase tracking-widest transition-colors hover:text-amber"
           >
             ← Back to home
           </Link>
-          <h1 className="font-display uppercase text-[clamp(44px,8vw,110px)] leading-[0.88] max-w-4xl">
+          <h1 className="mx-auto max-w-4xl font-display uppercase text-[clamp(44px,8vw,110px)] leading-[0.88]">
             About
             <br />
-            us
+            <span className="text-amber">us</span>
           </h1>
         </div>
 
-        <div className="flex flex-col md:flex-row gap-14 md:gap-20 items-start">
-          <div className="flex-1 min-w-0 max-w-2xl">
-            <section>
-              <p className="text-paper text-xl md:text-2xl leading-relaxed mb-6">
+        <div className="mx-auto max-w-3xl">
+          <section>
+              <p className="mb-6 text-xl leading-relaxed text-amber md:text-2xl">
                 Final Draft Studios is a creative production house built on creative vision and strong execution.
               </p>
-              <p className="text-dim text-base leading-relaxed mb-6">
+              <p className="mb-6 text-base leading-relaxed text-dim">
                 We work across films, campaigns, photoshoots, events and content, bringing together creative direction, and fast turnarounds to deliver work for brands across industries.
               </p>
-              <p className="text-dim text-base leading-relaxed mb-6">
+              <p className="mb-6 text-base leading-relaxed text-dim">
                 Founded by Keshav Chaturvedi and Disha Wadhwani, FDS has worked with brands across automotive, fashion, skincare, F&amp;B, finance and events.
               </p>
-              <p className="text-dim text-base leading-relaxed">
+              <p className="text-base leading-relaxed text-dim">
                 We bring together a network of creatives, producers and collaborators to deliver work that meets the brief and stands on its own.
               </p>
-            </section>
-          </div>
-
-          <div className="flex-1 min-w-0 w-full md:sticky md:top-28 grid grid-cols-2 gap-4">
-            <NeedsContent label="CLIENT ASSET — co-founder portrait 1" className="aspect-[3/4]" />
-            <NeedsContent label="CLIENT ASSET — co-founder portrait 2" className="aspect-[3/4] mt-10" />
-            <NeedsContent label="CLIENT ASSET — studio / behind the scenes" className="aspect-[4/3] col-span-2" />
-          </div>
+          </section>
+        </div>
         </div>
       </section>
     </main>

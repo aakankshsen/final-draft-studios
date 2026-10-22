@@ -17,6 +17,12 @@ const projects = [
   { slug: "nissan-gravite-launch", name: "Nissan Gravite Launch Event", category: "Event Coverage", description: "Full Event Coverage and live edits" },
   { slug: "bagicha-wilderness", name: "Bagicha Wilderness", category: "Property Photography & Video", description: "Interior, space, and property photos and videos" },
   { slug: "bhagat-tarachand", name: "B Bhagat Tarachand", category: "Property Photography & Video", description: "Interior, space, and property photos and videos" },
+  { slug: "purple-finance", name: "Purple Finance", category: "Brand Film", description: "Corporate Documentaries/Brand Films for Purple Finance Limited" },
+  { slug: "picnic-2026-by-district", name: "Picnic 2026 by District", category: "Event Coverage", description: "Full event coverage + Live edits for Picnic 2026 by District" },
+  { slug: "armour-clothing", name: "Armour Clothing", category: "Brand Campaign", description: "Brand Launch reels for Aramour Clothing" },
+  { slug: "food-and-beverage", name: "Food & Beverage", category: "Food Photography", description: "F&B Photography for B Bhagat Tarachand and FinX Commune Cafe" },
+  { slug: "motion-graphics", name: "Motion Graphics", category: "Digital Campaign", description: "Relaxo Website Launch Ad" },
+  { slug: "sparx-product-launch", name: "Sparx Product Launch", category: "Product Launch", description: "Fashion/lifestyle reels for Sparx Footwear" },
 ];
 
 export function generateStaticParams() {
@@ -84,6 +90,31 @@ const lakmePhotos = [
   "/work/lakme/02.webp",
   "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Lakme%20Sun%20Expert/Lakme-tint-(product)1938%20copy.jpg",
 ];
+
+const foodBeveragePhotos = [
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/food%20and%20beverage%20/2%20TOASTS.png",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/food%20and%20beverage%20/AMBIENCE%201.png",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/food%20and%20beverage%20/BAIGAN%20BHARTA%20PAIRED-2.png",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/food%20and%20beverage%20/BURGER%20FINAL.png",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/food%20and%20beverage%20/FALAFEL%20PLATTER.png",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/food%20and%20beverage%20/GAJAR%20HALWA.png",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/food%20and%20beverage%20/GRILLED%20CHEESE%202.png",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/food%20and%20beverage%20/ICED%20TEA%20POURING%20B%26W.png",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/food%20and%20beverage%20/Latte%201.png",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/food%20and%20beverage%20/MENU%20%2B%20CONDIMENTS.png",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/food%20and%20beverage%20/PASTRY%20FINAL.png",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/food%20and%20beverage%20/SAAG%201.png",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/food%20and%20beverage%20/SAAG%20PAIRED%20%2B%20CONDIMENTS.png",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/food%20and%20beverage%20/SAAG%20PAIRING%202.png",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/food%20and%20beverage%20/SALADS%206.png",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/food%20and%20beverage%20/Salads%201.png",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/food%20and%20beverage%20/Salads%203.png",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/food%20and%20beverage%20/TEA%20POURING.png",
+  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/food%20and%20beverage%20/WINTER%20MENU.png",
+];
+const foodBeverageThumbnails = foodBeveragePhotos.map((_, index) =>
+  `/work/food-and-beverage/${String(index + 1).padStart(2, "0")}.jpg`,
+);
 
 const bagichaPhotos = [
   "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bagicha%20Wilderness/DJI_20260616112745_0012_D.jpg",
@@ -173,6 +204,116 @@ const nissanVideos: PortfolioVideo[] = [
     title: "Onam Final",
     src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Nissan%20x%20Lakshya/ONAM%20FINAL.mp4",
     poster: "/work/nissan/02.jpg",
+  },
+];
+
+const purpleFinanceVideos: PortfolioVideo[] = [
+  {
+    title: "About PFL",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Purple%20Finance/ABOUT%20PFL%20CHANGED%20FINAL.mp4",
+    poster: "/work/posters/purple-finance.jpg",
+  },
+  {
+    title: "Frontline Team",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Purple%20Finance/FRONTLINE%20TEAM.mp4",
+    poster: "/work/posters/purple-finance-frontline.jpg",
+  },
+  {
+    title: "Dipak Wagh",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Purple%20Finance/DIPAK%20WAGH%20CHANGED%20FINAL.mp4",
+    poster: "/work/posters/purple-finance-dipak.jpg",
+  },
+  {
+    title: "Employee Branding",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Purple%20Finance/EMPLOYEE%20BRANDING.mp4",
+    poster: "/work/posters/purple-finance-employee.jpg",
+  },
+];
+
+const picnicVideos: PortfolioVideo[] = [
+  {
+    title: "Aftermovie",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Picnic%202026%20by%20District/PTAT_AFTERMOVIE_3.mp4",
+    poster: "/work/posters/picnic-district.jpg",
+  },
+  {
+    title: "Picnic on the Day",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Picnic%202026%20by%20District/Ptat%20on%20day%20Reel%20final.mp4",
+    poster: "/work/posters/picnic-district-reel-1.jpg",
+  },
+  {
+    title: "Alcobev",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Picnic%202026%20by%20District/PTAT%20alcobev_3.mp4",
+    poster: "/work/posters/picnic-district-reel-2.jpg",
+  },
+  {
+    title: "DJ Reel",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Picnic%202026%20by%20District/PTAT%20dj%20reel.mp4",
+    poster: "/work/posters/picnic-district-reel-3.jpg",
+  },
+];
+
+const motionGraphicsVideos: PortfolioVideo[] = [
+  {
+    title: "Relaxo Website Launch Ad",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Motion%20Graphics/Relaxo%20New%20Website%20Launch-Final.mp4",
+    poster: "/work/posters/motion-graphics.jpg",
+  },
+];
+
+const sparxProductLaunchVideos: PortfolioVideo[] = [
+  {
+    title: "Sparx Product Launch",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Sparx%20Product%20Launch/1.mp4",
+    poster: "/work/posters/sparx-product-launch-1.jpg",
+  },
+  {
+    title: "Sparx Launch Reel 2",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Sparx%20Product%20Launch/2.mp4",
+    poster: "/work/posters/sparx-product-launch-2.jpg",
+  },
+  {
+    title: "Sparx Launch Reel 3",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Sparx%20Product%20Launch/3.mp4",
+    poster: "/work/posters/sparx-product-launch-3.jpg",
+  },
+  {
+    title: "Sparx Launch Reel 4",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Sparx%20Product%20Launch/4.mp4",
+    poster: "/work/posters/sparx-product-launch-4.jpg",
+  },
+  {
+    title: "Sparx Launch Reel 5",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Sparx%20Product%20Launch/5.mp4",
+    poster: "/work/posters/sparx-product-launch-5.jpg",
+  },
+  {
+    title: "Sparx Launch Reel 6",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Sparx%20Product%20Launch/6.mp4",
+    poster: "/work/posters/sparx-product-launch-6.jpg",
+  },
+];
+
+const armourVideos: PortfolioVideo[] = [
+  {
+    title: "Armour Reel",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Armour%20Clothing/ARAMOUR%20REEL.mp4",
+    poster: "/work/posters/armour-clothing.jpg",
+  },
+  {
+    title: "Armour Reel 2",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Armour%20Clothing/snapgram.io_f0ut23i5u3mk.mp4",
+    poster: "/work/posters/armour-clothing-reel-1.jpg",
+  },
+  {
+    title: "Armour Reel 3",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Armour%20Clothing/snapgram.io_90hedh0k4sss.mp4",
+    poster: "/work/posters/armour-clothing-reel-2.jpg",
+  },
+  {
+    title: "Armour Reel 4",
+    src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Armour%20Clothing/snapgram.io_3qcncfewo7qd.mp4",
+    poster: "/work/posters/armour-clothing-reel-3.jpg",
   },
 ];
 
@@ -438,18 +579,35 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       ? bagichaPhotos
       : slug === "bhagat-tarachand"
         ? bhagatPhotos
+        : slug === "food-and-beverage"
+          ? foodBeveragePhotos
         : null;
   const isNissanGraviteLaunch = slug === "nissan-gravite-launch";
   const isBering = slug === "bering";
   const isSparxChunky = slug === "afnan";
   const isSparxRaghu = slug === "sparx";
   const isFlite = slug === "flite";
+  const isPurpleFinance = slug === "purple-finance";
+  const isPicnic = slug === "picnic-2026-by-district";
+  const isArmour = slug === "armour-clothing";
+  const isMotionGraphics = slug === "motion-graphics";
+  const isSparxProductLaunch = slug === "sparx-product-launch";
   const videos = slug === "nissan"
     ? nissanVideos
     : isNissanGraviteLaunch
       ? nissanGraviteLaunchVideos
       : isBering
         ? beringAssets
+        : isPurpleFinance
+          ? purpleFinanceVideos
+        : isPicnic
+          ? picnicVideos
+        : isArmour
+          ? armourVideos
+        : isMotionGraphics
+          ? motionGraphicsVideos
+        : isSparxProductLaunch
+          ? sparxProductLaunchVideos
         : isSparxChunky
           ? sparxChunkyVideos
           : isSparxRaghu
@@ -534,6 +692,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
               ) : (
                 <PhotoWall
                   photos={photos}
+                  thumbnails={slug === "food-and-beverage" ? foodBeverageThumbnails : undefined}
                   layouts={photoWallLayouts}
                   label={slug === "lakme" ? "Lakmē Sun Expert" : project.name}
                   rowGap={24}
@@ -574,22 +733,23 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
                 />
               )
             ) : videos ? (
-              <div>
-                {!isNissanGraviteLaunch && !isSparxChunky && !isSparxRaghu && !isFlite && (
-                  <h2 className="mb-5 text-xs font-medium tracking-[0.2em] text-dim uppercase">
-                    Campaign films
-                  </h2>
-                )}
+              <div className={isSparxProductLaunch ? "mx-auto w-full max-w-[54rem]" : ""}>
                 <VideoWall
                   videos={videosWithPosters ?? videos}
                   label={project.name}
                   defaultPoster={portfolioVideoPosters[slug]}
-                  preloadVideos={isBering ? "none" : "metadata"}
+                  preloadVideos={isBering || isPurpleFinance || isPicnic || isArmour || isMotionGraphics || isSparxProductLaunch ? "none" : "metadata"}
                   layout={
                     isNissanGraviteLaunch
                       ? "launch-event"
                       : isBering
                         ? "mixed"
+                        : isPurpleFinance || isPicnic
+                          ? "landscape"
+                        : isArmour
+                          ? "portrait-centered-last"
+                        : isMotionGraphics
+                          ? "landscape-contained"
                         : isSparxChunky || isSparxRaghu || isFlite
                             ? "portrait-centered-last"
                           : "portrait"

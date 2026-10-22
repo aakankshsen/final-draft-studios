@@ -6,6 +6,7 @@ import type { TouchEvent } from "react";
 
 type PhotoWallProps = {
   photos: string[];
+  thumbnails?: string[];
   label: string;
   rowGap?: number;
   unoptimized?: boolean;
@@ -76,8 +77,9 @@ export default function PhotoWall(props: PhotoWallProps) {
   return <PhotoWallInner key={props.photos.join("|")} {...props} />;
 }
 
-function PhotoWallInner({ photos, label, dimensions, rowGap, unoptimized, instagramLinks, onOpenPhoto }: PhotoWallProps) {
+function PhotoWallInner({ photos, thumbnails, label, dimensions, rowGap, unoptimized, instagramLinks, onOpenPhoto }: PhotoWallProps) {
   const orderedPhotos = photos;
+  const galleryPhotos = thumbnails?.length === photos.length ? thumbnails : photos;
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const isOpen = activeIndex !== null;
   const closeButtonRef = useRef<HTMLButtonElement>(null);
@@ -288,7 +290,7 @@ function PhotoWallInner({ photos, label, dimensions, rowGap, unoptimized, instag
                       className="relative block w-full overflow-hidden bg-transparent text-left ring-1 ring-white/10 transition-shadow hover:ring-amber/60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber"
                     >
                       <Image
-                        src={orderedPhotos[index]}
+                        src={galleryPhotos[index]}
                         alt={`${label} portfolio photo ${index + 1}`}
                         fill
                         loading={index < initialLoadCount ? "eager" : "lazy"}

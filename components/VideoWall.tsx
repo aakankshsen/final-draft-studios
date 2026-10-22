@@ -24,7 +24,7 @@ type VideoWallProps = {
   videos: PortfolioAsset[];
   label: string;
   defaultPoster?: string;
-  layout?: "portrait" | "landscape" | "landscape-full" | "launch-event" | "mixed" | "portrait-centered-last";
+  layout?: "portrait" | "landscape" | "landscape-full" | "landscape-contained" | "launch-event" | "mixed" | "portrait-centered-last";
   hideCaptions?: boolean;
   preloadVideos?: "none" | "metadata" | "auto";
   onOpenVideo?: (index: number, currentTime: number, opener: HTMLButtonElement | null) => void;
@@ -168,6 +168,8 @@ export default function VideoWall({ videos, label, defaultPoster, layout = "port
   const gridClassName =
     layout === "landscape-full"
       ? "mx-auto grid w-full max-w-6xl grid-cols-1 gap-5"
+      : layout === "landscape-contained"
+        ? "mx-auto grid w-full max-w-5xl grid-cols-1 gap-5"
       : layout === "launch-event"
       ? "mx-auto grid max-w-[58rem] grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-6 lg:gap-6"
       : layout === "mixed"
