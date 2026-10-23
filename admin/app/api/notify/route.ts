@@ -28,7 +28,7 @@ export async function POST(req: Request) {
   const { data: enquiry } = await supabase.from("enquiries").select("*").eq("id", id).single();
   if (!enquiry) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
-  const results = { push: 0, email: false };
+  const results: { push: number; email: boolean; errors: string[] } = { push: 0, email: false, errors: [] };
   const title = `New enquiry from ${enquiry.name}`;
   const body = enquiry.service ? `${enquiry.service} — ${enquiry.message}` : enquiry.message;
 
@@ -44,9 +44,21 @@ export async function POST(req: Request) {
           results.push++;
         } catch (err) {
           const code = (err as { statusCode?: number }).statusCode;
+          results.errors.push(`push ${code ?? "error"}: ${(err as Error).message}`.slice(0, 160));
           if (code === 404 || code === 410) await supabase.from("push_subscriptions").delete().eq("id", s.id);
         }
       })
+    );
+    if (!subs?.length) results.errors.push("no push subscriptions found");
+  } else {
+    results.errors.push(
+      `push not configured on server (missing: ${[
+        !VAPID_PRIVATE_KEY && "VAPID_PRIVATE_KEY",
+        !NEXT_PUBLIC_VAPID_PUBLIC_KEY && "NEXT_PUBLIC_VAPID_PUBLIC_KEY",
+        !VAPID_SUBJECT && "VAPID_SUBJECT",
+      ]
+        .filter(Boolean)
+        .join(", ")})`
     );
   }
 
