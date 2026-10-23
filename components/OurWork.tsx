@@ -117,10 +117,10 @@ export default function OurWork() {
 
   return (
     <section id="work" className="relative min-h-screen md:h-screen md:min-h-[620px] flex flex-col justify-center bg-ink overflow-hidden px-[4%] md:px-[2%] py-10 md:py-8">
-      {/* See All — top right */}
+      {/* See All on mobile */}
       <Link
         href="/work"
-        className="relative z-20 mb-4 self-end group flex items-center gap-2 text-amber text-xs tracking-widest uppercase border border-amber/60 px-5 py-2.5 rounded-full hover:bg-amber hover:text-ink transition-colors md:absolute md:top-6 md:right-[5%] md:mb-0"
+        className="relative z-20 mb-4 self-end group flex items-center gap-2 text-amber text-xs tracking-widest uppercase border border-amber/60 px-5 py-2.5 rounded-full hover:bg-amber hover:text-ink transition-colors md:hidden"
       >
         See All
         <ArrowUpRight size={14} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -130,9 +130,18 @@ export default function OurWork() {
         <div className="font-mono text-xs tracking-[3px] uppercase text-amber mb-3">
           Highlight
         </div>
-        <h2 className="mx-auto w-fit cursor-default font-display uppercase text-[clamp(28px,4vw,48px)] text-paper leading-none [-webkit-text-stroke:1px_rgba(245,166,35,0.6)] hover:text-amber hover:[-webkit-text-stroke:1px_#F5A623] transition-all duration-500">
-          Our Recent Work
-        </h2>
+        <div className="relative">
+          <h2 className="mx-auto w-fit cursor-default font-display uppercase text-[clamp(28px,4vw,48px)] text-paper leading-none [-webkit-text-stroke:1px_rgba(245,166,35,0.6)] hover:text-amber hover:[-webkit-text-stroke:1px_#F5A623] transition-all duration-500">
+            Our Recent Work
+          </h2>
+          <Link
+            href="/work"
+            className="group absolute right-[3%] top-1/2 hidden -translate-y-1/2 items-center gap-2 rounded-full border border-amber/60 px-5 py-2.5 text-xs uppercase tracking-widest text-amber transition-colors hover:bg-amber hover:text-ink md:flex"
+          >
+            See All
+            <ArrowUpRight size={14} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </Link>
+        </div>
       </div>
 
       {/* carousel */}

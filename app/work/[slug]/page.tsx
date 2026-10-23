@@ -144,6 +144,7 @@ const bagichaReels: PortfolioVideo[] = [
   {
     title: "Reel 1",
     src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Alibaug%20Videos/RESYNC%201.mp4",
+    poster: "/work/posters/bagicha-reel-1.jpg",
   },
   {
     title: "Reel 2",
@@ -153,6 +154,7 @@ const bagichaReels: PortfolioVideo[] = [
   {
     title: "Reel 3",
     src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Alibaug%20Videos/FOOD%20REEL.mp4",
+    poster: "/work/posters/bagicha-reel-3.jpg",
   },
 ];
 
