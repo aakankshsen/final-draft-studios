@@ -1,32 +1,40 @@
+import { Suspense, cache } from "react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
+import { ListSkeleton, StatsSkeleton } from "@/components/Skeleton";
 import { STATUSES, STATUS_STYLES, formatDate, type Enquiry, type Status } from "@/lib/types";
 
 const PAGE_SIZE = 100;
 
-export default async function DashboardPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ status?: string; q?: string }>;
-}) {
-  const { status, q } = await searchParams;
+const getCounts = cache(async () => {
   const supabase = await createClient();
-
   const { data: all } = await supabase.from("enquiries").select("status");
   const counts: Record<string, number> = {};
   (all ?? []).forEach((r) => (counts[r.status] = (counts[r.status] ?? 0) + 1));
-  const total = all?.length ?? 0;
+  return { counts, total: all?.length ?? 0 };
+});
 
-  let query = supabase.from("enquiries").select("*").order("created_at", { ascending: false }).limit(PAGE_SIZE);
-  if (status && (STATUSES as readonly string[]).includes(status)) query = query.eq("status", status);
-  // strip characters that have meaning in PostgREST filter syntax
-  const term = (q ?? "").replace(/[,()%*\\]/g, " ").trim();
-  if (term) {
-    query = query.or(`name.ilike.%${term}%,email.ilike.%${term}%,message.ilike.%${term}%,service.ilike.%${term}%`);
-  }
-  const { data } = await query;
-  const enquiries = (data ?? []) as Enquiry[];
+async function Stats() {
+  const { counts, total } = await getCounts();
+  return (
+    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
+      {[
+        ["Total", total],
+        ["New", counts.new ?? 0],
+        ["In progress", (counts["in-progress"] ?? 0) + (counts.contacted ?? 0)],
+        ["Won", counts.won ?? 0],
+      ].map(([label, n]) => (
+        <div key={label} className="bg-card border border-white/10 p-4">
+          <p className="text-dim text-xs tracking-wide uppercase">{label}</p>
+          <p className="text-3xl font-extrabold mt-1">{n}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
 
+async function Chips({ status, term, withCounts }: { status?: string; term: string; withCounts: boolean }) {
+  const { counts, total } = withCounts ? await getCounts() : { counts: {} as Record<string, number>, total: undefined };
   const chip = (label: string, value: string | undefined, count?: number) => {
     const active = (status ?? "") === (value ?? "");
     const params = new URLSearchParams();
@@ -45,41 +53,26 @@ export default async function DashboardPage({
       </Link>
     );
   };
+  return (
+    <div className="flex gap-2 overflow-x-auto pb-3 mb-4 -mx-5 px-5">
+      {chip("All", undefined, total)}
+      {STATUSES.map((s) => chip(s, s, withCounts ? counts[s] ?? 0 : undefined))}
+    </div>
+  );
+}
+
+async function List({ status, term }: { status?: string; term: string }) {
+  const supabase = await createClient();
+  let query = supabase.from("enquiries").select("*").order("created_at", { ascending: false }).limit(PAGE_SIZE);
+  if (status && (STATUSES as readonly string[]).includes(status)) query = query.eq("status", status);
+  if (term) {
+    query = query.or(`name.ilike.%${term}%,email.ilike.%${term}%,message.ilike.%${term}%,service.ilike.%${term}%`);
+  }
+  const { data } = await query;
+  const enquiries = (data ?? []) as Enquiry[];
 
   return (
     <>
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
-        {[
-          ["Total", total],
-          ["New", counts.new ?? 0],
-          ["In progress", (counts["in-progress"] ?? 0) + (counts.contacted ?? 0)],
-          ["Won", counts.won ?? 0],
-        ].map(([label, n]) => (
-          <div key={label} className="bg-card border border-white/10 p-4">
-            <p className="text-dim text-xs tracking-wide uppercase">{label}</p>
-            <p className="text-3xl font-extrabold mt-1">{n}</p>
-          </div>
-        ))}
-      </div>
-
-      <form className="mb-4 flex gap-2">
-        {status && <input type="hidden" name="status" value={status} />}
-        <input
-          name="q"
-          defaultValue={term}
-          placeholder="Search name, email, message…"
-          className="flex-1 bg-card border border-white/10 px-4 py-3 text-sm focus:outline-none focus:border-amber"
-        />
-        <button className="border border-amber text-amber text-xs tracking-widest uppercase px-5 hover:bg-amber hover:text-ink transition-colors">
-          Search
-        </button>
-      </form>
-
-      <div className="flex gap-2 overflow-x-auto pb-3 mb-4 -mx-5 px-5">
-        {chip("All", undefined, total)}
-        {STATUSES.map((s) => chip(s, s, counts[s] ?? 0))}
-      </div>
-
       {enquiries.length === 0 ? (
         <p className="text-dim text-center py-16">No enquiries found.</p>
       ) : (
@@ -110,6 +103,45 @@ export default async function DashboardPage({
       {enquiries.length === PAGE_SIZE && (
         <p className="text-dim text-xs text-center mt-6">Showing the latest {PAGE_SIZE}. Use search or filters to narrow down.</p>
       )}
+    </>
+  );
+}
+
+export default async function DashboardPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ status?: string; q?: string }>;
+}) {
+  const { status, q } = await searchParams;
+  // strip characters that have meaning in PostgREST filter syntax
+  const term = (q ?? "").replace(/[,()%*\\]/g, " ").trim();
+
+  return (
+    <>
+      <Suspense fallback={<StatsSkeleton />}>
+        <Stats />
+      </Suspense>
+
+      <form className="mb-4 flex gap-2">
+        {status && <input type="hidden" name="status" value={status} />}
+        <input
+          name="q"
+          defaultValue={term}
+          placeholder="Search name, email, message…"
+          className="flex-1 bg-card border border-white/10 px-4 py-3 text-sm focus:outline-none focus:border-amber"
+        />
+        <button className="border border-amber text-amber text-xs tracking-widest uppercase px-5 hover:bg-amber hover:text-ink transition-colors">
+          Search
+        </button>
+      </form>
+
+      <Suspense fallback={<Chips status={status} term={term} withCounts={false} />}>
+        <Chips status={status} term={term} withCounts />
+      </Suspense>
+
+      <Suspense key={`${status ?? ""}|${term}`} fallback={<ListSkeleton />}>
+        <List status={status} term={term} />
+      </Suspense>
     </>
   );
 }
