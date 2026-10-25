@@ -145,7 +145,18 @@ export default function ClientReel() {
         dragging = false;
       };
 
-      startAutoScroll();
+      // begin only once the strip is on screen so the first brands aren't scrolled past unseen
+      let hasStarted = false;
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting || hasStarted) return;
+          hasStarted = true;
+          observer.disconnect();
+          if (animationFrame === null && resumeTimer === null && !dragging) startAutoScroll();
+        },
+        { threshold: 0.5 }
+      );
+      observer.observe(viewport);
       viewport.addEventListener("wheel", onWheel, { passive: false });
       viewport.addEventListener("touchstart", onTouchStart, { passive: true });
       viewport.addEventListener("touchend", onTouchEnd);
@@ -156,6 +167,7 @@ export default function ClientReel() {
       viewport.addEventListener("pointercancel", onPointerUp);
 
       return () => {
+        observer.disconnect();
         stopAutoScroll();
         if (resumeTimer !== null) window.clearTimeout(resumeTimer);
         viewport.removeEventListener("wheel", onWheel);

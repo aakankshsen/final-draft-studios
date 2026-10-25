@@ -1,6 +1,6 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, Maximize2, Play, X } from "lucide-react";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -27,26 +27,80 @@ const roughDraftAssets = [
   "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/BTS%20ASSETS/IMG_9504.JPG",
 ];
 
+const VIDEO_BASE = "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/BTS%20ASSETS/New%20assets";
+
+const roughDraftVideos = [
+  "IMG_0345.MOV",
+  "IMG_0360.MOV",
+  "IMG_0375.MOV",
+  "IMG_2943.MP4",
+  "IMG_2957.MP4",
+  "IMG_5192.mov",
+  "IMG_5366.MOV",
+  "IMG_7811.MP4",
+  "IMG_7858.MP4",
+].map((file) => `${VIDEO_BASE}/${file}`);
+
+type Slide = { type: "image" | "video"; src: string };
+
+// spread the videos evenly between the photos, starting and ending on a photo
+const slides: Slide[] = roughDraftAssets.flatMap((src, i) => {
+  const out: Slide[] = [{ type: "image", src }];
+  const before = Math.floor((i * roughDraftVideos.length) / roughDraftAssets.length);
+  const after = Math.floor(((i + 1) * roughDraftVideos.length) / roughDraftAssets.length);
+  if (after > before && i < roughDraftAssets.length - 1) out.push({ type: "video", src: roughDraftVideos[before] });
+  return out;
+});
+// any videos not placed by the spread go right before the last photo
+const placed = slides.filter((x) => x.type === "video").length;
+roughDraftVideos.slice(placed).forEach((src) => slides.splice(slides.length - 1, 0, { type: "video", src }));
+
+function VideoSlide({ src, label }: { src: string; label: string }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [playing, setPlaying] = useState(false);
+
+  return (
+    <>
+      <video
+        ref={videoRef}
+        src={`${src}#t=0.1`}
+        controls
+        playsInline
+        preload="metadata"
+        aria-label={label}
+        onPlay={() => setPlaying(true)}
+        onPause={() => setPlaying(false)}
+        onEnded={() => setPlaying(false)}
+        className="absolute inset-0 z-0 size-full bg-black object-contain"
+      />
+      {!playing && (
+        <button
+          type="button"
+          aria-label="Play video"
+          onClick={(event) => {
+            event.stopPropagation();
+            videoRef.current?.play();
+          }}
+          className="absolute left-1/2 top-1/2 z-10 flex size-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/60 bg-black/60 text-white transition-colors hover:border-amber hover:text-amber focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber sm:size-20"
+        >
+          <Play size={28} fill="currentColor" className="ml-1" aria-hidden="true" />
+        </button>
+      )}
+    </>
+  );
+}
+
 export default function Studio() {
   const assetRef = useRef<HTMLDivElement>(null);
   const [activeAsset, setActiveAsset] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const openerRef = useRef<HTMLButtonElement | null>(null);
+  const slide = slides[activeAsset];
 
   const moveSlide = useCallback((direction: number) => {
-    setActiveAsset((current) => (current + direction + roughDraftAssets.length) % roughDraftAssets.length);
+    setActiveAsset((current) => (current + direction + slides.length) % slides.length);
   }, []);
-
-  useEffect(() => {
-    if (isFullscreen) return;
-
-    const slideshow = window.setInterval(() => {
-      moveSlide(1);
-    }, 3000);
-
-    return () => window.clearInterval(slideshow);
-  }, [isFullscreen, moveSlide]);
 
   const closeFullscreen = useCallback(() => {
     setIsFullscreen(false);
@@ -102,32 +156,53 @@ export default function Studio() {
             The Rough Draft
           </h2>
           <p className="text-dim text-base max-w-[480px] leading-relaxed">
-            Before the final cut, there&apos;s a lot of chaos. This is where most of it happens
+            Before the final cut, there&apos;s a lot of chaos.
+            <br />
+            This is where most of it happens
           </p>
         </div>
 
         <div className="flex items-center justify-center">
           <div ref={assetRef} className="w-full md:max-w-[720px] md:ml-auto">
             <div className="relative isolate h-[400px] w-full overflow-hidden sm:h-[500px] md:h-[600px]">
-              <button
-                type="button"
-                aria-label={`Open behind-the-scenes image ${activeAsset + 1} fullscreen`}
-                onClick={(event) => {
-                  openerRef.current = event.currentTarget;
-                  setIsFullscreen(true);
-                }}
-                className="absolute inset-0 z-0 block size-full cursor-zoom-in focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber"
-              >
-                <Image
-                  key={roughDraftAssets[activeAsset]}
-                  src={roughDraftAssets[activeAsset]}
-                  alt={`Behind-the-scenes studio image ${activeAsset + 1}`}
-                  fill
-                  priority={activeAsset === 0}
-                  sizes="(min-width: 768px) 45vw, 90vw"
-                  className="object-contain"
-                />
-              </button>
+              {slide.type === "image" ? (
+                <button
+                  type="button"
+                  aria-label={`Open behind-the-scenes image ${activeAsset + 1} fullscreen`}
+                  onClick={(event) => {
+                    openerRef.current = event.currentTarget;
+                    setIsFullscreen(true);
+                  }}
+                  className="absolute inset-0 z-0 block size-full cursor-zoom-in focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber"
+                >
+                  <Image
+                    key={slide.src}
+                    src={slide.src}
+                    alt={`Behind-the-scenes studio image ${activeAsset + 1}`}
+                    fill
+                    priority={activeAsset === 0}
+                    sizes="(min-width: 768px) 45vw, 90vw"
+                    className="object-contain"
+                  />
+                </button>
+              ) : (
+                <>
+                  {!isFullscreen && (
+                    <VideoSlide key={slide.src} src={slide.src} label={`Behind-the-scenes video ${activeAsset + 1}`} />
+                  )}
+                  <button
+                    type="button"
+                    aria-label="Open video fullscreen"
+                    onClick={(event) => {
+                      openerRef.current = event.currentTarget;
+                      setIsFullscreen(true);
+                    }}
+                    className="absolute right-3 top-3 z-20 flex size-9 items-center justify-center rounded-full border border-white/40 bg-black/60 text-white transition-colors hover:border-amber hover:text-amber focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber"
+                  >
+                    <Maximize2 size={16} aria-hidden="true" />
+                  </button>
+                </>
+              )}
 
               <button
                 type="button"
@@ -155,8 +230,8 @@ export default function Studio() {
                 <ChevronRight size={22} aria-hidden="true" />
               </button>
 
-              <p aria-live="polite" className="absolute bottom-3 left-1/2 z-10 -translate-x-1/2 rounded-full bg-black/60 px-3 py-1 text-xs tracking-widest text-white/80">
-                {activeAsset + 1} / {roughDraftAssets.length}
+              <p aria-live="polite" className="absolute top-3 left-1/2 z-10 -translate-x-1/2 rounded-full bg-black/60 px-3 py-1 text-xs tracking-widest text-white/80">
+                {activeAsset + 1} / {slides.length}
               </p>
             </div>
           </div>
@@ -194,17 +269,21 @@ export default function Studio() {
           </button>
 
           <div className="relative h-[88vh] max-h-[88vh] w-[88vw] max-w-7xl" onClick={(event) => event.stopPropagation()}>
-            <Image
-              key={roughDraftAssets[activeAsset]}
-              src={roughDraftAssets[activeAsset]}
-              alt={`Behind-the-scenes studio image ${activeAsset + 1}`}
-              fill
-              sizes="100vw"
-              priority
-              className="object-contain"
-            />
-            <p className="absolute bottom-2 left-1/2 -translate-x-1/2 rounded-full bg-black/60 px-3 py-1 text-xs tracking-widest text-white/80">
-              {activeAsset + 1} / {roughDraftAssets.length}
+            {slide.type === "image" ? (
+              <Image
+                key={slide.src}
+                src={slide.src}
+                alt={`Behind-the-scenes studio image ${activeAsset + 1}`}
+                fill
+                sizes="100vw"
+                priority
+                className="object-contain"
+              />
+            ) : (
+              <VideoSlide key={slide.src} src={slide.src} label={`Behind-the-scenes video ${activeAsset + 1}`} />
+            )}
+            <p className="absolute top-2 left-1/2 z-10 -translate-x-1/2 rounded-full bg-black/60 px-3 py-1 text-xs tracking-widest text-white/80">
+              {activeAsset + 1} / {slides.length}
             </p>
           </div>
 
