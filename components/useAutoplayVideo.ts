@@ -10,17 +10,23 @@ export function useAutoplayVideo() {
     const video = videoRef.current;
     if (!video || !video.paused) return;
 
+    const previousVisibility = video.style.visibility;
     video.muted = true;
+    video.style.visibility = "visible";
     void video.play().then(
       () => {
-        if (videoRef.current === video) setPlaybackBlocked(false);
+        if (videoRef.current === video && !video.paused) {
+          setPlaybackBlocked(false);
+        }
       },
       (error: unknown) => {
         if (videoRef.current !== video || !video.paused) return;
-        if (error instanceof DOMException && error.name === "AbortError") return;
-        if (!(error instanceof DOMException && error.name === "NotAllowedError")) {
-          console.error("Could not play video:", error);
+        if (error instanceof DOMException && error.name === "AbortError") {
+          video.style.visibility = previousVisibility;
+          return;
         }
+        console.warn("Could not autoplay video:", error);
+        video.style.visibility = "hidden";
         setPlaybackBlocked(true);
       },
     );
@@ -40,7 +46,14 @@ export function useAutoplayVideo() {
     const retryIfVisible = () => {
       if (document.visibilityState === "visible" && isVisible()) playVideo();
     };
-    const handlePlaying = () => setPlaybackBlocked(false);
+    const handlePlaying = () => {
+      setPlaybackBlocked(false);
+    };
+    const handlePause = () => retryIfVisible();
+    const handleError = () => {
+      console.error("Could not load video:", video.currentSrc, video.error);
+      setPlaybackBlocked(true);
+    };
 
     const observer = new IntersectionObserver((entries) => {
       if (entries.some((entry) => entry.isIntersecting)) retryIfVisible();
@@ -50,6 +63,8 @@ export function useAutoplayVideo() {
     document.addEventListener("pointerdown", retryIfVisible);
     document.addEventListener("keydown", retryIfVisible);
     video.addEventListener("playing", handlePlaying);
+    video.addEventListener("pause", handlePause);
+    video.addEventListener("error", handleError);
     retryIfVisible();
 
     return () => {
@@ -58,8 +73,10 @@ export function useAutoplayVideo() {
       document.removeEventListener("pointerdown", retryIfVisible);
       document.removeEventListener("keydown", retryIfVisible);
       video.removeEventListener("playing", handlePlaying);
+      video.removeEventListener("pause", handlePause);
+      video.removeEventListener("error", handleError);
     };
   }, [playVideo]);
 
-  return { videoRef, playbackBlocked, playVideo };
+  return { videoRef, playbackBlocked };
 }

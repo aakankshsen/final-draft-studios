@@ -13,8 +13,11 @@ const slides = [
 ];
 
 export default function Hero() {
-  const { videoRef, playbackBlocked, playVideo } = useAutoplayVideo();
-  const { videoRef: backgroundRef } = useAutoplayVideo();
+  const { videoRef, playbackBlocked } = useAutoplayVideo();
+  const {
+    videoRef: backgroundRef,
+    playbackBlocked: backgroundBlocked,
+  } = useAutoplayVideo();
 
   return (
     <div className="bg-ink">
@@ -33,7 +36,8 @@ export default function Hero() {
                 muted
                 loop
                 playsInline
-                className="absolute inset-0 w-full h-full object-cover scale-110 blur-[28px] opacity-75 z-0"
+                style={{ visibility: backgroundBlocked ? "hidden" : "visible" }}
+                className="pointer-events-none absolute inset-0 w-full h-full object-cover scale-110 blur-[28px] opacity-75 z-0"
               >
                 <source src={slide.videoSrc} type="video/mp4" />
               </video>
@@ -81,19 +85,11 @@ export default function Hero() {
               muted
               loop
               playsInline
-              className="w-full h-full object-contain"
+              style={{ visibility: playbackBlocked ? "hidden" : "visible" }}
+              className="pointer-events-none w-full h-full object-contain"
             >
               <source src={slide.videoSrc} type="video/mp4" />
             </video>
-            {playbackBlocked && (
-              <button
-                type="button"
-                onClick={playVideo}
-                className="absolute inset-0 m-auto h-fit w-fit rounded-full bg-black/75 px-5 py-3 text-sm text-white"
-              >
-                Play showreel
-              </button>
-            )}
           </div>
 
           {/* mobile: heading + tags stacked below video, centered */}

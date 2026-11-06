@@ -9,7 +9,7 @@ const SCROLL_LEAD_SECONDS = 1.6;
 const SCROLL_DURATION_MS = 700;
 
 export default function LogoIntro() {
-  const { videoRef, playbackBlocked, playVideo } = useAutoplayVideo();
+  const { videoRef, playbackBlocked } = useAutoplayVideo();
   const hasAutoScrolled = useRef(false);
 
   useEffect(() => {
@@ -45,7 +45,6 @@ export default function LogoIntro() {
       frame = requestAnimationFrame(check);
     };
     frame = requestAnimationFrame(check);
-
     return () => {
       cancelAnimationFrame(frame);
       cancelAnimationFrame(scrollFrame);
@@ -61,19 +60,11 @@ export default function LogoIntro() {
         loop
         playsInline
         preload="auto"
-        className="block aspect-video w-full object-contain lg:absolute lg:inset-[14%] lg:aspect-auto lg:h-[72%] lg:w-[72%]"
+        style={{ visibility: playbackBlocked ? "hidden" : "visible" }}
+        className="pointer-events-none block aspect-video w-full object-contain lg:absolute lg:inset-[14%] lg:aspect-auto lg:h-[72%] lg:w-[72%]"
       >
         <source src={INTRO_VIDEO} type="video/mp4" />
       </video>
-      {playbackBlocked && (
-        <button
-          type="button"
-          onClick={playVideo}
-          className="absolute inset-0 m-auto h-fit w-fit rounded-full bg-black/75 px-5 py-3 text-sm text-white"
-        >
-          Play intro
-        </button>
-      )}
     </section>
   );
 }
