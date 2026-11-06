@@ -24,10 +24,13 @@ export const STATUS_STYLES: Record<Status, string> = {
 
 export function formatDate(iso: string) {
   return new Date(iso).toLocaleString("en-IN", {
+    timeZone: "Asia/Kolkata",
+    weekday: "short",
     day: "numeric",
     month: "short",
     year: "numeric",
     hour: "numeric",
     minute: "2-digit",
+    timeZoneName: "short",
   });
 }

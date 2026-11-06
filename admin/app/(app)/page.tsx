@@ -2,7 +2,9 @@ import { Suspense, cache } from "react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { ListSkeleton, StatsSkeleton } from "@/components/Skeleton";
-import { STATUSES, STATUS_STYLES, formatDate, type Enquiry, type Status } from "@/lib/types";
+import EnquiryList from "@/components/EnquiryList";
+import { enquirySearchFilter, normalizeEnquiryFilters } from "@/lib/enquiryFilters";
+import { STATUSES, type Enquiry } from "@/lib/types";
 
 const PAGE_SIZE = 100;
 
@@ -66,44 +68,17 @@ async function List({ status, term }: { status?: string; term: string }) {
   let query = supabase.from("enquiries").select("*").order("created_at", { ascending: false }).limit(PAGE_SIZE);
   if (status && (STATUSES as readonly string[]).includes(status)) query = query.eq("status", status);
   if (term) {
-    query = query.or(`name.ilike.%${term}%,email.ilike.%${term}%,message.ilike.%${term}%,service.ilike.%${term}%`);
+    query = query.or(enquirySearchFilter(term));
   }
-  const { data } = await query;
+  const { data, error } = await query;
+  if (error) {
+    console.error("Could not load enquiries:", error);
+    return <p role="alert" className="text-red-300 py-8">Could not load enquiries. Please try again.</p>;
+  }
   const enquiries = (data ?? []) as Enquiry[];
 
   return (
-    <>
-      {enquiries.length === 0 ? (
-        <p className="text-dim text-center py-16">No enquiries found.</p>
-      ) : (
-        <ul className="flex flex-col gap-2">
-          {enquiries.map((e) => (
-            <li key={e.id}>
-              <Link
-                href={`/enquiries/${e.id}`}
-                className="block bg-card border border-white/10 p-4 hover:border-amber/50 transition-colors"
-              >
-                <div className="flex items-start justify-between gap-3">
-                  <div className="min-w-0">
-                    <p className="font-bold truncate">{e.name}</p>
-                    <p className="text-dim text-xs mt-0.5 truncate">
-                      {e.service || "No service selected"} · {formatDate(e.created_at)}
-                    </p>
-                  </div>
-                  <span className={`shrink-0 text-[10px] tracking-widest uppercase border px-2 py-1 ${STATUS_STYLES[e.status as Status]}`}>
-                    {e.status}
-                  </span>
-                </div>
-                <p className="text-sm text-paper/70 mt-3 line-clamp-2">{e.message}</p>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      )}
-      {enquiries.length === PAGE_SIZE && (
-        <p className="text-dim text-xs text-center mt-6">Showing the latest {PAGE_SIZE}. Use search or filters to narrow down.</p>
-      )}
-    </>
+    <EnquiryList enquiries={enquiries} filters={normalizeEnquiryFilters(status, term)} pageSize={PAGE_SIZE} />
   );
 }
 
@@ -113,8 +88,7 @@ export default async function DashboardPage({
   searchParams: Promise<{ status?: string; q?: string }>;
 }) {
   const { status, q } = await searchParams;
-  // strip characters that have meaning in PostgREST filter syntax
-  const term = (q ?? "").replace(/[,()%*\\]/g, " ").trim();
+  const { status: filterStatus, term } = normalizeEnquiryFilters(status, q);
 
   return (
     <>
@@ -123,7 +97,7 @@ export default async function DashboardPage({
       </Suspense>
 
       <form className="mb-4 flex gap-2">
-        {status && <input type="hidden" name="status" value={status} />}
+        {filterStatus && <input type="hidden" name="status" value={filterStatus} />}
         <input
           name="q"
           defaultValue={term}
@@ -135,12 +109,12 @@ export default async function DashboardPage({
         </button>
       </form>
 
-      <Suspense fallback={<Chips status={status} term={term} withCounts={false} />}>
-        <Chips status={status} term={term} withCounts />
+      <Suspense fallback={<Chips status={filterStatus ?? undefined} term={term} withCounts={false} />}>
+        <Chips status={filterStatus ?? undefined} term={term} withCounts />
       </Suspense>
 
-      <Suspense key={`${status ?? ""}|${term}`} fallback={<ListSkeleton />}>
-        <List status={status} term={term} />
+      <Suspense key={`${filterStatus ?? ""}|${term}`} fallback={<ListSkeleton />}>
+        <List status={filterStatus ?? undefined} term={term} />
       </Suspense>
     </>
   );
