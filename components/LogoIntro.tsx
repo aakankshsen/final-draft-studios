@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import { useAutoplayVideo } from "./useAutoplayVideo";
 
-const INTRO_VIDEO = "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/FDS-Logo%20Animation-4k.mp4";
+const INTRO_VIDEO = "/videos/logo-intro.mp4";
 // Seconds before the video ends when the auto scroll starts, so it lines up with the arrow going up.
 const SCROLL_LEAD_SECONDS = 1.6;
 const SCROLL_DURATION_MS = 700;

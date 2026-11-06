@@ -69,7 +69,7 @@ export default function ArrowTransition() {
       </div>
 
       <div ref={arrowWrapRef} className="relative z-10">
-        <Image src="/logo/arrow-white.png" alt="" width={130} height={130} priority />
+        <Image src="/logo/arrow-white.png" alt="" width={130} height={130} />
       </div>
     </div>
   );

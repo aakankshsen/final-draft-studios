@@ -180,7 +180,6 @@ export default function Studio() {
                     src={slide.src}
                     alt={`Behind-the-scenes studio image ${activeAsset + 1}`}
                     fill
-                    priority={activeAsset === 0}
                     sizes="(min-width: 768px) 45vw, 90vw"
                     className="object-contain"
                   />

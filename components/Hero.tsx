@@ -1,4 +1,5 @@
 "use client";
+import { useEffect, useRef, useState } from "react";
 import { useAutoplayVideo } from "./useAutoplayVideo";
 
 const slides = [
@@ -13,14 +14,30 @@ const slides = [
 ];
 
 export default function Hero() {
-  const { videoRef, playbackBlocked } = useAutoplayVideo();
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [loadVideo, setLoadVideo] = useState(false);
+  const { videoRef, playbackBlocked } = useAutoplayVideo(loadVideo);
   const {
     videoRef: backgroundRef,
     playbackBlocked: backgroundBlocked,
-  } = useAutoplayVideo();
+  } = useAutoplayVideo(loadVideo);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) {
+        setLoadVideo(true);
+        observer.disconnect();
+      }
+    }, { rootMargin: "100px" });
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <div className="bg-ink">
+    <div ref={sectionRef} className="bg-ink">
       <div className="h-px w-full bg-white/10" />
       {slides.map((slide) => (
         <div
@@ -32,15 +49,14 @@ export default function Hero() {
             <>
               <video
                 ref={backgroundRef}
-                autoPlay
+                src={loadVideo ? slide.videoSrc : undefined}
+                autoPlay={loadVideo}
                 muted
                 loop
                 playsInline
                 style={{ visibility: backgroundBlocked ? "hidden" : "visible" }}
                 className="pointer-events-none absolute inset-0 w-full h-full object-cover scale-110 blur-[28px] opacity-75 z-0"
-              >
-                <source src={slide.videoSrc} type="video/mp4" />
-              </video>
+              />
               <div className="absolute inset-0 bg-ink/25 z-0" />
             </>
           )}
@@ -81,15 +97,14 @@ export default function Hero() {
           <div className="relative z-10 w-[85vw] aspect-[4/5] sm:w-[70vw] sm:aspect-[3/4] md:w-[60vw] lg:w-auto lg:h-[92vh] lg:aspect-[9/16]">
             <video
               ref={videoRef}
-              autoPlay
+              src={loadVideo ? slide.videoSrc : undefined}
+              autoPlay={loadVideo}
               muted
               loop
               playsInline
               style={{ visibility: playbackBlocked ? "hidden" : "visible" }}
               className="pointer-events-none w-full h-full object-contain"
-            >
-              <source src={slide.videoSrc} type="video/mp4" />
-            </video>
+            />
           </div>
 
           {/* mobile: heading + tags stacked below video, centered */}

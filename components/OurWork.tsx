@@ -201,7 +201,6 @@ export default function OurWork() {
                   src={project.image}
                   alt=""
                   fill
-                  priority={isCenter}
                   sizes="(min-width: 768px) 33vw, 70vw"
                   className={`${project.slug === "sparx" || project.slug === "afnan" || project.slug === "flite" ? "object-contain" : "object-cover"} ${isPhotoCard ? "object-[center_35%]" : ""} ${project.slug === "afnan" ? "scale-[1.3] -translate-y-[8%]" : ""} transition-[filter,transform] duration-700 ease-out ${isCenter ? "group-hover:brightness-110 group-hover:saturate-110 rounded-2xl" : "group-hover:scale-105 rounded-xl"}`}
                 />

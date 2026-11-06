@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
-export function useAutoplayVideo() {
+export function useAutoplayVideo(enabled = true) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [playbackBlocked, setPlaybackBlocked] = useState(false);
 
@@ -34,7 +34,7 @@ export function useAutoplayVideo() {
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video) return;
+    if (!video || !enabled) return;
 
     video.muted = true;
     video.defaultMuted = true;
@@ -76,7 +76,7 @@ export function useAutoplayVideo() {
       video.removeEventListener("pause", handlePause);
       video.removeEventListener("error", handleError);
     };
-  }, [playVideo]);
+  }, [enabled, playVideo]);
 
   return { videoRef, playbackBlocked };
 }
