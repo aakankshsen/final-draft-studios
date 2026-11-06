@@ -7,6 +7,8 @@ import PhotoWall from "@/components/PhotoWall";
 import VideoWall, { type PortfolioVideo } from "@/components/VideoWall";
 
 type BagichaPortfolioProps = {
+  dapoliPhotos: string[];
+  dapoliReels: PortfolioVideo[];
   photos: string[];
   heroVideo: PortfolioVideo;
   reels: PortfolioVideo[];
@@ -19,8 +21,21 @@ type PortfolioMedia =
 
 type ActiveMedia = { index: number; currentTime: number };
 
-export default function BagichaPortfolio({ photos, heroVideo, reels, label }: BagichaPortfolioProps) {
+export default function BagichaPortfolio({ dapoliPhotos, dapoliReels, photos, heroVideo, reels, label }: BagichaPortfolioProps) {
+  const dapoliCount = dapoliPhotos.length + dapoliReels.length;
   const media: PortfolioMedia[] = [
+    ...dapoliPhotos.map((src, index): PortfolioMedia => ({
+      type: "photo",
+      src,
+      title: `${label} Dapoli photo ${index + 1}`,
+    })),
+    ...dapoliReels.map((reel): PortfolioMedia => ({
+      type: "video",
+      src: reel.src,
+      title: reel.title,
+      poster: reel.poster,
+      orientation: "portrait",
+    })),
     {
       type: "video",
       src: heroVideo.src,
@@ -31,7 +46,7 @@ export default function BagichaPortfolio({ photos, heroVideo, reels, label }: Ba
     ...photos.map((src, index): PortfolioMedia => ({
       type: "photo",
       src,
-      title: `${label} photo ${index + 1}`,
+      title: `${label} Alibaug photo ${index + 1}`,
     })),
     ...reels.map((reel): PortfolioMedia => ({
       type: "video",
@@ -99,20 +114,43 @@ export default function BagichaPortfolio({ photos, heroVideo, reels, label }: Ba
   return (
     <>
       <div className="space-y-10">
+        <h2 className="font-display text-2xl uppercase tracking-wide text-paper sm:text-3xl">Dapoli</h2>
+        <PhotoWall
+          photos={dapoliPhotos}
+          label={`${label} Dapoli`}
+          rowGap={24}
+          onOpenPhoto={(index, opener) => openMedia(index, 0, opener)}
+        />
+
+        <div className="mx-auto w-full max-w-[22rem] sm:max-w-[54rem]">
+          <VideoWall
+            videos={dapoliReels}
+            label={`${label} Dapoli`}
+            layout="portrait"
+            hideCaptions
+            preloadVideos="none"
+            onOpenVideo={(index, currentTime, opener) =>
+              openMedia(dapoliPhotos.length + index, currentTime, opener)
+            }
+          />
+        </div>
+
+        <div className="h-px w-full bg-white/10" />
+        <h2 className="font-display text-2xl uppercase tracking-wide text-paper sm:text-3xl">Alibaug</h2>
         <VideoWall
           videos={[heroVideo]}
           label={label}
           layout="landscape-full"
           hideCaptions
           preloadVideos="none"
-          onOpenVideo={(index, currentTime, opener) => openMedia(index, currentTime, opener)}
+          onOpenVideo={(index, currentTime, opener) => openMedia(dapoliCount + index, currentTime, opener)}
         />
 
         <PhotoWall
           photos={photos}
           label={label}
           rowGap={24}
-          onOpenPhoto={(index, opener) => openMedia(index + 1, 0, opener)}
+          onOpenPhoto={(index, opener) => openMedia(dapoliCount + index + 1, 0, opener)}
         />
 
         <div className="mx-auto w-full max-w-[22rem] sm:max-w-[54rem]">
@@ -123,7 +161,7 @@ export default function BagichaPortfolio({ photos, heroVideo, reels, label }: Ba
             hideCaptions
             preloadVideos="none"
             onOpenVideo={(index, currentTime, opener) =>
-              openMedia(1 + photos.length + index, currentTime, opener)
+              openMedia(dapoliCount + 1 + photos.length + index, currentTime, opener)
             }
           />
         </div>

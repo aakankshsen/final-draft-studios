@@ -119,21 +119,42 @@ const foodBeverageThumbnails = foodBeveragePhotos.map((_, index) =>
 );
 
 const bagichaPhotos = [
-  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bagicha%20Wilderness/DJI_20260616112745_0012_D.jpg",
-  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bagicha%20Wilderness/DSC00565.jpg",
-  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bagicha%20Wilderness/DSC00528.jpg",
-  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bagicha%20Wilderness/DSC00538.jpg",
-  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bagicha%20Wilderness/DSC01005.jpg",
-  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bagicha%20Wilderness/DSC00986.jpg",
-  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bagicha%20Wilderness/DSC00780.jpg",
-  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bagicha%20Wilderness/DSC00677.jpg",
-  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bagicha%20Wilderness/DSC00704.jpg",
-  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bagicha%20Wilderness/DSC00752.jpg",
-  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bagicha%20Wilderness/DSC00645.jpg",
-  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bagicha%20Wilderness/DSC00918.jpg",
-  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bagicha%20Wilderness/DSC00928.jpg",
-  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bagicha%20Wilderness/DSC00657.jpg",
-  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bagicha%20Wilderness/DSC00960.jpg",
+  "/work/bagicha/alibaug/DJI_20260616112745_0012_D.jpg",
+  "/work/bagicha/alibaug/DSC00565.jpg",
+  "/work/bagicha/alibaug/DSC00528.jpg",
+  "/work/bagicha/alibaug/DSC00538.jpg",
+  "/work/bagicha/alibaug/DSC01005.jpg",
+  "/work/bagicha/alibaug/DSC00986.jpg",
+  "/work/bagicha/alibaug/DSC00780.jpg",
+  "/work/bagicha/alibaug/DSC00677.jpg",
+  "/work/bagicha/alibaug/DSC00704.jpg",
+  "/work/bagicha/alibaug/DSC00752.jpg",
+  "/work/bagicha/alibaug/DSC00645.jpg",
+  "/work/bagicha/alibaug/DSC00918.jpg",
+  "/work/bagicha/alibaug/DSC00928.jpg",
+  "/work/bagicha/alibaug/DSC00657.jpg",
+  "/work/bagicha/alibaug/DSC00960.jpg",
+];
+
+const bagichaDapoliPhotos = [
+  "/work/bagicha/dapoli/DJI_20261021082235_0125_D.jpg",
+  "/work/bagicha/dapoli/DSC07742.jpg",
+  "/work/bagicha/dapoli/DSC07898.jpg",
+  "/work/bagicha/dapoli/DSC07934-1.jpg",
+  "/work/bagicha/dapoli/DSC07940.jpg",
+  "/work/bagicha/dapoli/DSC08107.jpg",
+  "/work/bagicha/dapoli/DSC08150.jpg",
+  "/work/bagicha/dapoli/DSC08167.jpg",
+  "/work/bagicha/dapoli/DSC08404.jpg",
+  "/work/bagicha/dapoli/DSC08434.jpg",
+  "/work/bagicha/dapoli/DSC08522.jpg",
+  "/work/bagicha/dapoli/DSC09015.jpg",
+];
+
+const bagichaDapoliReels: PortfolioVideo[] = [
+  { title: "Dapoli Reel 1", src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bagicha%20Wilderness/dapoli/Reels/Food.mp4", poster: "/work/posters/bagicha-dapoli-reel-1.jpg" },
+  { title: "Dapoli Reel 2", src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bagicha%20Wilderness/dapoli/Reels/Overall.MP4", poster: "/work/posters/bagicha-dapoli-reel-2.jpg" },
+  { title: "Dapoli Reel 3", src: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Property%20%26%20Interiors/Bagicha%20Wilderness/dapoli/Reels/RESTAURANT.mp4", poster: "/work/posters/bagicha-dapoli-reel-3.jpg" },
 ];
 
 const bagichaHeroVideo: PortfolioVideo = {
@@ -708,6 +729,8 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
             {photos ? (
               slug === "bagicha-wilderness" ? (
                 <BagichaPortfolio
+                  dapoliPhotos={bagichaDapoliPhotos}
+                  dapoliReels={bagichaDapoliReels}
                   photos={photos}
                   heroVideo={bagichaHeroVideo}
                   reels={bagichaReels}
