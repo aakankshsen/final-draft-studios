@@ -25,16 +25,16 @@ export default function AboutPage() {
         <div className="mx-auto max-w-3xl">
           <section>
               <p className="mb-6 font-bold text-xl leading-relaxed text-amber md:text-2xl">
-                Final Draft Studios is a creative production house built on creative vision and strong execution.
+                Final Draft Studios is a creative production house built on strong vision and immaculate execution.
               </p>
               <p className="mb-6 font-bold text-base leading-relaxed text-dim">
-                We work across films, campaigns, photoshoots, events and content, bringing together creative direction, and fast turnarounds to deliver work for brands across industries.
+                Founded by <span className="text-amber">Keshav Chaturvedi</span> and <span className="text-amber">Disha Wadhwani</span>, FDS has worked with brands across automotive, fashion, skincare, F&amp;B, finance and events.
               </p>
               <p className="mb-6 font-bold text-base leading-relaxed text-dim">
-                Founded by Keshav Chaturvedi and Disha Wadhwani, FDS has worked with brands across automotive, fashion, skincare, F&amp;B, finance and events.
+                We handle campaigns, photoshoots, events and content, bringing together creative direction, and fast turnarounds for end-to-end support.
               </p>
               <p className="font-bold text-base leading-relaxed text-dim">
-                We bring together a network of creatives, producers and collaborators to deliver work that meets the brief and stands on its own.
+                We tie together a network of creatives, producers and collaborators to deliver work that meets the brief and stands on its own.
               </p>
           </section>
         </div>

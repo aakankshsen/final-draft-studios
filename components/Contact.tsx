@@ -43,10 +43,10 @@ export default function Contact() {
           watching.
         </h2>
         <div className="flex flex-col gap-2.5 items-start">
-          <a href="mailto:hello@finaldraftstudios.co" className="break-all text-base sm:text-lg border-b border-amber text-amber pb-1">
-            hello@finaldraftstudios.co
+          <a href="mailto:studiosfinaldraft@gmail.com" className="break-all text-base sm:text-lg border-b border-amber text-amber pb-1">
+            studiosfinaldraft@gmail.com
           </a>
-          <a href="#" className="text-lg border-b border-amber text-amber pb-1">
+          <a href="https://wa.me/919324125273" target="_blank" rel="noopener noreferrer" className="text-lg border-b border-amber text-amber pb-1">
             WhatsApp us
           </a>
         </div>
