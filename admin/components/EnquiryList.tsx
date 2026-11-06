@@ -7,6 +7,8 @@ import { archiveEnquiries, selectMatchingEnquiries } from "@/app/(app)/actions";
 import type { EnquiryFilters } from "@/lib/enquiryFilters";
 import { STATUS_STYLES, formatDate, type Enquiry } from "@/lib/types";
 
+const SELECTION_ENABLED = false;
+
 export default function EnquiryList({ enquiries, filters, pageSize }: {
   enquiries: Enquiry[];
   filters: EnquiryFilters;
@@ -65,7 +67,7 @@ export default function EnquiryList({ enquiries, filters, pageSize }: {
 
   return (
     <>
-      <div className="flex flex-wrap items-center gap-3 mb-4">
+      {SELECTION_ENABLED && <div className="flex flex-wrap items-center gap-3 mb-4">
         <button type="button" onClick={() => {
           setSelecting(!selecting);
           setSelected(new Set());
@@ -91,7 +93,7 @@ export default function EnquiryList({ enquiries, filters, pageSize }: {
             )}
           </>
         )}
-      </div>
+      </div>}
       {message && <p role="status" className="text-sm text-paper mb-4">{message}</p>}
       {enquiries.length === 0 ? (
         <p className="text-dim text-center py-16">No enquiries found.</p>
@@ -128,7 +130,7 @@ export default function EnquiryList({ enquiries, filters, pageSize }: {
         </ul>
       )}
       {enquiries.length === pageSize && (
-        <p className="text-dim text-xs text-center mt-6">Showing the latest {pageSize}. Select all includes all enquiries matching the current filters.</p>
+        <p className="text-dim text-xs text-center mt-6">Showing the latest {pageSize}. Use search or filters to narrow down.</p>
       )}
     </>
   );

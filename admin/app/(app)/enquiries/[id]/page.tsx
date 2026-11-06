@@ -1,13 +1,21 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { isArchiveAvailable } from "@/lib/supabase/archiveAvailability";
 import EnquiryEditor from "@/components/EnquiryEditor";
 import { formatDate, type Enquiry } from "@/lib/types";
 
 export default async function EnquiryPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const supabase = await createClient();
-  const { data } = await supabase.from("enquiries").select("*").eq("id", id).is("archived_at", null).maybeSingle();
+  const archiveAvailable = await isArchiveAvailable();
+  let query = supabase.from("enquiries").select("*").eq("id", id);
+  if (archiveAvailable) query = query.is("archived_at", null);
+  const { data, error } = await query.maybeSingle();
+  if (error) {
+    console.error("Could not load enquiry:", error);
+    throw new Error("Could not load enquiry.");
+  }
   if (!data) notFound();
   const e = data as Enquiry;
 

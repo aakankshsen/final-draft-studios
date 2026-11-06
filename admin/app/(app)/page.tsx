@@ -1,6 +1,7 @@
 import { Suspense, cache } from "react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
+import { isArchiveAvailable } from "@/lib/supabase/archiveAvailability";
 import { ListSkeleton, StatsSkeleton } from "@/components/Skeleton";
 import EnquiryList from "@/components/EnquiryList";
 import { enquirySearchFilter, normalizeEnquiryFilters } from "@/lib/enquiryFilters";
@@ -10,7 +11,10 @@ const PAGE_SIZE = 100;
 
 const getCounts = cache(async () => {
   const supabase = await createClient();
-  const { data: all, error } = await supabase.from("enquiries").select("status").is("archived_at", null);
+  const archiveAvailable = await isArchiveAvailable();
+  let query = supabase.from("enquiries").select("status");
+  if (archiveAvailable) query = query.is("archived_at", null);
+  const { data: all, error } = await query;
   if (error) {
     console.error("Could not load enquiry counts:", error);
     throw new Error("Could not load enquiry counts. Check the database setup.");
@@ -69,7 +73,9 @@ async function Chips({ status, term, withCounts }: { status?: string; term: stri
 
 async function List({ status, term }: { status?: string; term: string }) {
   const supabase = await createClient();
-  let query = supabase.from("enquiries").select("*").is("archived_at", null).order("created_at", { ascending: false }).limit(PAGE_SIZE);
+  const archiveAvailable = await isArchiveAvailable();
+  let query = supabase.from("enquiries").select("*").order("created_at", { ascending: false }).limit(PAGE_SIZE);
+  if (archiveAvailable) query = query.is("archived_at", null);
   if (status && (STATUSES as readonly string[]).includes(status)) query = query.eq("status", status);
   if (term) {
     query = query.or(enquirySearchFilter(term));
