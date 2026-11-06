@@ -9,7 +9,7 @@ const projects = [
   { slug: "lakme", name: "Lakmē Sun Expert", category: "Ad Film", description: "Quick Commerce Digital Campaign for Lakme’s Sunscreen range", image: "/work/lakme/cover.jpg" },
   { slug: "nissan", name: "Nissan x Lakshya", category: "Brand Film", description: "Digital Ads and Shoulder Content for Nissan Gravite", image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/lakshyaaaa.webp" },
   { slug: "bering", name: "Bering Watches", category: "Product Film", description: "Digital Ads, Model + Product Campaigns.", image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Bering%20Watches/DSC00219.png" },
-  { slug: "sparx-and-flite", name: "Sparx & Flite", category: "Brand Campaign", description: "Celebrity campaigns, digital ads.", image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/New%20Thumbnails/Ali%20%26%20Sanya.png" },
+  { slug: "sparx-and-flite", name: "Sparx & Flite", category: "Brand Campaign", description: "Celebrity campaigns, digital ads.", image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Sparx/Sparx%20x%20Lakshya%20%26%20Tamannah/IMG_0910.JPG" },
   { slug: "nissan-gravite-launch", name: "Nissan Gravite Launch Event", category: "Event Coverage", description: "Full Event Coverage and live edits", image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/6a8991bdcafcedc39a89628c_Nissan%20Gravite%20Image.webp" },
   { slug: "property-and-interiors", name: "Property and Interiors", category: "Property Photography & Video", description: "Interior, space, and property photos and videos", image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/Bagicha.jpg" },
 ];
@@ -182,26 +182,31 @@ export default function OurWork() {
         {[-2, -1, 0, 1, 2].map((offset, slot) => {
           const project = getProject(offset);
           const isCenter = offset === 0;
+          const isPhotoCard = project.slug === "sparx-and-flite";
 
           return (
             <div key={slot} className="relative flex-none w-full px-2 sm:w-4/5 md:w-1/3 md:px-3">
               <Link
                 data-carousel-card
                 href={`/work/${project.slug}`}
-                className={`${isCenter
-                  ? "group relative block w-full aspect-[4/5] md:aspect-[4/3] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.6)] transition-transform duration-500 ease-out hover:z-10 hover:scale-[1.04]"
-                  : "group relative block w-full aspect-[4/5] md:aspect-[4/3] overflow-hidden opacity-35 scale-90 hover:opacity-55 transition-opacity"
-                } ${project.slug === "sparx" || project.slug === "afnan" || project.slug === "flite" || project.slug === "sparx-and-flite" ? "bg-black" : ""}`}
+                className={`aspect-[4/5] md:aspect-[4/3] ${isCenter
+                  ? `group relative block w-full transition-transform duration-500 ease-out hover:z-10 hover:scale-[1.04] ${isPhotoCard ? "" : "overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.6)]"}`
+                  : "group relative block w-full overflow-hidden opacity-35 scale-90 hover:opacity-55 transition-opacity"
+                } ${project.slug === "sparx" || project.slug === "afnan" || project.slug === "flite" ? "bg-black" : ""}`}
               >
+                <div className={isPhotoCard
+                  ? `absolute inset-y-0 left-1/2 w-full md:w-[82%] -translate-x-1/2 overflow-hidden ${isCenter ? "rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.6)]" : "rounded-xl"}`
+                  : "absolute inset-0"}>
                 <Image
                   src={project.image}
                   alt=""
                   fill
                   priority={isCenter}
                   sizes="(min-width: 768px) 33vw, 70vw"
-                  className={`${project.slug === "sparx-and-flite" ? "object-cover object-[center_55%]" : project.slug === "sparx" || project.slug === "afnan" || project.slug === "flite" ? "object-contain" : "object-cover"} ${project.slug === "afnan" ? "scale-[1.3] -translate-y-[8%]" : ""} transition-[filter,transform] duration-700 ease-out ${isCenter ? "group-hover:brightness-110 group-hover:saturate-110 rounded-2xl" : "group-hover:scale-105 rounded-xl"}`}
+                  className={`${project.slug === "sparx" || project.slug === "afnan" || project.slug === "flite" ? "object-contain" : "object-cover"} ${isPhotoCard ? "object-[center_35%]" : ""} ${project.slug === "afnan" ? "scale-[1.3] -translate-y-[8%]" : ""} transition-[filter,transform] duration-700 ease-out ${isCenter ? "group-hover:brightness-110 group-hover:saturate-110 rounded-2xl" : "group-hover:scale-105 rounded-xl"}`}
                 />
                 <div className={`absolute inset-0 bg-gradient-to-t from-black/75 via-black/5 to-transparent ${isCenter ? "rounded-2xl" : "rounded-xl"}`} />
+                </div>
                 {!isCenter && (
                   <div className="absolute inset-x-3 bottom-3 md:inset-x-5 md:bottom-5">
                     <div className="font-display uppercase text-paper text-sm md:text-lg">{project.name}</div>

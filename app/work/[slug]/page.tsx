@@ -11,6 +11,7 @@ const projects = [
   { slug: "lakme", name: "Lakmē", category: "Ad Film", description: "Quick Commerce Digital Campaign for Lakme’s Sunscreen range" },
   { slug: "nissan", name: "Nissan x Lakshya", category: "Brand Film", description: "Digital Ads and Shoulder Content for Nissan Gravite" },
   { slug: "sparx", name: "Sparx x Raghu Rajiv", category: "Brand Campaign", description: "Celebrity campaigns, digital ads." },
+  { slug: "sparx-lakshya-tamannaah", name: "Sparx x Lakshya & Tamannaah", category: "Brand Campaign", description: "Celebrity campaigns, digital ads." },
   { slug: "bering", name: "Bering Watches", category: "Product Film", description: "Digital Ads, Model + Product Campaigns." },
   { slug: "afnan", name: "Sparx x Chunky Panday", category: "Brand Campaign", description: "Celebrity campaigns, digital ads." },
   { slug: "flite", name: "Flite x Ali Fazal & Sanya Malhotra", category: "Brand Campaign", description: "Celebrity campaigns, digital ads." },
@@ -35,6 +36,7 @@ export function generateStaticParams() {
 
 const portfolioParents: Record<string, { href: string; label: string }> = {
   sparx: { href: "/work/sparx-and-flite", label: "Sparx & Flite" },
+  "sparx-lakshya-tamannaah": { href: "/work/sparx-and-flite", label: "Sparx & Flite" },
   afnan: { href: "/work/sparx-and-flite", label: "Sparx & Flite" },
   flite: { href: "/work/sparx-and-flite", label: "Sparx & Flite" },
   "bagicha-wilderness": {
@@ -357,6 +359,11 @@ const sparxRaghuVideos: PortfolioVideo[] = [
   },
 ];
 
+const sparxLakshyaTamannaahVideos: PortfolioVideo[] = Array.from({ length: 9 }, (_, index) => ({
+  title: `Reel ${index + 1}`,
+  src: `https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Sparx/Sparx%20x%20Lakshya%20%26%20Tamannah/${index + 1}.mp4`,
+}));
+
 const fliteVideos: PortfolioVideo[] = [
   {
     title: "Teaser",
@@ -491,6 +498,12 @@ const photoWallLayouts = [
 
 const sparxFliteProjects = [
   {
+    slug: "sparx-lakshya-tamannaah",
+    name: "Sparx x Lakshya & Tamannaah",
+    image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Sparx/Sparx%20x%20Lakshya%20%26%20Tamannah/IMG_0910.JPG",
+    imageRatio: "aspect-[4/5] md:aspect-auto md:h-[500px]",
+  },
+  {
     slug: "flite",
     name: "Flite x Ali Fazal & Sanya Malhotra",
     image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/New%20Thumbnails/Ali%20%26%20Sanya.png",
@@ -588,6 +601,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   const isBering = slug === "bering";
   const isSparxChunky = slug === "afnan";
   const isSparxRaghu = slug === "sparx";
+  const isSparxLakshyaTamannaah = slug === "sparx-lakshya-tamannaah";
   const isFlite = slug === "flite";
   const isPurpleFinance = slug === "purple-finance";
   const isPicnic = slug === "picnic-2026-by-district";
@@ -612,6 +626,8 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           ? sparxProductLaunchVideos
         : isSparxChunky
           ? sparxChunkyVideos
+          : isSparxLakshyaTamannaah
+            ? sparxLakshyaTamannaahVideos
           : isSparxRaghu
             ? sparxRaghuVideos
             : isFlite
@@ -644,34 +660,40 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
             </h1>
 
             <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10 items-start">
-              {(isPropertyCollection ? propertyProjects : sparxFliteProjects).map((collectionProject, index) => (
+              {(isPropertyCollection ? propertyProjects : sparxFliteProjects).map((collectionProject) => (
                 <Link
                   key={collectionProject.slug}
                   href={`/work/${collectionProject.slug}`}
                   className={`group block ${
                     isPropertyCollection
                       ? "md:col-span-6"
-                      : ["md:col-span-5", "md:col-span-4", "md:col-span-3"][index]
+                      : collectionProject.slug === "sparx-lakshya-tamannaah"
+                        ? "md:col-span-12"
+                        : "md:col-span-4"
                   }`}
                 >
-                  <div className={`relative mb-5 overflow-hidden ${isPropertyCollection ? "bg-transparent" : "bg-white/5"} ${collectionProject.imageRatio}`}>
-                    <Image
-                      src={collectionProject.image}
-                      alt={collectionProject.name}
-                      fill
-                      sizes="(min-width: 768px) 45vw, 90vw"
-                      className={`${isPropertyCollection ? "object-contain" : "object-cover"} transition-transform duration-700 ease-out group-hover:scale-[1.03] ${
-                        isSparxFliteCollection && index === 0 ? "object-[center_55%]" : ""
-                      }`}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-70 transition-opacity group-hover:opacity-100" />
+                  <div className={collectionProject.slug === "sparx-lakshya-tamannaah" ? "mx-auto w-full max-w-[400px]" : ""}>
+                    <div className={`relative mb-5 overflow-hidden ${isPropertyCollection || collectionProject.slug === "sparx-lakshya-tamannaah" ? "bg-transparent" : "bg-white/5"} ${collectionProject.imageRatio}`}>
+                      <Image
+                        src={collectionProject.image}
+                        alt={collectionProject.name}
+                        fill
+                        sizes="(min-width: 768px) 45vw, 90vw"
+                        className={`${isPropertyCollection || collectionProject.slug === "sparx-lakshya-tamannaah" ? "object-contain" : "object-cover"} transition-transform duration-700 ease-out ${
+                          collectionProject.slug === "sparx-lakshya-tamannaah" ? "" : "group-hover:scale-[1.03]"
+                        } ${
+                          isSparxFliteCollection && collectionProject.slug === "flite" ? "object-[center_55%]" : ""
+                        }`}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-70 transition-opacity group-hover:opacity-100" />
+                    </div>
+                    <h2 className="w-fit text-paper text-xl sm:text-2xl font-semibold transition-colors duration-300 group-hover:text-amber">
+                      {collectionProject.name}
+                    </h2>
+                    <p className="mt-2 text-sm leading-relaxed text-dim">
+                      {isPropertyCollection ? "Interior, space, and property photos and videos" : "Celebrity campaigns, digital ads."}
+                    </p>
                   </div>
-                  <h2 className="w-fit text-paper text-xl sm:text-2xl font-semibold transition-colors duration-300 group-hover:text-amber">
-                    {collectionProject.name}
-                  </h2>
-                  <p className="mt-2 text-sm leading-relaxed text-dim">
-                    {isPropertyCollection ? "Interior, space, and property photos and videos" : "Celebrity campaigns, digital ads."}
-                  </p>
                 </Link>
               ))}
             </div>

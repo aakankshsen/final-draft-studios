@@ -36,7 +36,7 @@ const projects = [
     name: "Sparx & Flite",
     category: "Brand Campaign",
     description: "Celebrity campaigns, digital ads.",
-    image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Thumbnails/New%20Thumbnails/Ali%20%26%20Sanya.png",
+    image: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Sparx/Sparx%20x%20Lakshya%20%26%20Tamannah/IMG_0910.JPG",
     layout: "lg:col-span-7",
     imageRatio: "aspect-[4/5] sm:aspect-[1.2/1] lg:aspect-[1.4/1]",
   },
@@ -132,23 +132,25 @@ export default function WorkListPage() {
               href={`/work/${project.slug}`}
               className={`group block ${project.layout}`}
             >
-              <div className={`relative mb-4 overflow-hidden bg-white/5 ${project.imageRatio}`}>
+              <div className={`relative mb-4 overflow-hidden ${project.slug === "sparx-and-flite" ? "" : "bg-white/5"} ${project.imageRatio}`}>
+                <div className={project.slug === "sparx-and-flite" ? "absolute inset-y-0 left-1/2 w-full sm:w-[82%] -translate-x-1/2" : "absolute inset-0"}>
                 <Image
                   src={project.image}
                   alt={project.name}
                   fill
                   priority={index < 2}
                   sizes="(min-width: 1024px) 45vw, (min-width: 640px) 48vw, 90vw"
-                  className={`${project.slug === "motion-graphics" || project.slug === "picnic-2026-by-district" ? "object-contain" : "object-cover"} ${project.slug === "motion-graphics" || project.slug === "picnic-2026-by-district" ? "" : "transition-transform duration-700 ease-out group-hover:scale-[1.03]"} ${
-                    project.slug === "sparx-and-flite" ? "object-[center_55%]" : ""
-                  }`}
+                  className={`${project.slug === "motion-graphics" || project.slug === "picnic-2026-by-district" ? "object-contain" : "object-cover"} ${project.slug === "motion-graphics" || project.slug === "picnic-2026-by-district" ? "" : "transition-transform duration-700 ease-out group-hover:scale-[1.03]"} ${project.slug === "sparx-and-flite" ? "object-[center_25%]" : ""}`}
                 />
+                </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-70 transition-opacity group-hover:opacity-100" />
               </div>
-              <h2 className="w-fit text-paper text-lg sm:text-xl font-semibold transition-colors duration-300 group-hover:text-amber">
-                {project.name}
-              </h2>
-              <p className="mt-2 max-w-lg text-sm leading-relaxed text-dim">{project.description}</p>
+              <div className={project.slug === "sparx-and-flite" ? "sm:pl-[9%]" : ""}>
+                <h2 className="w-fit text-paper text-lg sm:text-xl font-semibold transition-colors duration-300 group-hover:text-amber">
+                  {project.name}
+                </h2>
+                <p className="mt-2 max-w-lg text-sm leading-relaxed text-dim">{project.description}</p>
+              </div>
             </Link>
           ))}
         </div>
