@@ -58,7 +58,7 @@ export default function LogoIntro() {
   };
 
   return (
-    <section className="relative h-screen h-[100svh] w-full overflow-hidden bg-black">
+    <section className="relative w-full overflow-hidden bg-black pt-14 lg:h-screen lg:h-[100svh] lg:pt-0">
       <video
         ref={videoRef}
         autoPlay
@@ -66,7 +66,7 @@ export default function LogoIntro() {
         playsInline
         preload="auto"
         onEnded={handleEnded}
-        className="absolute inset-0 h-full w-full object-contain lg:inset-[14%] lg:h-[72%] lg:w-[72%]"
+        className="block aspect-video w-full object-contain lg:absolute lg:inset-[14%] lg:aspect-auto lg:h-[72%] lg:w-[72%]"
       >
         <source src={INTRO_VIDEO} type="video/mp4" />
       </video>
