@@ -704,6 +704,8 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
                           collectionProject.slug === "sparx-lakshya-tamannaah" ? "" : "group-hover:scale-[1.03]"
                         } ${
                           isSparxFliteCollection && collectionProject.slug === "flite" ? "object-[center_55%]" : ""
+                        } ${
+                          isSparxFliteCollection && collectionProject.slug === "sparx" ? "object-[center_15%]" : ""
                         }`}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-70 transition-opacity group-hover:opacity-100" />

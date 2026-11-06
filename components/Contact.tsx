@@ -81,9 +81,8 @@ export default function Contact() {
       <footer className="flex justify-between items-center flex-wrap gap-3 pt-10 border-t border-white/10 text-dim text-xs">
         <div className="flex items-center gap-2.5">
           <Image src="/logo/icon-white.png" alt="" width={22} height={22} className="opacity-70" />
-          <span>© Final Draft Studios — Mumbai</span>
+          <span>© Final Draft Studios</span>
         </div>
-        <div className="font-mono">HOMEPAGE — V1</div>
       </footer>
     </section>
   );
