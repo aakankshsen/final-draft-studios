@@ -1,19 +1,20 @@
 "use client";
-import { useRef } from "react";
+import { useAutoplayVideo } from "./useAutoplayVideo";
 
 const slides = [
   {
     tags: ["Digital Campaigns", "Photoshoots", "Events"],
     title: ["Showreel", "2025"],
     assetLabel: "CLIENT ASSET — Brand film reel / hero video",
-    videoSrc: "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/FinalDraftLV_1.mp4",
+    videoSrc: "/videos/hero-reel.mp4",
     counter: 1,
     align: "left" as const,
   },
 ];
 
 export default function Hero() {
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const { videoRef, playbackBlocked, playVideo } = useAutoplayVideo();
+  const { videoRef: backgroundRef } = useAutoplayVideo();
 
   return (
     <div className="bg-ink">
@@ -27,6 +28,7 @@ export default function Hero() {
           {slide.videoSrc && (
             <>
               <video
+                ref={backgroundRef}
                 autoPlay
                 muted
                 loop
@@ -83,6 +85,15 @@ export default function Hero() {
             >
               <source src={slide.videoSrc} type="video/mp4" />
             </video>
+            {playbackBlocked && (
+              <button
+                type="button"
+                onClick={playVideo}
+                className="absolute inset-0 m-auto h-fit w-fit rounded-full bg-black/75 px-5 py-3 text-sm text-white"
+              >
+                Play showreel
+              </button>
+            )}
           </div>
 
           {/* mobile: heading + tags stacked below video, centered */}
