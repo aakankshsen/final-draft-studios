@@ -50,14 +50,14 @@ export default function Navbar() {
               : "py-4 bg-transparent border-transparent rounded-none"
           }`}
         >
-          <Link href="/" className="flex items-center">
+          <Link href="/" className="flex shrink-0 items-center">
             <Image
               src="/logo/wordmark-white2.png"
               alt="Final Draft Studios"
               width={480}
               height={120}
               priority
-              className="w-auto h-6 md:h-8"
+              className="w-auto h-5 min-[400px]:h-6 md:h-8 max-w-none"
             />
           </Link>
 
@@ -74,10 +74,10 @@ export default function Navbar() {
             ))}
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3 sm:gap-4">
             <Link
               href="/enquire"
-              className="group hidden sm:flex border border-amber/70 text-amber text-xs tracking-widest uppercase px-5 py-2 rounded-full items-center gap-2 hover:bg-amber hover:text-ink transition-colors"
+              className="group flex border border-amber/70 text-amber text-[10px] min-[400px]:text-[11px] sm:text-xs tracking-wider sm:tracking-widest uppercase px-3 min-[400px]:px-3.5 sm:px-5 py-1.5 sm:py-2 rounded-full items-center gap-1.5 sm:gap-2 hover:bg-amber hover:text-ink transition-colors"
             >
               Enquire
               <ArrowUpRight size={14} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />

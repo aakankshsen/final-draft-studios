@@ -1,35 +1,72 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 const INTRO_VIDEO = "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/FDS-Logo%20Animation-4k.mp4";
+// Seconds before the video ends when the auto scroll starts, so it lines up with the arrow going up.
+const SCROLL_LEAD_SECONDS = 1.6;
+const SCROLL_DURATION_MS = 700;
 
 export default function LogoIntro() {
+  const videoRef = useRef<HTMLVideoElement>(null);
   const hasAutoScrolled = useRef(false);
 
-  // Loops manually (instead of the loop attribute) so the first "ended" event fires and triggers the auto scroll.
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    let frame = 0;
+    let scrollFrame = 0;
+
+    const scrollToWork = () => {
+      const target = document.getElementById("work");
+      if (!target) return;
+
+      const startY = window.scrollY;
+      const distance = target.getBoundingClientRect().top;
+      const startTime = performance.now();
+
+      const step = (now: number) => {
+        const progress = Math.min((now - startTime) / SCROLL_DURATION_MS, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        window.scrollTo(0, startY + distance * eased);
+        if (progress < 1) scrollFrame = requestAnimationFrame(step);
+      };
+      scrollFrame = requestAnimationFrame(step);
+    };
+
+    const check = () => {
+      if (!hasAutoScrolled.current && video.duration && video.currentTime >= video.duration - SCROLL_LEAD_SECONDS) {
+        hasAutoScrolled.current = true;
+        // Skip if the visitor has already scrolled away from the intro.
+        if (window.scrollY <= window.innerHeight * 0.5) scrollToWork();
+      }
+      frame = requestAnimationFrame(check);
+    };
+    frame = requestAnimationFrame(check);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      cancelAnimationFrame(scrollFrame);
+    };
+  }, []);
+
+  // Loops manually so the first play can trigger the auto scroll only once.
   const handleEnded = (event: React.SyntheticEvent<HTMLVideoElement>) => {
-    const video = event.currentTarget;
-    video.currentTime = 0;
-    void video.play();
-
-    if (hasAutoScrolled.current) return;
-    hasAutoScrolled.current = true;
-
-    // Skip if the visitor has already scrolled away from the intro.
-    if (window.scrollY > window.innerHeight * 0.5) return;
-    document.getElementById("work")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    event.currentTarget.currentTime = 0;
+    void event.currentTarget.play();
   };
 
   return (
     <section className="relative h-screen h-[100svh] w-full overflow-hidden bg-black">
       <video
+        ref={videoRef}
         autoPlay
         muted
         playsInline
         preload="auto"
         onEnded={handleEnded}
-        className="absolute inset-0 h-full w-full object-contain"
+        className="absolute inset-0 h-full w-full object-contain lg:inset-[14%] lg:h-[72%] lg:w-[72%]"
       >
         <source src={INTRO_VIDEO} type="video/mp4" />
       </video>
