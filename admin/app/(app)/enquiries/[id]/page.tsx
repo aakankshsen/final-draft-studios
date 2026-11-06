@@ -7,7 +7,7 @@ import { formatDate, type Enquiry } from "@/lib/types";
 export default async function EnquiryPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const supabase = await createClient();
-  const { data } = await supabase.from("enquiries").select("*").eq("id", id).maybeSingle();
+  const { data } = await supabase.from("enquiries").select("*").eq("id", id).is("archived_at", null).maybeSingle();
   if (!data) notFound();
   const e = data as Enquiry;
 

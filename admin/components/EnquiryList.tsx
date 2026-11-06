@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { deleteEnquiries, selectMatchingEnquiries } from "@/app/(app)/actions";
+import { archiveEnquiries, selectMatchingEnquiries } from "@/app/(app)/actions";
 import type { EnquiryFilters } from "@/lib/enquiryFilters";
 import { STATUS_STYLES, formatDate, type Enquiry } from "@/lib/types";
 
@@ -44,20 +44,20 @@ export default function EnquiryList({ enquiries, filters, pageSize }: {
 
   const removeSelected = async () => {
     const ids = [...selected];
-    if (!ids.length || !window.confirm(`Permanently delete ${ids.length} selected ${ids.length === 1 ? "enquiry" : "enquiries"}? This cannot be undone.`)) return;
+    if (!ids.length || !window.confirm(`Remove ${ids.length} selected ${ids.length === 1 ? "enquiry" : "enquiries"} from the admin view? They will remain in Supabase.`)) return;
     setBusy(true);
     setMessage("");
     try {
-      const deleted = await deleteEnquiries(ids);
+      const archived = await archiveEnquiries(ids);
       setSelected(new Set());
       setSelecting(false);
-      setMessage(deleted === ids.length
-        ? `Deleted ${deleted} ${deleted === 1 ? "enquiry" : "enquiries"}.`
-        : `Deleted ${deleted} of ${ids.length} selected enquiries. Some were already removed or could not be deleted.`);
+      setMessage(archived === ids.length
+        ? `Removed ${archived} ${archived === 1 ? "enquiry" : "enquiries"} from the admin view.`
+        : `Removed ${archived} of ${ids.length} selected enquiries. Some were already removed or could not be archived.`);
       router.refresh();
     } catch (error) {
-      console.error("Could not delete enquiries:", error);
-      setMessage(error instanceof Error ? error.message : "Could not delete enquiries.");
+      console.error("Could not archive enquiries:", error);
+      setMessage(error instanceof Error ? error.message : "Could not archive enquiries.");
     } finally {
       setBusy(false);
     }
@@ -84,7 +84,7 @@ export default function EnquiryList({ enquiries, filters, pageSize }: {
               <>
                 <button type="button" onClick={removeSelected} disabled={busy}
                   className="border border-red-400/60 px-3 py-2 text-xs uppercase tracking-wide text-red-300 hover:bg-red-400/10 disabled:opacity-40">
-                  Delete selected
+                  Remove selected
                 </button>
                 <span className="text-dim text-xs">{selected.size} selected</span>
               </>

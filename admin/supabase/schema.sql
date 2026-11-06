@@ -6,6 +6,7 @@ create table if not exists public.enquiries (
   id uuid primary key default gen_random_uuid(),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
+  archived_at timestamptz,
   name text not null,
   email text not null,
   phone text,
@@ -48,7 +49,7 @@ create policy "admin read enquiries" on public.enquiries
 create policy "admin update enquiries" on public.enquiries
   for update to authenticated using (true) with check (true);
 
--- Also run enquiry-deletion.sql to install the delete policy and function.
+-- Also run enquiry-archive.sql to install the archive function.
 create policy "own push subs select" on public.push_subscriptions
   for select to authenticated using (user_id = auth.uid());
 create policy "own push subs insert" on public.push_subscriptions

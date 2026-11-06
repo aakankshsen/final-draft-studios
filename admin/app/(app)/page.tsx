@@ -10,7 +10,11 @@ const PAGE_SIZE = 100;
 
 const getCounts = cache(async () => {
   const supabase = await createClient();
-  const { data: all } = await supabase.from("enquiries").select("status");
+  const { data: all, error } = await supabase.from("enquiries").select("status").is("archived_at", null);
+  if (error) {
+    console.error("Could not load enquiry counts:", error);
+    throw new Error("Could not load enquiry counts. Check the database setup.");
+  }
   const counts: Record<string, number> = {};
   (all ?? []).forEach((r) => (counts[r.status] = (counts[r.status] ?? 0) + 1));
   return { counts, total: all?.length ?? 0 };
@@ -65,7 +69,7 @@ async function Chips({ status, term, withCounts }: { status?: string; term: stri
 
 async function List({ status, term }: { status?: string; term: string }) {
   const supabase = await createClient();
-  let query = supabase.from("enquiries").select("*").order("created_at", { ascending: false }).limit(PAGE_SIZE);
+  let query = supabase.from("enquiries").select("*").is("archived_at", null).order("created_at", { ascending: false }).limit(PAGE_SIZE);
   if (status && (STATUSES as readonly string[]).includes(status)) query = query.eq("status", status);
   if (term) {
     query = query.or(enquirySearchFilter(term));

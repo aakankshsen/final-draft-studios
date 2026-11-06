@@ -5,6 +5,7 @@ export type Enquiry = {
   id: string;
   created_at: string;
   updated_at: string;
+  archived_at: string | null;
   name: string;
   email: string;
   phone: string | null;

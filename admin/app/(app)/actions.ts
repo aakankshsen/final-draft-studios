@@ -16,7 +16,7 @@ export async function selectMatchingEnquiries(filters: EnquiryFilters): Promise<
   const { status, term } = normalizeEnquiryFilters(filters.status ?? undefined, filters.term);
   const supabase = await authenticatedClient();
   return collectEnquiryIds(async (afterId) => {
-    let query = supabase.from("enquiries").select("id").order("id").limit(500);
+    let query = supabase.from("enquiries").select("id").is("archived_at", null).order("id").limit(500);
     if (status) query = query.eq("status", status);
     if (term) query = query.or(enquirySearchFilter(term));
     if (afterId) query = query.gt("id", afterId);
@@ -29,17 +29,17 @@ export async function selectMatchingEnquiries(filters: EnquiryFilters): Promise<
   });
 }
 
-export async function deleteEnquiries(ids: string[]): Promise<number> {
+export async function archiveEnquiries(ids: string[]): Promise<number> {
   if (!Array.isArray(ids) || ids.length === 0 || !ids.every(
     (id) => typeof id === "string" && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id),
   ) || new Set(ids).size !== ids.length) {
     throw new Error("Invalid enquiry selection.");
   }
   const supabase = await authenticatedClient();
-  const { data, error } = await supabase.rpc("delete_selected_enquiries", { enquiry_ids: ids });
+  const { data, error } = await supabase.rpc("archive_selected_enquiries", { enquiry_ids: ids });
   if (error || typeof data !== "number") {
-    console.error("Could not delete enquiries:", error);
-    throw new Error("Could not delete enquiries. Check the database setup and try again.");
+    console.error("Could not archive enquiries:", error);
+    throw new Error("Could not archive enquiries. Check the database setup and try again.");
   }
   revalidatePath("/");
   return data;

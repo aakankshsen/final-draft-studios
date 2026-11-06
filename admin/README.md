@@ -5,12 +5,12 @@ Works as a website (desktop) and as an installable app (phone).
 Enquiry dates and times are shown in Indian Standard Time (Asia/Kolkata).
 
 ## Setup
-1. Create a Supabase project. Run [supabase/schema.sql](./supabase/schema.sql), then [supabase/enquiry-deletion.sql](./supabase/enquiry-deletion.sql) in the SQL editor.
+1. Create a Supabase project. Run [supabase/schema.sql](./supabase/schema.sql), then [supabase/enquiry-archive.sql](./supabase/enquiry-archive.sql) in the SQL editor.
 2. Supabase → Authentication → disable "Allow new users to sign up", then **Add user** for the client (email + password).
 3. `cp .env.example .env.local` and fill it in. Generate push keys with `npx web-push generate-vapid-keys`.
 4. `npm install && npm run dev` → http://localhost:3001
 
-For an existing deployment, run [supabase/enquiry-deletion.sql](./supabase/enquiry-deletion.sql) in the Supabase SQL editor before using enquiry deletion. All authenticated admin users can delete enquiries. Use Select to choose individual enquiries or Select all to capture every enquiry matching the current search and status filter, including those not shown in the first 100; deletion requires confirmation.
+For an existing deployment, run [supabase/enquiry-archive.sql](./supabase/enquiry-archive.sql) in the Supabase SQL editor before deploying this version. It removes the previous permanent-delete function and policy. Use Select to choose individual enquiries or Select all to capture every enquiry matching the current search and status filter, including those not shown in the first 100. Remove selected requires confirmation and archives the records: they disappear from the admin app but remain in Supabase with an `archived_at` timestamp. To restore an enquiry, clear its `archived_at` value in Supabase.
 
 ## Deploy (e.g. Vercel)
 - New project, **Root Directory = `admin`**, domain such as `admin.finaldraftstudios.com` (HTTPS is required for install + push).
