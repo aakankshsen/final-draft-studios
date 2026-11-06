@@ -22,14 +22,14 @@ export default function LogoIntro() {
   };
 
   return (
-    <section className="relative h-screen h-[100svh] w-full overflow-hidden bg-ink">
+    <section className="relative h-screen h-[100svh] w-full overflow-hidden bg-black">
       <video
         autoPlay
         muted
         playsInline
         preload="auto"
         onEnded={handleEnded}
-        className="absolute inset-0 h-full w-full object-cover"
+        className="absolute inset-0 h-full w-full object-contain"
       >
         <source src={INTRO_VIDEO} type="video/mp4" />
       </video>
