@@ -21,7 +21,7 @@ body {
 }
 .film-sprockets {
   height: 16px;
-  background-color: #0a0a0a;
+  background-color: #000000;
   background-image: radial-gradient(
     circle,
     #f5a623 3px,

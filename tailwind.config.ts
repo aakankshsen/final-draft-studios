@@ -5,7 +5,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        ink: "#0D0D0D",
+        ink: "#000000",
         paper: "#EDEAE0",
         amber: "#F5A623",
         dim: "#948F80",

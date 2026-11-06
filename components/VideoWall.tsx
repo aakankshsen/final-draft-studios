@@ -210,7 +210,7 @@ export default function VideoWall({ videos, label, defaultPoster, layout = "port
                   fill
                   loading="lazy"
                   sizes="(min-width: 1024px) 23vw, (min-width: 640px) 45vw, 100vw"
-                  className="bg-white/5 object-contain"
+                  className="bg-transparent object-contain"
                 />
               ) : (
                 <video
@@ -228,7 +228,7 @@ export default function VideoWall({ videos, label, defaultPoster, layout = "port
                       if (elementIndex !== index) element?.pause();
                     });
                   }}
-                  className={`w-full bg-white/5 ${
+                  className={`w-full bg-transparent ${
                     layout === "portrait" || layout === "mixed" || layout === "portrait-centered-last" || (layout === "launch-event" && index > 0)
                       ? `aspect-[9/16] ${layout === "portrait" ? "object-cover" : "object-contain"}`
                       : "aspect-video object-contain"

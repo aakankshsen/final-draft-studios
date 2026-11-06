@@ -673,7 +673,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
                   }`}
                 >
                   <div className={collectionProject.slug === "sparx-lakshya-tamannaah" ? "mx-auto w-full max-w-[400px]" : ""}>
-                    <div className={`relative mb-5 overflow-hidden ${isPropertyCollection || collectionProject.slug === "sparx-lakshya-tamannaah" ? "bg-transparent" : "bg-white/5"} ${collectionProject.imageRatio}`}>
+                    <div className={`relative mb-5 overflow-hidden ${isPropertyCollection || collectionProject.slug === "sparx-lakshya-tamannaah" ? "bg-transparent" : "bg-transparent"} ${collectionProject.imageRatio}`}>
                       <Image
                         src={collectionProject.image}
                         alt={collectionProject.name}

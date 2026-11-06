@@ -132,7 +132,7 @@ export default function WorkListPage() {
               href={`/work/${project.slug}`}
               className={`group block ${project.layout}`}
             >
-              <div className={`relative mb-4 overflow-hidden ${project.slug === "sparx-and-flite" ? "" : "bg-white/5"} ${project.imageRatio}`}>
+              <div className={`relative mb-4 overflow-hidden ${project.slug === "sparx-and-flite" ? "" : "bg-transparent"} ${project.imageRatio}`}>
                 <div className={project.slug === "sparx-and-flite" ? "absolute inset-y-0 left-1/2 w-full sm:w-[82%] -translate-x-1/2" : "absolute inset-0"}>
                 <Image
                   src={project.image}

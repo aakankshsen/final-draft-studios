@@ -185,7 +185,7 @@ export default function ClientReel() {
   }, []);
 
   return (
-    <div className="relative bg-[radial-gradient(ellipse_at_50%_35%,rgba(245,166,35,0.1),transparent_65%),#080706] pt-6 pb-10 border-b border-amber/20">
+    <div className="relative bg-[radial-gradient(ellipse_at_50%_35%,rgba(245,166,35,0.1),transparent_65%),#000000] pt-6 pb-10 border-b border-amber/20">
       <div className="mb-4 px-[5%] pt-2">
         <Reveal>
           <h2 className="group w-fit cursor-default font-display uppercase text-[clamp(24px,3.5vw,40px)] leading-none text-paper [-webkit-text-stroke:1px_rgba(245,166,35,0.6)] hover:text-amber hover:[-webkit-text-stroke:1px_#F5A623] transition-all duration-500">
@@ -195,7 +195,7 @@ export default function ClientReel() {
       </div>
 
       {/* the actual filmstrip object */}
-      <div className="relative bg-[radial-gradient(ellipse_at_center,rgba(245,166,35,0.12),transparent_68%),linear-gradient(90deg,#090909,#17120b_50%,#090909)] overflow-hidden">
+      <div className="relative bg-[radial-gradient(ellipse_at_center,rgba(245,166,35,0.12),transparent_68%),linear-gradient(90deg,#000000,#17120b_50%,#000000)] overflow-hidden">
         {/* top perforation row */}
         <div className="film-sprockets" />
 

@@ -16,7 +16,8 @@ export default function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   return (
-    <div className="bg-ink pt-4 md:pt-6">
+    <div className="bg-ink">
+      <div className="h-px w-full bg-white/10" />
       {slides.map((slide) => (
         <div
           key={slide.counter}
@@ -107,6 +108,7 @@ export default function Hero() {
           
         </div>
       ))}
+      <div className="h-px w-full bg-white/10" />
     </div>
   );
 }
