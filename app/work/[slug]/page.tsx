@@ -382,7 +382,8 @@ const sparxRaghuVideos: PortfolioVideo[] = [
 
 const sparxLakshyaTamannaahVideos: PortfolioVideo[] = Array.from({ length: 9 }, (_, index) => ({
   title: `Reel ${index + 1}`,
-  src: `https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/Sparx/Sparx%20x%20Lakshya%20%26%20Tamannah/${index + 1}.mp4`,
+  src: `/work/sparx-lakshya-tamannaah/${index + 1}.mp4`,
+  poster: `/work/sparx-lakshya-tamannaah/${index + 1}.jpg`,
 }));
 
 const fliteVideos: PortfolioVideo[] = [
@@ -787,7 +788,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
                   videos={videosWithPosters ?? videos}
                   label={project.name}
                   defaultPoster={portfolioVideoPosters[slug]}
-                  preloadVideos={isBering || isPurpleFinance || isPicnic || isArmour || isMotionGraphics || isSparxProductLaunch ? "none" : "metadata"}
+                  preloadVideos={isBering || isPurpleFinance || isPicnic || isArmour || isMotionGraphics || isSparxProductLaunch || isSparxLakshyaTamannaah ? "none" : "metadata"}
                   layout={
                     isNissanGraviteLaunch
                       ? "launch-event"
