@@ -65,16 +65,15 @@ export default function Hero() {
 
           {/* GROUPED TEXT BLOCK — tags + heading together, alternating side */}
           <div
-            className={`hidden lg:flex flex-col z-20 absolute top-1/2 -translate-y-1/2 max-w-[38%] ${
+            className={`hidden lg:flex flex-col z-20 absolute top-1/2 -translate-y-1/2 max-w-[calc((100vw_-_min(51.75vh,32vw))/2_-_5.5rem)] ${
               slide.align === "left" ? "left-10 md:left-16 items-start" : "right-10 md:right-16 items-end"
             }`}
           >
             <h2
-              className={`group w-fit cursor-default select-none leading-[0.9] uppercase font-display text-paper
+              className={`group w-fit cursor-default select-none leading-[0.9] uppercase font-display text-paper text-[clamp(48px,min(5.2vw,calc((50vw_-_min(25.875vh,16vw)_-_5.5rem)/5.3)),100px)]
                 [-webkit-text-stroke:1px_rgba(245,166,35,0.6)]
                 hover:text-amber hover:[-webkit-text-stroke:1px_#F5A623]
-                transition-all duration-500 drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)] ${slide.align === "left" ? "text-left" : "text-right"}`}
-              style={{ fontSize: "clamp(48px, 6vw, 100px)" }}
+                transition-colors duration-500 drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)] ${slide.align === "left" ? "text-left" : "text-right"}`}
             >
               {slide.title[0]}
               <br />
@@ -94,7 +93,7 @@ export default function Hero() {
           </div>
 
           {/* the actual vertical video, fully visible, not cropped */}
-          <div className="relative z-10 w-[85vw] aspect-[4/5] sm:w-[70vw] sm:aspect-[3/4] md:w-[60vw] lg:w-auto lg:h-[92vh] lg:aspect-[9/16]">
+          <div className="relative z-10 w-[85vw] aspect-[4/5] sm:w-[70vw] sm:aspect-[3/4] md:w-[60vw] lg:w-[min(51.75vh,32vw)] lg:h-auto lg:aspect-[9/16]">
             <video
               ref={videoRef}
               src={loadVideo ? slide.videoSrc : undefined}
