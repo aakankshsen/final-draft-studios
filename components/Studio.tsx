@@ -8,54 +8,29 @@ import Reveal from "@/components/Reveal";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const roughDraftAssets = [
-  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/BTS%20ASSETS/1568e892-05f2-4b91-9fbf-f19bd7360326.JPG",
-  "/work/rough-draft/2.jpg",
-  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/BTS%20ASSETS/IMG_3512.PNG",
-  "/work/rough-draft/3.jpg",
-  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/BTS%20ASSETS/IMG_4025.PNG",
-  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/BTS%20ASSETS/IMG_4293.JPG",
-  "/work/rough-draft/4.jpg",
-  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/BTS%20ASSETS/IMG_6052.JPG",
-  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/BTS%20ASSETS/IMG_6115.JPG",
-  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/BTS%20ASSETS/IMG_6409.JPG",
-  "/work/rough-draft/1.jpg",
-  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/BTS%20ASSETS/IMG_0454.png",
-  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/BTS%20ASSETS/IMG_8867.PNG",
-  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/BTS%20ASSETS/IMG_9263.PNG",
-  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/BTS%20ASSETS/IMG_9264.PNG",
-  "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/BTS%20ASSETS/IMG_9504.JPG",
-];
+const assetBase = "/work/rough-draft/optimized";
+const roughDraftAssets = Array.from({ length: 16 }, (_, index) => `${assetBase}/image-${index + 1}.webp`);
+const roughDraftVideos = Array.from({ length: 9 }, (_, index) => ({
+  type: "video" as const,
+  src: `${assetBase}/video-${index + 1}.mp4`,
+  poster: `${assetBase}/video-${index + 1}.jpg`,
+}));
 
-const VIDEO_BASE = "https://pub-bcc93bf2a87d49b686778d3ac2cfa837.r2.dev/BTS%20ASSETS/New%20assets";
-
-const roughDraftVideos = [
-  "IMG_0345.MOV",
-  "IMG_0360.MOV",
-  "IMG_0375.MOV",
-  "IMG_2943.MP4",
-  "IMG_2957.MP4",
-  "IMG_5192.mov",
-  "IMG_5366.MOV",
-  "IMG_7811.MP4",
-  "IMG_7858.MP4",
-].map((file) => `${VIDEO_BASE}/${file}`);
-
-type Slide = { type: "image" | "video"; src: string };
+type Slide = { type: "image"; src: string } | { type: "video"; src: string; poster: string };
 
 // spread the videos evenly between the photos, starting and ending on a photo
 const slides: Slide[] = roughDraftAssets.flatMap((src, i) => {
   const out: Slide[] = [{ type: "image", src }];
   const before = Math.floor((i * roughDraftVideos.length) / roughDraftAssets.length);
   const after = Math.floor(((i + 1) * roughDraftVideos.length) / roughDraftAssets.length);
-  if (after > before && i < roughDraftAssets.length - 1) out.push({ type: "video", src: roughDraftVideos[before] });
+  if (after > before && i < roughDraftAssets.length - 1) out.push(roughDraftVideos[before]);
   return out;
 });
 // any videos not placed by the spread go right before the last photo
 const placed = slides.filter((x) => x.type === "video").length;
-roughDraftVideos.slice(placed).forEach((src) => slides.splice(slides.length - 1, 0, { type: "video", src }));
+roughDraftVideos.slice(placed).forEach((video) => slides.splice(slides.length - 1, 0, video));
 
-function VideoSlide({ src, label }: { src: string; label: string }) {
+function VideoSlide({ src, poster, label }: { src: string; poster: string; label: string }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
 
@@ -67,6 +42,7 @@ function VideoSlide({ src, label }: { src: string; label: string }) {
         controls
         playsInline
         preload="metadata"
+        poster={poster}
         aria-label={label}
         onPlay={() => setPlaying(true)}
         onPause={() => setPlaying(false)}
@@ -94,6 +70,7 @@ export default function Studio() {
   const assetRef = useRef<HTMLDivElement>(null);
   const [activeAsset, setActiveAsset] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isNearSlideshow, setIsNearSlideshow] = useState(false);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const openerRef = useRef<HTMLButtonElement | null>(null);
   const slide = slides[activeAsset];
@@ -106,6 +83,30 @@ export default function Studio() {
     setIsFullscreen(false);
     openerRef.current?.focus();
   }, []);
+
+  useEffect(() => {
+    const element = assetRef.current;
+    if (!element) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) {
+        setIsNearSlideshow(true);
+        observer.disconnect();
+      }
+    }, { rootMargin: "400px" });
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!isNearSlideshow) return;
+
+    [-1, 1].forEach((direction) => {
+      const adjacent = slides[(activeAsset + direction + slides.length) % slides.length];
+      const image = new window.Image();
+      image.src = adjacent.type === "image" ? adjacent.src : adjacent.poster;
+    });
+  }, [activeAsset, isNearSlideshow]);
 
   useEffect(() => {
     if (!isFullscreen) return;
@@ -181,13 +182,14 @@ export default function Studio() {
                     alt={`Behind-the-scenes studio image ${activeAsset + 1}`}
                     fill
                     sizes="(min-width: 768px) 45vw, 90vw"
+                    unoptimized
                     className="object-contain"
                   />
                 </button>
               ) : (
                 <>
                   {!isFullscreen && (
-                    <VideoSlide key={slide.src} src={slide.src} label={`Behind-the-scenes video ${activeAsset + 1}`} />
+                    <VideoSlide key={slide.src} src={slide.src} poster={slide.poster} label={`Behind-the-scenes video ${activeAsset + 1}`} />
                   )}
                   <button
                     type="button"
@@ -276,10 +278,11 @@ export default function Studio() {
                 fill
                 sizes="100vw"
                 priority
+                unoptimized
                 className="object-contain"
               />
             ) : (
-              <VideoSlide key={slide.src} src={slide.src} label={`Behind-the-scenes video ${activeAsset + 1}`} />
+              <VideoSlide key={slide.src} src={slide.src} poster={slide.poster} label={`Behind-the-scenes video ${activeAsset + 1}`} />
             )}
             <p className="absolute top-2 left-1/2 z-10 -translate-x-1/2 rounded-full bg-black/60 px-3 py-1 text-xs tracking-widest text-white/80">
               {activeAsset + 1} / {slides.length}

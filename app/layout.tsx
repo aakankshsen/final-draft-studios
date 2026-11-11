@@ -14,9 +14,21 @@ const gilroy = localFont({
   variable: "--font-gilroy",
 });
 
+const siteDescription =
+  "Final Draft Studios is a creative production house built on strong vision and immaculate execution. We handle campaigns, photoshoots, events and content.";
+
 export const metadata: Metadata = {
   title: "Final Draft Studios",
-  description: "A content production house — brand films, wedding films, short films, editing.",
+  description: siteDescription,
+  openGraph: {
+    title: "Final Draft Studios",
+    description: siteDescription,
+  },
+  twitter: {
+    card: "summary",
+    title: "Final Draft Studios",
+    description: siteDescription,
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
